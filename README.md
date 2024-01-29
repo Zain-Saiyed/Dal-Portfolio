@@ -12,7 +12,7 @@ Include a brief one paragraph description about the project.
     - [Hatim Patrawala](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/hatim)
     - [Mohammed Kothaliya](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/mohammed)
     - [Sushank Saini](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/sushank)
-    - [Boon Undrajavarapu](bn540239@dal.ca)
+    - [Boon Undrajavarapu](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/boon)
     - [Jinay Shah](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/jinay)
     - [Zainuddin Saiyed](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/zainuddin)
 
