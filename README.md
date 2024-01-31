@@ -2,8 +2,8 @@
 
 Include a brief one paragraph description about the project.
 
-* *Date Created*: JANUARY 24, 2024
-* *Last Modification Date*: JANUARY 24, 2024
+* *Date Created*: 24 JAN 2024
+* *Last Modification Date*: 24 JAN 2024
 * *Git URL*: https://git.cs.dal.ca/patrawala/csci-5709-grp-01
 
 
