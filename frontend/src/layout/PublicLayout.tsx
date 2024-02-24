@@ -1,25 +1,17 @@
-import {
-  FC,
-  PropsWithChildren,
-  useCallback,
-  useState,
-} from "react";
 import { Box, Stack } from "@mui/material/";
-import { useAppStore } from "store/AppStore";
-import { Button, ErrorBoundary, IconButton } from "components";
-import { LinkToPage } from "utils/type";
-import { useOnMobile } from "hooks/layout";
-import {
-  BOTTOM_BAR_DESKTOP_VISIBLE,
-  TOP_BAR_DESKTOP_HEIGHT,
-  TOP_BAR_MOBILE_HEIGHT,
-} from "layout/config";
-import { useEventSwitchDarkMode } from "hooks/event";
+import { Outlet, useNavigate } from "react-router-dom";
+import { FC, PropsWithChildren, useCallback, useState } from "react";
+
 import TopBar from "layout/TopBar";
 import SideBar from "layout/SideBar";
-import BottomBar from "layout/BottomBar";
-import CompanyLogo from "assets/images/company-logo.png";
-import { Outlet, useNavigate } from "react-router-dom";
+import { LinkToPage } from "utils/type";
+import { useOnMobile } from "hooks/layout";
+import { useAppStore } from "store/AppStore";
+import { useEventSwitchDarkMode } from "hooks/event";
+import { Button, ErrorBoundary, IconButton } from "components";
+import DalPortfolioDark from "assets/images/dal_portfolio_black_bg.png";
+import DalPortfolioLight from "assets/images/dal_portfolio_white_bg.png";
+import { TOP_BAR_DESKTOP_HEIGHT, TOP_BAR_MOBILE_HEIGHT } from "layout/config";
 
 const SIDE_BAR_ITEMS: Array<LinkToPage> = [
   {
@@ -77,7 +69,6 @@ const PublicLayout: FC<PropsWithChildren> = () => {
   const onSwitchDarkMode = useEventSwitchDarkMode();
   const [sideBarVisible, setSideBarVisible] = useState(false);
   const [state] = useAppStore();
-  const bottomBarVisible = onMobile || BOTTOM_BAR_DESKTOP_VISIBLE;
 
   const sidebarOpen = sideBarVisible;
   const sidebarVariant = "temporary";
@@ -98,18 +89,17 @@ const PublicLayout: FC<PropsWithChildren> = () => {
           onClick={() => navigate("/")}
           sx={{
             cursor: "pointer",
-            width: "150px",
-            height: "50px",
+            width: "200px",
           }}
         >
           <img
-            src={CompanyLogo}
+            src={!!state?.darkMode ? DalPortfolioDark : DalPortfolioLight}
             alt="Company Logo"
             style={{
               objectFit: "contain",
               maxWidth: "100%",
               maxHeight: "100%",
-              filter: state.darkMode ? "invert(88.1%) hue-rotate(0deg)" : "none",
+              verticalAlign: "middle",
             }}
           />
         </Box>
@@ -167,10 +157,6 @@ const PublicLayout: FC<PropsWithChildren> = () => {
         }}
       >
         <ErrorBoundary name="Content">{<Outlet />}</ErrorBoundary>
-      </Stack>
-
-      <Stack component="footer">
-        {bottomBarVisible && <BottomBar items={BOTTOM_BAR_ITEMS} />}
       </Stack>
     </Stack>
   );

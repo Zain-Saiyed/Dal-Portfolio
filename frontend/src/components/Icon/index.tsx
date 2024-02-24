@@ -1,5 +1,7 @@
-import { ComponentType, FC, SVGAttributes } from "react";
+import { ComponentType, FC } from "react";
+import { SvgIconProps } from "@mui/material";
 
+import XIcon from '@mui/icons-material/X';
 import InfoIcon from "@mui/icons-material/Info";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -8,11 +10,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
 import DayIcon from "@mui/icons-material/Brightness5";
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import NightIcon from "@mui/icons-material/Brightness3";
 import DefaultIcon from "@mui/icons-material/MoreHoriz";
 import SettingsIcon from "@mui/icons-material/Settings";
+import FacebookIcon from '@mui/icons-material/Facebook';
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import InstagramIcon from '@mui/icons-material/Instagram';
 import DayNightIcon from "@mui/icons-material/Brightness4";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
@@ -42,19 +48,17 @@ export const ICONS: Record<string, ComponentType> = {
   notifications: NotificationsIcon,
   faq: QuizIcon,
   contactus: ContactPageIcon,
+  facebook: FacebookIcon,
+  instagram: InstagramIcon,
+  linkedin: LinkedInIcon,
+  youtube: YouTubeIcon,
+  twitter: XIcon,
 };
 
-export interface AppIconProps extends SVGAttributes<SVGElement> {
-  color?: string;
-  name?: string;
-  size?: string | number;
-  title?: string;
-}
-
-const Icon: FC<AppIconProps> = ({
+const Icon: FC<SvgIconProps> = ({
   color,
   name = "default",
-  size = APP_ICON_SIZE,
+  fontSize = APP_ICON_SIZE,
   style,
   ...restOfProps
 }) => {
@@ -67,12 +71,12 @@ const Icon: FC<AppIconProps> = ({
   }
 
   const propsToRender = {
-    height: size,
+    height: fontSize,
     color,
     fill: color && "currentColor",
-    size,
+    size: fontSize,
     style: { ...style, color },
-    width: size,
+    width: fontSize,
     ...restOfProps,
   };
 
