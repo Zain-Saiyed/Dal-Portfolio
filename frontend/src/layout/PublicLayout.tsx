@@ -19,16 +19,16 @@ const SIDE_BAR_ITEMS: Array<LinkToPage> = [
     path: "/",
     icon: "home",
   },
-  {
-    title: "Log In",
-    path: "/auth/login",
-    icon: "login",
-  },
-  {
-    title: "Sign Up",
-    path: "/auth/sign-up",
-    icon: "signup",
-  },
+  // {
+  //   title: "Log In",
+  //   path: "/auth/login",
+  //   icon: "login",
+  // },
+  // {
+  //   title: "Sign Up",
+  //   path: "/auth/sign-up",
+  //   icon: "signup",
+  // },
   {
     title: "FAQs",
     path: "/faq",
@@ -39,29 +39,16 @@ const SIDE_BAR_ITEMS: Array<LinkToPage> = [
     path: "/contact-us",
     icon: "contactus",
   },
+  {
+    title: "About Us",
+    path: "/about-us",
+    icon: "info",
+  },
 ];
 
 const NAVBAR_ITEMS: Array<LinkToPage> = SIDE_BAR_ITEMS.filter(
   (ins: any) => !["Home", "Log In", "Sign Up"].includes(ins?.title)
 );
-
-const BOTTOM_BAR_ITEMS: Array<LinkToPage> = [
-  {
-    title: "Log In",
-    path: "/auth/login",
-    icon: "login",
-  },
-  {
-    title: "Sign Up",
-    path: "/auth/sign-up",
-    icon: "signup",
-  },
-  {
-    title: "Contact Us",
-    path: "/contact-us",
-    icon: "contactus",
-  },
-];
 
 const PublicLayout: FC<PropsWithChildren> = () => {
   const onMobile = useOnMobile();
@@ -81,42 +68,6 @@ const PublicLayout: FC<PropsWithChildren> = () => {
     if (sideBarVisible) setSideBarVisible(false);
   }, [sideBarVisible]);
 
-  const startNode = () => {
-    return (
-      <Stack direction={"row"} alignItems={"center"}>
-        {onMobile && <IconButton icon="menu" onClick={onSideBarOpen} />}
-        <Box
-          onClick={() => navigate("/")}
-          sx={{
-            cursor: "pointer",
-            width: "200px",
-          }}
-        >
-          <img
-            src={!!state?.darkMode ? DalPortfolioDark : DalPortfolioLight}
-            alt="Company Logo"
-            style={{
-              objectFit: "contain",
-              maxWidth: "100%",
-              maxHeight: "100%",
-              verticalAlign: "middle",
-            }}
-          />
-        </Box>
-        {!onMobile &&
-          NAVBAR_ITEMS?.map((item: any, index: number) => (
-            <Button
-              variant="text"
-              onClick={() => navigate(item?.path)}
-              key={`navbar-item-${index}`}
-            >
-              {item?.title}
-            </Button>
-          ))}
-      </Stack>
-    );
-  };
-
   return (
     <Stack
       sx={{
@@ -126,15 +77,61 @@ const PublicLayout: FC<PropsWithChildren> = () => {
     >
       <Stack component="header">
         <TopBar
-          startNode={startNode()}
-          endNode={
-            <IconButton
-              icon={state.darkMode ? "day" : "night"}
-              title={
-                state.darkMode ? "Switch to Light mode" : "Switch to Dark mode"
-              }
-              onClick={onSwitchDarkMode}
-            />
+          content={
+            <Stack
+              direction={"row"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              width={"100%"}
+            >
+              {onMobile && <IconButton icon="menu" onClick={onSideBarOpen} />}
+              <Stack direction={"row"} alignItems={"center"}>
+                <Box
+                  onClick={() => navigate("/")}
+                  sx={{
+                    cursor: "pointer",
+                    width: "200px",
+                  }}
+                >
+                  <img
+                    src={
+                      !!state?.darkMode ? DalPortfolioDark : DalPortfolioLight
+                    }
+                    alt="Company Logo"
+                    style={{
+                      objectFit: "contain",
+                      maxWidth: "100%",
+                      maxHeight: "100%",
+                      verticalAlign: "middle",
+                    }}
+                  />
+                </Box>
+                {!onMobile &&
+                  NAVBAR_ITEMS?.map((item: any, index: number) => (
+                    <Button
+                      variant="text"
+                      to={item?.path}
+                      sx={{
+                        margin: 1,
+                        color: state?.darkMode ? "white" : "black",
+                        backgroundColor: "none",
+                      }}
+                      onClick={() => navigate(item?.path)}
+                      key={`navbar-item-${index}`}
+                      label={item?.title}
+                    />
+                  ))}
+              </Stack>
+              <IconButton
+                icon={state.darkMode ? "day" : "night"}
+                title={
+                  state.darkMode
+                    ? "Switch to Light mode"
+                    : "Switch to Dark mode"
+                }
+                onClick={onSwitchDarkMode}
+              />
+            </Stack>
           }
         />
 

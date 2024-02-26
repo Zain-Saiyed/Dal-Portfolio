@@ -1,10 +1,10 @@
-import React from 'react'
+import Footer from 'pages/Home/Footer'
 
 type Props = {}
 
 const ContactUs = (props: Props) => {
   return (
-    <div>ContactUs</div>
+    <Footer />
   )
 }
 

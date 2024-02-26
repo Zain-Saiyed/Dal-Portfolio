@@ -1,18 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import { Grid, Stack, TextField, Typography } from "@mui/material";
+import { Grid, Stack, Typography } from "@mui/material";
 
 import { useOnMobile } from "hooks";
-import { useAppStore } from "store";
-import { Button, Icon, Link } from "components";
+import { Icon, Link } from "components";
 import DalPortfolioDark from "assets/images/dal_portfolio_black_bg.png";
-import DalPortfolioLight from "assets/images/dal_portfolio_white_bg.png";
 
 type Props = {};
 
 const Footer = (props: Props) => {
   const onMobile = useOnMobile();
   const navigate = useNavigate();
-  const [state] = useAppStore();
 
   const iconStyles = {
     cursor: "pointer",
@@ -25,39 +22,14 @@ const Footer = (props: Props) => {
   return (
     <Stack
       sx={{
-        padding: "4rem 0 2rem 0",
+        padding: "2rem 0 2rem 0",
         justifyContent: "center",
         alignItems: "center",
+        borderTop: "1px solid #fcd405",
+        background: "#242424",
+        color: "#fff",
       }}
     >
-      <Stack
-        component="section"
-        sx={{
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-          mb: "24px",
-          p: "24px",
-        }}
-      >
-        <Typography sx={{ mb: "24px", fontSize: "24px" }}>
-          Join our exclusive membership to receive the latest news and trends
-        </Typography>
-        <Typography sx={{ mb: "24px", fontSize: "20px" }}>
-          You can unsubscribe at any time.
-        </Typography>
-        <form
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            ...(onMobile && { flexDirection: "column", width: "80%" }),
-          }}
-        >
-          <TextField label="Your Email" size="small" />
-          <Button label="Subscribe" />
-        </form>
-      </Stack>
       <Grid
         spacing={2}
         container
@@ -74,8 +46,8 @@ const Footer = (props: Props) => {
             <Typography variant="h6" sx={{ mb: "16px" }}>
               About Us
             </Typography>
-            <Link href="/">How it works</Link>
-            <Link href="/">Testimonials</Link>
+            <Link href="/" color={"white"}>How it works</Link>
+            <Link href="/" color={"white"}>Testimonials</Link>
           </Stack>
         </Grid>
         <Grid item xs={12} sm={6} md={3} lg={3}>
@@ -83,8 +55,8 @@ const Footer = (props: Props) => {
             <Typography variant="h6" sx={{ mb: "16px" }}>
               Contact Us
             </Typography>
-            <Link href="/">Contact</Link>
-            <Link href="/">Support</Link>
+            <Link href="/" color={"white"}>Contact</Link>
+            <Link href="/" color={"white"}>Support</Link>
           </Stack>
         </Grid>
       </Grid>
@@ -107,7 +79,7 @@ const Footer = (props: Props) => {
             }}
           >
             <img
-              src={!!state?.darkMode ? DalPortfolioDark : DalPortfolioLight}
+              src={DalPortfolioDark}
               alt="Company Logo"
               style={{
                 objectFit: "contain",

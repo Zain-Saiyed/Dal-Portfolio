@@ -13,6 +13,18 @@ export const DARK_THEME: ThemeOptions = {
     // },
     ...PALETTE_COLORS,
   },
+  components: {
+    MuiButton: {
+      defaultProps: {
+        variant: "contained",
+        sx: {
+          backgroundColor: "#fcd405",
+          color: "#000",
+          fontWeight: "700"
+        }
+      },
+    },
+  },
 };
 
 export default DARK_THEME;

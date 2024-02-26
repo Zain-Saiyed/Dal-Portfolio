@@ -5,7 +5,7 @@ export const CONTENT_MIN_WIDTH = 320;
 export const APP_ALERT_SEVERITY = "error";
 export const APP_ALERT_VARIANT = "filled";
 
-export const APP_BUTTON_VARIANT = "outlined";
+export const APP_BUTTON_VARIANT = "contained";
 export const APP_BUTTON_MARGIN = 1;
 
 export const APP_ICON_SIZE = 24;
