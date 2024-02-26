@@ -9,7 +9,7 @@ const Hero = (props: Props) => {
   const onMobile = useOnMobile();
   const onTablets = useOnTablets();
   return (
-    <Box sx={{ p: onMobile ? "100px 0" : "160px 0px" }}>
+    <Box sx={{ p: onMobile ? "100px 0" : "160px 0px 0px 0px" }}>
       <Box
         sx={{
           zIndex: 1,
