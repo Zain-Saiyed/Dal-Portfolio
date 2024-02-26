@@ -1,4 +1,4 @@
-import { Button as MuiButton, ButtonProps } from "@mui/material";
+import { Button as MuiButton, ButtonProps, useTheme } from "@mui/material";
 import { ElementType, FC, ReactNode, useMemo } from "react";
 
 import Icon from "components/Icon";
@@ -20,8 +20,7 @@ const DEFAULT_SX_VALUES = {
 };
 
 export interface AppButtonProps
-  extends Omit<ButtonProps, "color" | "endIcon" | "startIcon"> {
-  color?: string;
+  extends Omit<ButtonProps, "sx" | "endIcon" | "startIcon"> {
   endIcon?: string | ReactNode;
   label?: string;
   text?: string;
@@ -31,11 +30,11 @@ export interface AppButtonProps
   href?: string;
   openInNewTab?: boolean;
   underline?: "none" | "hover" | "always";
+  sx?: any;
 }
 
 const Button: FC<AppButtonProps> = ({
   children,
-  color: propColor = "inherit",
   component: propComponent,
   endIcon,
   label,
@@ -43,9 +42,10 @@ const Button: FC<AppButtonProps> = ({
   sx: propSx = DEFAULT_SX_VALUES,
   text,
   underline = "none",
-  variant = APP_BUTTON_VARIANT,
+  variant,
   ...restOfProps
 }) => {
+  const theme = useTheme();
   const iconStart: ReactNode = useMemo(
     () =>
       !startIcon ? undefined : typeof startIcon === "string" ? (
@@ -66,33 +66,22 @@ const Button: FC<AppButtonProps> = ({
     [endIcon]
   );
 
-  const isMuiColor = useMemo(
-    () => MUI_BUTTON_COLORS.includes(propColor),
-    [propColor]
-  );
-
   const componentToRender =
     !propComponent && (restOfProps?.href || restOfProps?.to)
       ? Link
       : propComponent ?? MuiButton;
 
-  const colorToRender = isMuiColor
-    ? (propColor as ButtonProps["color"])
-    : "inherit";
-  const sxToRender = {
-    ...propSx,
-    ...(isMuiColor ? {} : { color: propColor }),
-  };
-
   return (
     <MuiButton
       component={componentToRender}
-      color={colorToRender}
       endIcon={iconEnd}
       startIcon={iconStart}
-      sx={sxToRender}
-      variant={variant}
+      sx={{
+        ...(theme?.components?.MuiButton?.defaultProps?.sx || {}),
+        ...(propSx || {}),
+      }}
       {...{ ...restOfProps, underline }}
+      {...(variant && { variant: variant })}
     >
       {children || label || text}
     </MuiButton>

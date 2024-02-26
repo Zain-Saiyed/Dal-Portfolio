@@ -81,12 +81,12 @@ const PrivateLayout: FC<PropsWithChildren> = () => {
     >
       <Stack component="header">
         <TopBar
-          startNode={
-            <IconButton
-              icon="logo"
-              onClick={sidebarOpen ? onLogoClick : onSideBarOpen}
-            />
-          }
+          // startNode={
+          //   <IconButton
+          //     icon="logo"
+          //     onClick={sidebarOpen ? onLogoClick : onSideBarOpen}
+          //   />
+          // }
         />
 
         <SideBar
