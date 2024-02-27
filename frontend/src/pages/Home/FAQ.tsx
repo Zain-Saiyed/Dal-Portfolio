@@ -243,10 +243,8 @@ const FAQ = (props: Props) => {
                     <span>
                       <ListItemText
                         primary={section.section}
-                        sx={{ borderBottom: "2px solid #ffd400" }}
-                        primaryTypographyProps={{
-                          fontWeight: selectedSection === section.section ? 'bold' : 'normal',
-                        }} />
+                        sx={{ borderBottom: "2px solid #ffd400" }}/>
+                        {/* primaryTypographyProps={{fontWeight: selectedSection === section.section ? 'bold' : 'normal',}}  */}
                     </span>
                   </ListItemButton>
                 </ListItem>
