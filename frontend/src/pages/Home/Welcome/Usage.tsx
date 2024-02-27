@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Grid, Paper } from "@mui/material";
-import "./gradient.css";
+import "./TextGradientHighlight.css";
 
 const Usage = () => {
   return (
