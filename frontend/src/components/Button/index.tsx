@@ -3,17 +3,17 @@ import { ElementType, FC, ReactNode, useMemo } from "react";
 
 import Icon from "components/Icon";
 import Link from "components/Link";
-import { APP_BUTTON_VARIANT } from "components/config";
+// import { APP_BUTTON_VARIANT } from "components/config";
 
-const MUI_BUTTON_COLORS = [
-  "inherit",
-  "primary",
-  "secondary",
-  "success",
-  "error",
-  "info",
-  "warning",
-];
+// const MUI_BUTTON_COLORS = [
+//   "inherit",
+//   "primary",
+//   "secondary",
+//   "success",
+//   "error",
+//   "info",
+//   "warning",
+// ];
 
 const DEFAULT_SX_VALUES = {
   margin: 1,
