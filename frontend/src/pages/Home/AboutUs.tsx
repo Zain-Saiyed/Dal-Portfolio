@@ -1,8 +1,10 @@
 import Footer from 'pages/Home/Footer';
 import React from 'react';
-import { Grid, Box, Avatar, Container, Typography, Paper, useMediaQuery, useTheme, List, ListItem, Link } from '@mui/material';
+import { Box, Avatar, Container, Typography, Paper, useMediaQuery, useTheme, Link } from '@mui/material';
+import EmailIcon from '@mui/icons-material/Email';
 import MohammedPic from "assets/images/mohammed.jpg";
 import JinayPic from "assets/images/jinay.jpg"
+import ZainuddinPic from "assets/images/zainuddin.jpg"
 type Props = {}
 
 const AboutUs = (props: Props) => {
@@ -47,7 +49,6 @@ const AboutUs = (props: Props) => {
           <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
             Our Team
           </Typography>
-
           <Box sx={{
             border: 1,
             borderColor: 'divider',
@@ -71,19 +72,20 @@ const AboutUs = (props: Props) => {
                   width: 160,
                   height: 200,
                   border: '1px solid #ffd400',
-                  mb: isMobile ? 2 : 0,
                 }}
               />
             </Box>
             <Box sx={{
               textAlign: isMobile ? 'center' : 'left',
             }}>
-              <Typography variant="h6" sx={{ mb: 0.5 }}>
+              <Typography variant="h6" sx={{ mb: 0.5, fontWeight: 'bold' }}>
                 Mohammed Noor ul Hasan Kothaliya
               </Typography>
-              <Link href="mailto:mh478572@dal.ca" >
-                mh478572@dal.ca
-              </Link>
+              <Box style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', justifyContent: isMobile ? 'center' : 'flex-start'}}>
+                <Link href="mailto:mh478572@dal.ca" >
+                    <EmailIcon style={{verticalAlign: 'middle', marginRight: '5px'}}/>mh478572@dal.ca
+                </Link>
+              </Box>
             </Box>
           </Box>
           
@@ -92,6 +94,7 @@ const AboutUs = (props: Props) => {
             borderColor: 'divider',
             borderRadius: '8px',
             p: 2,
+            mt: 2,
             display: 'flex',
             alignItems: 'center',
             justifyContent: isMobile ? 'center' : 'flex-start', 
@@ -110,19 +113,61 @@ const AboutUs = (props: Props) => {
                   width: 160,
                   height: 200,
                   border: '1px solid #ffd400',
-                  mb: isMobile ? 2 : 0,
                 }}
               />
             </Box>
             <Box sx={{
               textAlign: isMobile ? 'center' : 'left',
             }}>
-              <Typography variant="h6" sx={{ mb: 0.5 }}>
+              <Typography variant="h6" sx={{ mb: 0.5, fontWeight: 'bold' }}>
                 Jinay Shah
               </Typography>
-              <Link href="mailto:jn851778@dal.ca" >
-                jn851778@dal.ca
-              </Link>
+              <Box style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', justifyContent: isMobile ? 'center' : 'flex-start'}}>
+                <Link href="mailto:jn851778@dal.ca" >
+                  <EmailIcon style={{verticalAlign: 'middle', marginRight: '5px'}}/>jn851778@dal.ca
+                </Link>
+              </Box>
+            </Box>
+          </Box>
+
+          <Box sx={{
+            border: 1,
+            borderColor: 'divider',
+            borderRadius: '8px',
+            p: 2,
+            mt: 2,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: isMobile ? 'center' : 'flex-start', 
+            gap: 5,
+            flexDirection: isMobile ? 'column' : 'row',
+          }}>
+            <Box sx={{
+              width: isMobile ? '100%' : 'auto',
+              display: 'flex',
+              justifyContent: 'center',
+            }}>
+              <Avatar
+                src={ZainuddinPic}
+                alt="Zainuddin Saiyed"
+                sx={{
+                  width: 160,
+                  height: 200,
+                  border: '1px solid #ffd400',
+                }}
+              />
+            </Box>
+            <Box sx={{
+              textAlign: isMobile ? 'center' : 'left',
+            }}>
+              <Typography variant="h6" sx={{ mb: 0.5, fontWeight: 'bold' }}>
+                Zainuddin Saiyed
+              </Typography>
+              <Box style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', justifyContent: isMobile ? 'center' : 'flex-start'}}>
+                <Link href="mailto:zainuddin.s@dal.ca" >
+                  <EmailIcon style={{verticalAlign: 'middle', marginRight: '5px'}}/>zainuddin.s@dal.ca
+                </Link>
+              </Box>
             </Box>
           </Box>
 
