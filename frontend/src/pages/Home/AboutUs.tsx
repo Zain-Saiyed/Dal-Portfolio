@@ -2,7 +2,7 @@ import Footer from 'pages/Home/Footer';
 import React from 'react';
 import { Grid, Box, Avatar, Container, Typography, Paper, useMediaQuery, useTheme, List, ListItem, Link } from '@mui/material';
 import MohammedPic from "assets/images/mohammed.jpg";
-
+import JinayPic from "assets/images/jinay.jpg"
 type Props = {}
 
 const AboutUs = (props: Props) => {
@@ -86,7 +86,45 @@ const AboutUs = (props: Props) => {
               </Link>
             </Box>
           </Box>
-
+          
+          <Box sx={{
+            border: 1,
+            borderColor: 'divider',
+            borderRadius: '8px',
+            p: 2,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: isMobile ? 'center' : 'flex-start', 
+            gap: 5,
+            flexDirection: isMobile ? 'column' : 'row',
+          }}>
+            <Box sx={{
+              width: isMobile ? '100%' : 'auto',
+              display: 'flex',
+              justifyContent: 'center',
+            }}>
+              <Avatar
+                src={JinayPic}
+                alt="Jinay Shah"
+                sx={{
+                  width: 160,
+                  height: 200,
+                  border: '1px solid #ffd400',
+                  mb: isMobile ? 2 : 0,
+                }}
+              />
+            </Box>
+            <Box sx={{
+              textAlign: isMobile ? 'center' : 'left',
+            }}>
+              <Typography variant="h6" sx={{ mb: 0.5 }}>
+                Jinay Shah
+              </Typography>
+              <Link href="mailto:jn851778@dal.ca" >
+                jn851778@dal.ca
+              </Link>
+            </Box>
+          </Box>
 
         </Paper>
       </Container>
