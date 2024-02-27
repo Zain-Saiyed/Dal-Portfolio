@@ -2,22 +2,27 @@
 
 Include a brief one paragraph description about the project.
 
-* *Date Created*: JANUARY 24, 2024
-* *Last Modification Date*: JANUARY 24, 2024
-* *Git URL*: https://git.cs.dal.ca/patrawala/csci-5709-grp-01
-Test push
-Test push
+- _Date Created_: 24 JAN 2024
+- _Last Modification Date_: 24 JAN 2024
+- _Git URL_: https://git.cs.dal.ca/patrawala/csci-5709-grp-01
+
+- _Individual branch URLs_:
+
+  - [Hatim Patrawala](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/hatim)
+  - [Mohammed Kothaliya](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/mohammed)
+  - [Sushank Saini](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/sushank)
+  - [Boon Undrajavarapu](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/boon)
+  - [Jinay Shah](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/jinay)
+  - [Zainuddin Saiyed](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/zainuddin)
 
 ## Authors
 
-* [Hatim Patrawala](ht760280@dal.ca) - *(Owner)*
-* [Mohammed Kothaliya](mh478572@dal.ca) - *(Owner)*
-* [Sushank Saini](sushank.saini@dal.ca) - *(Owner)*
-* [Boon Undrajavarapu](bn540239@dal.ca) - *(Owner)*
-* [Jinay Shah](jn851778@dal.ca) - *(Owner)*
-* [Zainuddin Saiyed](zainuddin.s@dal.ca) - *(Owner)*
-
-
+- [Hatim Patrawala](ht760280@dal.ca) - _(Owner)_
+- [Mohammed Kothaliya](mh478572@dal.ca) - _(Owner)_
+- [Sushank Saini](sushank.saini@dal.ca) - _(Owner)_
+- [Boon Undrajavarapu](bn540239@dal.ca) - _(Owner)_
+- [Jinay Shah](jn851778@dal.ca) - _(Owner)_
+- [Zainuddin Saiyed](zainuddin.s@dal.ca) - _(Owner)_
 
 ## Getting Started
 
@@ -35,7 +40,6 @@ Give examples or provide a list of the required software / libraries / plug-ins
 ```
 
 See the following section for detailed step-by-step instructions on how to install this software / libraries / plug-ins
-
 
 ### Installing
 
@@ -55,11 +59,10 @@ until finished
 
 End with an example of getting some data out of the system or using it for a little demo. You may also include a quick example of what the marker should see if the installation of all required software / libraries / plug-ins was successful.
 
-
-
 ## Running the tests
 
 If needing to run automated tests, then explain how to run the automated tests for this system. If this section is not needed, ** you may delete **.
+
 ### Break down into end to end tests
 
 Explain what these tests test and why
@@ -76,39 +79,35 @@ Explain what these tests test and why
 Give an example
 ```
 
-
-
 ## Deployment
 
 Add additional notes about how to deploy this on a live system
-
-
 
 ## Built With
 
 <!--- Provide a list of the frameworks used to build this application, your list should include the name of the framework used, the url where the framework is available for download and what the framework was used for, see the example below --->
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-
+- [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
+- [Maven](https://maven.apache.org/) - Dependency Management
+- [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
 ## Sources Used
 
+Text highlight: https://alvarotrigo.com/blog/css-highlight-text/
+https://codepen.io/alvarotrigo/pen/VwyZBjK
+
 If in completing your lab / assignment / project you used any interpretation of someone else's code, then provide a list of where the code was implemented, how it was implemented, why it was implemented, and how it was modified. See the sections below for more details.
 
-
 ### File Name
 
-*Lines ## - ##*
+_Lines ## - ##_
 
 ```
-Copy and paste your code on lines mentioned 
+Copy and paste your code on lines mentioned
 
 ```
 
-The code above was created by adapting the code in [NAME](link) as shown below: 
+The code above was created by adapting the code in [NAME](link) as shown below:
 
 ```
 Copy and paste the snippet of code you are referencing
@@ -119,19 +118,18 @@ Copy and paste the snippet of code you are referencing
 - <!---Why---> [NAME](link)'s Code was used because...
 - <!---How---> [NAME](link)'s Code was modified by...
 
-*Repeat as needed*
-
+_Repeat as needed_
 
 ### File Name
 
-*Lines ## - ##*
+_Lines ## - ##_
 
 ```
-Copy and paste your code on lines mentioned 
+Copy and paste your code on lines mentioned
 
 ```
 
-The code above was created by adapting the code in [NAME](link) as shown below: 
+The code above was created by adapting the code in [NAME](link) as shown below:
 
 ```
 Copy and paste the snippet of code you are referencing
@@ -142,26 +140,24 @@ Copy and paste the snippet of code you are referencing
 - <!---Why---> [NAME](link)'s Code was used because...
 - <!---How---> [NAME](link)'s Code was modified by...
 
-*Repeat as needed*
-
-
+_Repeat as needed_
 
 ## Artificial Intelligence Tools Used
+
 If in completing your lab / assignment / project you used any Artificial Intelligence Tools or Plugins, then provide a list of the tools or plugins used, the prompt used, the code generated by the AI, where the code was implemented, how it was implemented, why it was implemented, and how it was modified. See the sections below for more details.
 
-* [Name of Tool](http://www.dropwizard.io/1.0.2/docs/) - The AI Tool used
-* [Name of Tool](http://www.dropwizard.io/1.0.2/docs/) - The AI Plugin used
-* [Name of Tool](http://www.dropwizard.io/1.0.2/docs/) - The AI Tool used
+- [Name of Tool](http://www.dropwizard.io/1.0.2/docs/) - The AI Tool used
+- [Name of Tool](http://www.dropwizard.io/1.0.2/docs/) - The AI Plugin used
+- [Name of Tool](http://www.dropwizard.io/1.0.2/docs/) - The AI Tool used
 
-
-### Prompt Used on *NAME OF AI TOOL*
-
-```
-Copy and paste the prompt used 
+### Prompt Used on _NAME OF AI TOOL_
 
 ```
+Copy and paste the prompt used
 
-The code prompt above was used [NAME](link) to generate the code shown below: 
+```
+
+The code prompt above was used [NAME](link) to generate the code shown below:
 
 ```
 Copy and paste the entirety of the code generated by the AI Tool listed above.
@@ -169,7 +165,8 @@ Copy and paste the entirety of the code generated by the AI Tool listed above.
 ```
 
 #### File Name
-*Lines ## - ##*
+
+_Lines ## - ##_
 
 ```
 Copy and paste your code on the lines mentioned
@@ -180,15 +177,14 @@ Copy and paste your code on the lines mentioned
 - <!---Why---> [NAME](link)'s Code was used because...
 - <!---How---> [NAME](link)'s Code was modified by...
 
-
-### Prompt Used on *NAME OF AI TOOL*
-
-```
-Copy and paste the prompt used 
+### Prompt Used on _NAME OF AI TOOL_
 
 ```
+Copy and paste the prompt used
 
-The code prompt above was used [NAME](link) to generate the code shown below: 
+```
+
+The code prompt above was used [NAME](link) to generate the code shown below:
 
 ```
 Copy and paste the entirety of the code generated by the AI Tool listed above.
@@ -196,7 +192,8 @@ Copy and paste the entirety of the code generated by the AI Tool listed above.
 ```
 
 #### File Name
-*Lines ## - ##*
+
+_Lines ## - ##_
 
 ```
 Copy and paste your code on the lines mentioned
@@ -207,13 +204,10 @@ Copy and paste your code on the lines mentioned
 - <!---Why---> [NAME](link)'s Code was used because...
 - <!---How---> [NAME](link)'s Code was modified by...
 
-
-*Repeat as needed*
-
-
+_Repeat as needed_
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+- Hat tip to anyone whose code was used
+- Inspiration
+- etc
