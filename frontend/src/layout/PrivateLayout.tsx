@@ -1,12 +1,15 @@
-import { useState, useCallback, FC, PropsWithChildren } from "react";
+// import { useState, useCallback, FC, PropsWithChildren } from "react";
+import { useState, FC, PropsWithChildren } from "react";
 import { Stack } from "@mui/material";
-import { Outlet, useNavigate } from "react-router-dom";
+// import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import TopBar from "./TopBar";
 import SideBar from "./SideBar";
 import { useOnMobile } from "hooks";
 import { LinkToPage } from "utils/type";
-import { IconButton, ErrorBoundary } from "components";
+// import { IconButton, ErrorBoundary } from "components";
+import { ErrorBoundary } from "components";
 import {
   SIDE_BAR_DESKTOP_ANCHOR,
   SIDE_BAR_MOBILE_ANCHOR,
@@ -44,20 +47,20 @@ const SIDE_BAR_ITEMS: Array<LinkToPage> = [
 ];
 
 const PrivateLayout: FC<PropsWithChildren> = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [sideBarVisible, setSideBarVisible] = useState(false);
   const onMobile = useOnMobile();
 
   const sidebarOpen = onMobile ? sideBarVisible : true;
   const sidebarVariant = onMobile ? "temporary" : "persistent";
 
-  const onLogoClick = useCallback(() => {
-    navigate(SIDE_BAR_ITEMS?.[0]?.path || "/");
-  }, [navigate]);
+  // const onLogoClick = useCallback(() => {
+  //   navigate(SIDE_BAR_ITEMS?.[0]?.path || "/");
+  // }, [navigate]);
 
-  const onSideBarOpen = () => {
-    if (!sideBarVisible) setSideBarVisible(true);
-  };
+  // const onSideBarOpen = () => {
+  //   if (!sideBarVisible) setSideBarVisible(true);
+  // };
 
   const onSideBarClose = () => {
     if (sideBarVisible) setSideBarVisible(false);
