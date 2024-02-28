@@ -1,213 +1,207 @@
-# Project Title
-
-Include a brief one paragraph description about the project.
-
-- _Date Created_: 24 JAN 2024
-- _Last Modification Date_: 24 JAN 2024
+# Dal Portfolio
+Dal Portfolio is a comprehensive University Portfolio Management System designed to streamline the presentation of academic and professional achievements. It provides an intuitive interface for students, faculty, and researchers to curate and showcase their portfolios seamlessly. From project details and academic accomplishments to skills and certifications, Dal Portfolio serves as a centralized hub for users to showcase their professional journey at a single platform.
+ 
+- _Date Created_: 28 FEB 2024
+- _Last Modification Date_: 28 FEB 2024
 - _Git URL_: https://git.cs.dal.ca/patrawala/csci-5709-grp-01
-
-- _Individual branch URLs_:
-
+- _Deployment URL_: https://csci-5709-group-1-dal-portfolio.netlify.app/
+ 
+#### Individual branch URLs
+ 
   - [Hatim Patrawala](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/hatim)
   - [Mohammed Kothaliya](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/mohammed)
   - [Sushank Saini](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/sushank)
   - [Boon Undrajavarapu](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/boon)
   - [Jinay Shah](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/jinay)
   - [Zainuddin Saiyed](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/tree/zainuddin)
-
+ 
 ## Authors
-
+ 
 - [Hatim Patrawala](ht760280@dal.ca) - _(Owner)_
 - [Mohammed Kothaliya](mh478572@dal.ca) - _(Owner)_
 - [Sushank Saini](sushank.saini@dal.ca) - _(Owner)_
 - [Boon Undrajavarapu](bn540239@dal.ca) - _(Owner)_
 - [Jinay Shah](jn851778@dal.ca) - _(Owner)_
 - [Zainuddin Saiyed](zainuddin.s@dal.ca) - _(Owner)_
-
-## Getting Started
-
-**[Optional]** If needing to provide the marker with a copy of the project that should run on their local machine for development, testing and/or marking purposes. Please include the following sections.
-
-See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
-To have a local copy of this lab / assingnment / project up and running on your local machine, you will first need to install the following software / libraries / plug-ins
-
-```
-Give examples or provide a list of the required software / libraries / plug-ins
-
-```
-
-See the following section for detailed step-by-step instructions on how to install this software / libraries / plug-ins
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be, assume the marker just acquired a computer
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo. You may also include a quick example of what the marker should see if the installation of all required software / libraries / plug-ins was successful.
-
-## Running the tests
-
-If needing to run automated tests, then explain how to run the automated tests for this system. If this section is not needed, ** you may delete **.
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
+ 
 ## Deployment
-
-Add additional notes about how to deploy this on a live system
-
+ 
+The app has been set up on Netlify through a process that involves replicating the GitLab repository onto GitHub, which is then linked to Netlify. This method facilitates a seamless and ongoing integration and deployment process, guaranteeing that any recent updates are directly and automatically published to the active site.
+ 
+## Features
+ 
+The Dal Portfolio web application is designed to showcase the talents and achievements of Dalhousie University's community. Our platform is intuitively structured, offering a seamless user experience across several key pages, each tailored to highlight different facets of our community and platform capabilities. Here's an overview of our main features:
+ 
+### Landing Page
+ 
+Our landing page is crafted to immediately capture the visitor's attention and guide them through the essence of what Dalhousie University stands for.
+ 
+- **Hero Section**: A compelling call-to-action that appeals to our audience, encouraging them to explore further and generate leads.
+- **Benefits and Usage**: This section outlines the core benefits of joining our platform and how users can leverage it to showcase their achievements and network.
+- **Features**: A detailed rundown of what our platform offers, highlighting unique tools and functionalities.
+- **Testimonials**: Real-life testimonials from our community members, showcasing their experiences and the impact of our platform on their professional journeys.
+ 
+### FAQs Page
+ 
+Designed to address common inquiries, our FAQs page provides immediate answers to our community's questions, facilitating a smoother user experience and reducing the need for direct inquiries.
+ 
+### Contact Us Page
+ 
+An easily navigable page for users to reach out with their questions, suggestions, or feedback. We ensure that every voice is heard and valued.
+ 
+### About Us Page
+ 
+Get to know more about the mission, vision, and people behind the Dal Portfolio project.
+ 
+- **Goals/Vision**: A deep dive into our long-term objectives and what we aspire to achieve with the Dal Portfolio platform.
+- **Our Team**: Meet the talented individuals who have poured their passion and skills into creating and maintaining this platform.
+ 
+### Common Sections for Navigation
+ 
+Every page features a consistently designed header and footer for effortless navigation across the platform. The header includes links to all main sections and a logo, while the footer provides additional resources and contact information.
+ 
+### Dark and Light Mode Toggle
+ 
+Understanding the diverse preferences of our users, we've implemented a toggle feature allowing users to switch between light and dark modes. This feature enhances accessibility and user comfort, catering to different viewing conditions and personal preferences.
+ 
+ 
 ## Built With
-
-<!--- Provide a list of the frameworks used to build this application, your list should include the name of the framework used, the url where the framework is available for download and what the framework was used for, see the example below --->
-
-- [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-- [Maven](https://maven.apache.org/) - Dependency Management
-- [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
+ 
+* [React](https://react.dev/) - The web framework used for building the frontend  user interfaces. Used for creating dynamic and responsive user interfaces for Dal Portfolio project.
+ 
+* [Material UI](https://mui.com/material-ui/) - Comprehensive UI Framework with open source React components, adhering to the material design specification. Used for creating a consistent and seamless/elegant user interface design in Dal Portfolio project.
+ 
+* [Yarn](https://yarnpkg.com/) - Used as package manager that acts as the project manager.
+* [TypeScript](https://www.typescriptlang.org/) - A strongly typed JavaScript language which adds syntax for types. Used to enhance code maintainability and catch potential errors early in Dal Portfolio project.
+ 
+## Getting Started
+ 
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+ 
+### Prerequisites
+ 
+Before running this project locally, ensure you have the following software installed:
+ 
+- Node.js: [https://nodejs.org/](https://nodejs.org/)
+- Yarn: [https://yarnpkg.com/](https://yarnpkg.com/)
+ 
+### Installing
+ 
+Follow these steps to get a development environment running:
+ 
+1. Clone the repository:
+   ```
+   git clone https://git.cs.dal.ca/patrawala/csci-5709-grp-01
+   ```
+2. Navigate to the project directory:
+   ```
+   cd frontend
+   ```
+3. Install dependencies with Yarn:
+   ```
+   yarn install
+   ```
+4. Start the development server:
+   ```
+   yarn start
+   ```
+5. Visit `http://localhost:3000` to view the application.
+ 
+ 
 ## Sources Used
-
-Text highlight: https://alvarotrigo.com/blog/css-highlight-text/
-https://codepen.io/alvarotrigo/pen/VwyZBjK
-
-If in completing your lab / assignment / project you used any interpretation of someone else's code, then provide a list of where the code was implemented, how it was implemented, why it was implemented, and how it was modified. See the sections below for more details.
-
-### File Name
-
-_Lines ## - ##_
-
+ 
+### Material-UI Components Customization
+ 
+All Material-UI components used in this project were extensively customized to fit the design requirements of the Dal Portfolio web application. This involved theme customization for colors, component overrides for paddings and margins, and responsive design adjustments using Material-UI's grid system. For example, the `Testimonials` component was adapted from Material-UI's `Carousel` component documentation:
+ 
+- Original Source: [https://mui.com/components/carousel/](https://mui.com/components/carousel/)
+- Customization: Adjusted carousel settings, integrated custom media queries for responsive design, and added personalized styling and layout adjustments to fit our design schema.
+ 
+_NOTE: The Material UI component is used in all the pages that are rendered to display to the client._
+ 
+## Material Icons
+Icons such as CollaborationIcon and CustomizationIcon from Material Icons were used in Features section in Landin Page. The color scheme, margins, and responsive behavior have been customized to align with the design language of the DalPortfolio application.
+ 
+### Features.tsx
+*Lines 32 - 73*
+ 
+- _File path:_ `frontend\src\pages\Home\Welcome\`
 ```
-Copy and paste your code on lines mentioned
-
+  const features = [
+    {
+      icon: <AccountCircleIcon fontSize="large" />,
+      title: 'Authentication',
+      description: 'Secure signup and sign-in with easy recovery options.'
+    },
+    {
+      icon: <HomeIcon fontSize="large" />,
+      title: 'Home Page',
+      description: 'Extensive robust search capabilities with easy navigation.'
+    },
+    {
+      icon: <SearchIcon fontSize="large" />,
+      title: 'Search/Discover Portfolios',
+      description: 'Efficiently find portfolios with advanced filters.'
+    },
+    {
+      icon: <PersonIcon fontSize="large" />,
+      title: 'User Profile',
+      description: 'Showcase your skills with editable templates.'
+    },
+    {
+      icon: <TemplateIcon fontSize="large" />,
+      title: 'Tailored Templates',
+      description: 'Default templates tailored for various university sfaculties.'
+    },
+    {
+      icon: <ForumIcon fontSize="large" />,
+      title: 'Discussion Forums',
+      description: 'Collaborative learning and knowledge sharing.'
+    },
+    {
+      icon: <CollaborationIcon fontSize="large" />,
+      title: 'Collaboration',
+      description: 'Enhance communication with internal and external users.'
+    },
+    {
+      icon: <CustomizationIcon fontSize="large" />,
+      title: 'Custom Templates',
+      description: 'Flexible content creation with customizable templates.'
+    },
+  ];
 ```
-
-The code above was created by adapting the code in [NAME](link) as shown below:
-
+The icon attribute in the JSON is the Material UI icon used for representing each feature of the DalPortfolio project.
+ 
+### AboutUs.tsx
+*Lines 43*
+ 
+- _File path:_ `frontend\src\pages\Home\`
 ```
-Copy and paste the snippet of code you are referencing
-
+<EmailIcon style={{ verticalAlign: "middle", marginRight: "5px", color:'#fcd405'}} />
 ```
-
-- <!---How---> The code in [NAME](link) was implemented by...
-- <!---Why---> [NAME](link)'s Code was used because...
-- <!---How---> [NAME](link)'s Code was modified by...
-
-_Repeat as needed_
-
-### File Name
-
-_Lines ## - ##_
-
+This is a Email Icon imported from Material UI icons library, to display a envelop besides the conatct email fro aesthetic purposes.
+ 
+### ConatctUs.tsx
+*Lines 150-152, 206-208, 263-265, 320-322, 370-372*
+ 
+- _File path:_ `frontend\src\pages\Home\`
 ```
-Copy and paste your code on lines mentioned
-
+<EmailIcon
+    style={{ verticalAlign: "middle", marginRight: "5px" }}
+/>
 ```
-
-The code above was created by adapting the code in [NAME](link) as shown below:
-
-```
-Copy and paste the snippet of code you are referencing
-
-```
-
-- <!---How---> The code in [NAME](link) was implemented by...
-- <!---Why---> [NAME](link)'s Code was used because...
-- <!---How---> [NAME](link)'s Code was modified by...
-
-_Repeat as needed_
-
-## Artificial Intelligence Tools Used
-
-If in completing your lab / assignment / project you used any Artificial Intelligence Tools or Plugins, then provide a list of the tools or plugins used, the prompt used, the code generated by the AI, where the code was implemented, how it was implemented, why it was implemented, and how it was modified. See the sections below for more details.
-
-- [Name of Tool](http://www.dropwizard.io/1.0.2/docs/) - The AI Tool used
-- [Name of Tool](http://www.dropwizard.io/1.0.2/docs/) - The AI Plugin used
-- [Name of Tool](http://www.dropwizard.io/1.0.2/docs/) - The AI Tool used
-
-### Prompt Used on _NAME OF AI TOOL_
-
-```
-Copy and paste the prompt used
-
-```
-
-The code prompt above was used [NAME](link) to generate the code shown below:
-
-```
-Copy and paste the entirety of the code generated by the AI Tool listed above.
-
-```
-
-#### File Name
-
-_Lines ## - ##_
-
-```
-Copy and paste your code on the lines mentioned
-
-```
-
-- <!---How---> The code in [NAME](link) was implemented by...
-- <!---Why---> [NAME](link)'s Code was used because...
-- <!---How---> [NAME](link)'s Code was modified by...
-
-### Prompt Used on _NAME OF AI TOOL_
-
-```
-Copy and paste the prompt used
-
-```
-
-The code prompt above was used [NAME](link) to generate the code shown below:
-
-```
-Copy and paste the entirety of the code generated by the AI Tool listed above.
-
-```
-
-#### File Name
-
-_Lines ## - ##_
-
-```
-Copy and paste your code on the lines mentioned
-
-```
-
-- <!---How---> The code in [NAME](link) was implemented by...
-- <!---Why---> [NAME](link)'s Code was used because...
-- <!---How---> [NAME](link)'s Code was modified by...
-
-_Repeat as needed_
+This is a Email Icon imported from Material UI icons library, to display a envelop besides the conatct email fro aesthetic purposes.
+ 
+ 
+Images used in the "About Us" page were generated using [GPT4](https://openai.com/gpt-4) and are placeholders for illustrative purposes:
+ 
+- `test1.jpg` to `test8.jpg` in [AboutUS.tsx](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/blob/main/frontend/src/pages/Home/AboutUs.tsx?ref_type=heads) are fictional representations created to enhance the user interface design.
+ 
+The project structure and initial setup were inspired by the public repository [https://github.com/karpolan/react-typescript-mui-with-auth-starter](https://github.com/karpolan/react-typescript-mui-with-auth-starter), but were heavily modified to meet the specific features and functionalities of the Dal Portfolio project, including custom flows, page layouts, and TypeScript integration.
 
 ## Acknowledgments
-
-- Hat tip to anyone whose code was used
-- Inspiration
-- etc
+ 
+- Thanks to the creators and contributors of Material-UI for providing a comprehensive UI toolkit for React, instrumental in building this web application.
+- Gratitude to Dalhousie University for the inspiration behind the theme and design of the application. The logo and styling cues were inspired by the official Dalhousie University website.
+- The Dal Portfolio Logo was inspired by Dalhousie logo but was created from scratch usung [Canva](https://www.canva.com/)
+- Appreciation for the developer community for sharing valuable insights and knowledge, which have been crucial in implementing various features of this project.
