@@ -5,13 +5,14 @@ import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
 
- 
 type Props = {}
  
 const Feature = ({ icon, title, description }: { icon: JSX.Element, title: string, description: string }) => (
   <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: 2 }}>
-    {icon}
-    <Typography variant="h6" sx={{ marginTop: 1, marginBottom: 1 }}> 
+    <Box style={{color: '#ffd400', fontSize: "large" }}>
+      {icon}
+    </Box>
+    <Typography variant="h6" sx={{ marginTop: 1, marginBottom: 1, fontWeight:'bold' }}> 
       {title}
     </Typography>
     <Typography variant="body2"> 
@@ -62,6 +63,5 @@ const Features = (props: Props) => {
     </Box>
   );
 };
- 
  
 export default Features
