@@ -16,6 +16,7 @@ import JinayPic from "assets/images/jinay.jpg";
 import ZainuddinPic from "assets/images/zainuddin.jpg";
 import BoonPic from "assets/images/boon.jpg";
 import HatimPhoto from "assets/images/hatim.png";
+import SushankPic from "assets/images/sushank.png"
 
 type Props = {};
 
@@ -150,6 +151,62 @@ const AboutUs = (props: Props) => {
                     style={{ verticalAlign: "middle", marginRight: "5px" }}
                   />
                   mh478572@dal.ca
+                </Link>
+              </Box>
+            </Box>
+          </Box>
+
+          <Box
+            sx={{
+              border: 1,
+              borderColor: "divider",
+              borderRadius: "8px",
+              p: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: isMobile ? "center" : "flex-start",
+              gap: 5,
+              flexDirection: isMobile ? "column" : "row",
+            }}
+          >
+            <Box
+              sx={{
+                width: isMobile ? "100%" : "auto",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Avatar
+                src={SushankPic}
+                alt="Sushank Saini"
+                sx={{
+                  width: 160,
+                  height: 200,
+                  border: "1px solid #ffd400",
+                }}
+              />
+            </Box>
+            <Box
+              sx={{
+                textAlign: isMobile ? "center" : "left",
+              }}
+            >
+              <Typography variant="h6" sx={{ mb: 0.5, fontWeight: "bold" }}>
+                Sushank Saini
+              </Typography>
+              <Box
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  textDecoration: "none",
+                  justifyContent: isMobile ? "center" : "flex-start",
+                }}
+              >
+                <Link href="mailto:sushank.saini@dal.ca">
+                  <EmailIcon
+                    style={{ verticalAlign: "middle", marginRight: "5px" }}
+                  />
+                  sushank.saini@dal.ca
                 </Link>
               </Box>
             </Box>
