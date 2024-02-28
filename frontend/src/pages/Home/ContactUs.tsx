@@ -53,9 +53,6 @@ const ContactUs = (props: Props) => {
 
         <Box style={{textAlign:'center'}}>
           <Typography variant="h2" >Want to know more about us?</Typography>
-          {/* <Typography variant="body1" style={{textAlign:'center', marginTop:'1em'}}>
-            Explore our journey and mission on our <Link href="/about-us" color="primary">About Us</Link> page.
-          </Typography> */}
           <Button
             variant="contained"
             to="/about-us"

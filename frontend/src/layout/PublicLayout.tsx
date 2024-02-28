@@ -7,7 +7,7 @@ import SideBar from "layout/SideBar";
 import { LinkToPage } from "utils/type";
 import { useOnMobile } from "hooks/layout";
 import { useAppStore } from "store/AppStore";
-import { useEventSwitchDarkMode } from "hooks/event";
+import { useSwitchMode } from "hooks/event";
 import { Button, ErrorBoundary, IconButton } from "components";
 import DalPortfolioDark from "assets/images/dal_portfolio_black_bg.png";
 import DalPortfolioLight from "assets/images/dal_portfolio_white_bg.png";
@@ -53,7 +53,7 @@ const NAVBAR_ITEMS: Array<LinkToPage> = SIDE_BAR_ITEMS.filter(
 const PublicLayout: FC<PropsWithChildren> = () => {
   const onMobile = useOnMobile();
   const navigate = useNavigate();
-  const onSwitchDarkMode = useEventSwitchDarkMode();
+  const switchMode = useSwitchMode();
   const [sideBarVisible, setSideBarVisible] = useState(false);
   const [state] = useAppStore();
 
@@ -129,7 +129,7 @@ const PublicLayout: FC<PropsWithChildren> = () => {
                     ? "Switch to Light mode"
                     : "Switch to Dark mode"
                 }
-                onClick={onSwitchDarkMode}
+                onClick={switchMode}
               />
             </Stack>
           }

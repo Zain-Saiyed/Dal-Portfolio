@@ -20,12 +20,12 @@ const Footer = (props: Props) => {
   return (
     <Stack
       sx={{
+        color: "#fff",
+        alignItems: "center",
+        background: "#242424",
         padding: "2rem 0 2rem 0",
         justifyContent: "center",
-        alignItems: "center",
         borderTop: "1px solid #fcd405",
-        background: "#242424",
-        color: "#fff",
       }}
     >
       <Grid
@@ -44,8 +44,12 @@ const Footer = (props: Props) => {
             <Typography variant="h6" sx={{ mb: "16px" }}>
               About Us
             </Typography>
-            <Link to="/" color={"white"}>Benefits</Link>
-            <Link to="/" color={"white"}>Testimonials</Link>
+            <Link to="/" color={"white"}>
+              Benefits
+            </Link>
+            <Link to="/" color={"white"}>
+              Testimonials
+            </Link>
           </Stack>
         </Grid>
         <Grid item xs={12} sm={6} md={3} lg={3}>
@@ -53,8 +57,12 @@ const Footer = (props: Props) => {
             <Typography variant="h6" sx={{ mb: "16px" }}>
               Contact Us
             </Typography>
-            <Link to="/contact-us" color={"white"}>Contact</Link>
-            <Link to="/" color={"white"}>Support</Link>
+            <Link to="/contact-us" color={"white"}>
+              Contact
+            </Link>
+            <Link to="/" color={"white"}>
+              Support
+            </Link>
           </Stack>
         </Grid>
       </Grid>
