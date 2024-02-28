@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { Grid, Stack, Typography } from "@mui/material";
 
 import { useOnMobile } from "hooks";
@@ -9,7 +8,6 @@ type Props = {};
 
 const Footer = (props: Props) => {
   const onMobile = useOnMobile();
-  const navigate = useNavigate();
 
   const iconStyles = {
     cursor: "pointer",
@@ -46,8 +44,8 @@ const Footer = (props: Props) => {
             <Typography variant="h6" sx={{ mb: "16px" }}>
               About Us
             </Typography>
-            <Link href="/" color={"white"}>How it works</Link>
-            <Link href="/" color={"white"}>Testimonials</Link>
+            <Link to="/" color={"white"}>Benefits</Link>
+            <Link to="/" color={"white"}>Testimonials</Link>
           </Stack>
         </Grid>
         <Grid item xs={12} sm={6} md={3} lg={3}>
@@ -55,8 +53,8 @@ const Footer = (props: Props) => {
             <Typography variant="h6" sx={{ mb: "16px" }}>
               Contact Us
             </Typography>
-            <Link href="/" color={"white"}>Contact</Link>
-            <Link href="/" color={"white"}>Support</Link>
+            <Link to="/contact-us" color={"white"}>Contact</Link>
+            <Link to="/" color={"white"}>Support</Link>
           </Stack>
         </Grid>
       </Grid>
@@ -71,7 +69,7 @@ const Footer = (props: Props) => {
           direction={onMobile ? "column" : "row"}
         >
           <Link
-            onClick={() => navigate("/")}
+            to="/"
             sx={{
               cursor: "pointer",
               width: "200px",
