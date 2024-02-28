@@ -4,6 +4,10 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
+import TemplateIcon from '@mui/icons-material/Description';
+import ForumIcon from '@mui/icons-material/Forum';
+import CollaborationIcon from '@mui/icons-material/Group';
+import CustomizationIcon from '@mui/icons-material/Build';
 
 type Props = {}
  
@@ -45,6 +49,26 @@ const Features = (props: Props) => {
       icon: <PersonIcon fontSize="large" />,
       title: 'User Profile',
       description: 'Showcase your skills with editable templates.'
+    },
+    {
+      icon: <TemplateIcon fontSize="large" />,
+      title: 'Tailored Templates',
+      description: 'Default templates tailored for various university sfaculties.'
+    },
+    {
+      icon: <ForumIcon fontSize="large" />,
+      title: 'Discussion Forums',
+      description: 'Collaborative learning and knowledge sharing.'
+    },
+    {
+      icon: <CollaborationIcon fontSize="large" />,
+      title: 'Collaboration',
+      description: 'Enhance communication with internal and external users.'
+    },
+    {
+      icon: <CustomizationIcon fontSize="large" />,
+      title: 'Custom Templates',
+      description: 'Flexible content creation with customizable templates.'
     },
   ];
  
