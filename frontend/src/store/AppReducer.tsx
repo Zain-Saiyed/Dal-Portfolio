@@ -1,5 +1,4 @@
 import { AppStoreState } from "store/AppStore";
-import { localStorageSet } from "utils/localStorage";
 
 const AppReducer: React.Reducer<AppStoreState, any> = (state, action) => {
   switch (action.type || action.action) {
@@ -22,7 +21,6 @@ const AppReducer: React.Reducer<AppStoreState, any> = (state, action) => {
       };
     case "DARK_MODE": {
       const darkMode = action?.darkMode ?? action?.payload;
-      localStorageSet("darkMode", darkMode);
       return {
         ...state,
         darkMode,

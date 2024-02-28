@@ -15,7 +15,7 @@ import { LinkToPage } from "utils/type";
 import SideBarNavList from "./SideBarNavList";
 import {
   useEventLogout,
-  useEventSwitchDarkMode,
+  useSwitchMode,
   useIsAuthenticated,
   useOnMobile,
 } from "hooks";
@@ -41,7 +41,7 @@ const SideBar: FC<Props> = ({
   const isAuthenticated = useIsAuthenticated();
   const onMobile = useOnMobile();
 
-  const onSwitchDarkMode = useEventSwitchDarkMode();
+  const switchMode = useSwitchMode();
   const onLogout = useEventLogout();
 
   const handleAfterLinkClick = useCallback(
@@ -83,12 +83,7 @@ const SideBar: FC<Props> = ({
         {...restOfProps}
         onClick={handleAfterLinkClick}
       >
-        {isAuthenticated && (
-          <>
-            {/* <UserInfo showAvatar /> */}
-            <Divider />
-          </>
-        )}
+        {isAuthenticated && <Divider />}
 
         <SideBarNavList items={items} showIcons />
 
@@ -111,7 +106,7 @@ const SideBar: FC<Props> = ({
             <FormControlLabel
               label={!state.darkMode ? "Light mode" : "Dark mode"}
               control={
-                <Switch checked={state.darkMode} onChange={onSwitchDarkMode} />
+                <Switch checked={state.darkMode} onChange={switchMode} />
               }
             />
           </Tooltip>
