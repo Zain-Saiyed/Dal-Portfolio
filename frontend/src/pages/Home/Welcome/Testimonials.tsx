@@ -85,7 +85,7 @@ const Testimonials = () => {
   const testimonialChunks = chunkTestimonials(testimonials, chunkSize);
 
   return (
-    <Box sx={{ p: { xs: 2, md: 4 } }}>
+    <Box sx={{ p: { xs: 2, md: 4 }, mt: "25px", mb: "100px" }} id="testimonials">
       <Typography variant="h4" component="h2" sx={{ textAlign: 'center', mb: 4, mt: { xs: 4, md: 6 } }}>
         What Our Alumni Say
       </Typography>

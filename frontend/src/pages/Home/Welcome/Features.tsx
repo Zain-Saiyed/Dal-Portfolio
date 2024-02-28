@@ -73,7 +73,7 @@ const Features = (props: Props) => {
   ];
  
   return (
-    <Box sx={{ flexGrow: 1, padding: isMobile ? 2 : 4 }}>
+    <Box sx={{ flexGrow: 1, my: "30px", padding: isMobile ? 2 : 2 }}>
       <Typography variant="h4" sx={{ textAlign: 'center', marginBottom: 4 }}>
         Features
       </Typography>
