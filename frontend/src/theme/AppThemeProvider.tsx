@@ -1,5 +1,5 @@
-import { CacheProvider, EmotionCache } from "@emotion/react";
 import { FC, useMemo, PropsWithChildren } from "react";
+import { CacheProvider, EmotionCache } from "@emotion/react";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 
 import { useAppStore } from "store";
@@ -7,7 +7,7 @@ import DARK_THEME from "theme/dark";
 import LIGHT_THEME from "theme/light";
 import createEmotionCache from "theme/createEmotionCache";
 
-function getThemeByDarkMode(darkMode: boolean) {
+function getTheme(darkMode: boolean) {
   return darkMode ? createTheme(DARK_THEME) : createTheme(LIGHT_THEME);
 }
 
@@ -24,7 +24,7 @@ const AppThemeProvider: FC<Props> = ({
   const [state] = useAppStore();
 
   const theme = useMemo(
-    () => getThemeByDarkMode(state.darkMode),
+    () => getTheme(state.darkMode),
     [state.darkMode]
   );
 

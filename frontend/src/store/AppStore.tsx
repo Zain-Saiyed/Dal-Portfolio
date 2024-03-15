@@ -8,7 +8,6 @@ import {
 } from "react";
 
 import AppReducer from "store/AppReducer";
-import { localStorageGet } from "utils/localStorage";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 export interface AppStoreState {
@@ -29,12 +28,11 @@ const AppContext = createContext<AppContextReturningType>([
 
 const AppStoreProvider: FC<PropsWithChildren> = ({ children }) => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const previousDarkMode = Boolean(localStorageGet("darkMode"));
   // const tokenExists = Boolean(getToken());
 
   const initialState: AppStoreState = {
     ...INITIAL_APP_STATE,
-    darkMode: previousDarkMode || prefersDarkMode,
+    darkMode: prefersDarkMode,
     // isAuthenticated: tokenExists,
   };
   const value: AppContextReturningType = useReducer(AppReducer, initialState);
