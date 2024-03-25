@@ -24,6 +24,12 @@ const FAQPage = React.lazy(() =>
   }))
 );
 
+const ProfilePage = React.lazy(() =>
+  import(/* webpackChunkName: "Profile" */ "pages/Profile").then((module) => ({
+    default: module.default,
+  }))
+);
+
 const NotFoundPage = React.lazy(() =>
   import(/* webpackChunkName: "NotFoundPage" */ "pages/NotFound").then(
     (module) => ({
@@ -32,4 +38,11 @@ const NotFoundPage = React.lazy(() =>
   )
 );
 
-export { HomePage, ContactUsPage, FAQPage, NotFoundPage, AboutUsPage };
+export {
+  HomePage,
+  ContactUsPage,
+  FAQPage,
+  NotFoundPage,
+  AboutUsPage,
+  ProfilePage,
+};

@@ -6,6 +6,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import QuizIcon from "@mui/icons-material/Quiz";
+import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from "@mui/icons-material/Close";
 import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
@@ -53,6 +54,7 @@ export const ICONS: Record<string, ComponentType> = {
   linkedin: LinkedInIcon,
   youtube: YouTubeIcon,
   twitter: XIcon,
+  edit: EditIcon
 };
 
 const Icon: FC<SvgIconProps> = ({

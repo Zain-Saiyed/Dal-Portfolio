@@ -1,0 +1,1 @@
+export {  fetchUserDetails, updateUserDetails } from './userDetails.js';
