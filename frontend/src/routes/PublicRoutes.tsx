@@ -6,6 +6,7 @@ import {
   AboutUsPage,
   NotFoundPage,
   ContactUsPage,
+  PortfolioPage
 } from "routes/components";
 import { PublicLayout } from "layout";
 
@@ -17,6 +18,7 @@ const PublicRoutes = () => {
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
+        <Route path="/portfolio" element={<PortfolioPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
