@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import DiscussionPrompt from '../../components/discussion_forum/discussionprompt';
-import DiscussionPost from '../../components/discussion_forum/discussionpost';
+import DiscussionPrompt from 'components/DiscussionForum/DiscussionPrompt';
+import DiscussionPost from 'components/DiscussionForum/DiscussionPost';
 import { Container, Grid } from '@mui/material';
 const DiscussionForumPage = () => {
    // Sample dummy data 
