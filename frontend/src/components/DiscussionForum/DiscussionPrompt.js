@@ -3,8 +3,9 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-import StartDiscussion from './startthreadform';
+import StartDiscussion from './StartThreadForm';
 
+//To ask user if they wish to start a disucssion
 const DiscussionPrompt = () => {
   const [isStartDiscussionOpen, setStartDiscussionOpen] = useState(false);
   
