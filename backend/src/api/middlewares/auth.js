@@ -1,6 +1,6 @@
-import { User, Token } from "../../../models/index.js";
-import { errorHelper } from "../../../utils/index.js";
-import { jwtSecretKey } from "../../../config/index.js";
+import { User, Token } from "../../models/index.js";
+import { errorHelper } from "../../utils/index.js";
+import { jwtSecretKey } from "../../config/index.js";
 import pkg from "mongoose";
 const { Types } = pkg;
 import jwt from "jsonwebtoken";
