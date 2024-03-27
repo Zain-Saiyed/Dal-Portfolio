@@ -14,7 +14,7 @@ const DiscussionPost = ({ id, email, date, title, description, replyCount,replie
   
   const handleTitleClick = () => {
     // If title is clicked then navigate to threads page of that discussion post
-    navigate('/dalportfoliosDiscussionThread', { state: { id, email,title, description,date,replies } });
+    navigate('/dalportfolios-discussion-thread', { state: { id, email,title, description,date,replies } });
     console.log('Title clicked:', title);
   }; 
   
@@ -42,7 +42,7 @@ const DiscussionPost = ({ id, email, date, title, description, replyCount,replie
   const handleCloseSuccessModal =() =>{
     setShowSuccessModal(false);
     setTimeout(() => {
-      navigate('/dalportfoliosDiscussions');
+      navigate('/dalportfolios-discussions');
   }, 500);
   }
 

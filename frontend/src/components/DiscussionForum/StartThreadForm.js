@@ -51,7 +51,7 @@ const StartDiscussion = ({ onClose }) => {
   const handleCloseSuccessModal =() =>{
     setShowSuccessModal(false);
     onClose();
-    navigate('/dalportfoliosDiscussions');
+    navigate('/dalportfolios-discussions');
   }
   return (
     <Grid container justifyContent="center">

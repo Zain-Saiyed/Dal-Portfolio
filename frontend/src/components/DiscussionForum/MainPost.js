@@ -35,7 +35,7 @@ const MainPost = ({email,date,title,description}) => {
 const handleCloseSuccessModal =() =>{
   setShowSuccessModal(false);
   setTimeout(() => {
-    navigate('/dalportfoliosDiscussions');
+    navigate('/dalportfolios-discussions');
 }, 1000);
 }
     
