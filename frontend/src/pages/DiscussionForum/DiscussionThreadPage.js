@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import ReplyDisplay from '../components/discussion_forum/replydisplay';
-import MainPost from '../components/discussion_forum/mainpost';
+import ReplyDisplay from 'components/DiscussionForum/ReplyDisplay';
+import MainPost from 'components/DiscussionForum/MainPost';
 
 const DiscussionThread = () => {
     const location = useLocation();
