@@ -1,4 +1,5 @@
-import React from "react";
+import { useEffect, useState  } from "react";
+import { useParams } from 'react-router-dom';
 import { Box, Typography, Link, Divider, Paper, LinearProgress, Button, IconButton, Chip } from "@mui/material";
 import { useOnMobile, useOnTablets } from "hooks";
 import EmailIcon from "@mui/icons-material/Email";
@@ -12,6 +13,10 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import SchoolIcon from '@mui/icons-material/School';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import PendingIcon from '@mui/icons-material/Pending';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+
+import axios from 'axios';
 
 import Footer from "../Home/Footer";
 
@@ -30,11 +35,12 @@ const getProgressBarColor = (rating:any) => {
 };
 
 const portfolio = {
+  
   "_id": {
     "$oid": "630f3d8e4f9d75e91a345600"
   },
   "user_data" : {
-    "username": "zain-saiyed",
+    "username": "zsaiyed",
     "email": "zainuddin.s@dal.ca",
     "profile": {
       "first_name": "Zainuddin",
@@ -42,134 +48,150 @@ const portfolio = {
     }
   },
   "portfolioType": "dalhousie_template",
-  "summary": ["I am currently on my Computer Science Ph.D fellowship as a first year student at Visualization Design Lab, supervised by Prof. Alexander Lex in Kahlert School of Computing, University of Utah. I graduated from Bangladesh University of Engineering and Technology in 2022 with a BSc in Computer Science and Engineering. After my graduation, I worked at IQVIA, a human data science company, as a part of the data science team. Parallel to this, I have a keen interest in Human-Computer Interaction (HCI) research that focuses on accessibility techniques, process-based data analysis and qualitative research techniques.", 
-   "I conducted my undergraduate thesis in the last year on \"eDakterBari - A Human-Centered Solution Enabling Online Medical Consultation for Resource-Constrained Communities in Bangladesh.\" As part of my undergrad thesis, I worked with Dr. A. B. M. Alim Al Islam, Professor, CSE, BUET, in the field of HCI. In addition, I worked on two Exploratory Data Analysis-based research projects with Dr. Sriram Chellappan, Professor, Department of Computer Science and Engineering, University of South Florida. I aspire to study the social, psychological, and environmental issues that affect the local communities. To view my publications, please visit my Google Scholar profile.", 
-   "Aside from my academic pursuits, dancing has always been a great passion of mine. I really enjoy exploring new places and getting acquainted with diverse cultures. As I have now moved into Salt lake city in Utah and Utah is quite famous for hiking, I tried to spend this summer weekends with minor hiking activities."],
+  "summary": ["As a highly skilled and accomplished Machine Learning Engineer, I have a diverse background in software development, data science, and cloud computing. Throughout my career, I have demonstrated exceptional technical expertise across a wide range of domains, including Agile software development, DevOps, cloud infrastructure (AWS, GCP, Azure), programming (Java, C++, Python), web development (React, Flask, Streamlit), databases (MongoDB, SQL Server, MySQL), and machine learning (TensorFlow, Keras, Scikit-Learn).", 
+   "I have a deep understanding of software engineering best practices and I am adept at implementing robust, scalable, and maintainable systems. My professional experience includes roles as a Machine Learning Engineer at Poly9, VP Techlabs Pvt Ltd, and a Graduate Engineer Trainee at Vodafone Intelligent Solutions (VOIS). In these positions, I have demonstrated my ability to develop and deploy cutting-edge AI and machine learning solutions, optimize data processing and storage, and collaborate cross-functionally to deliver impactful results.", 
+   "I am proud to have been recognized for my achievements, winning awards at prestigious hackathons and challenges, which showcases my innovative problem-solving skills and entrepreneurial mindset. My diverse skill set, combined with my passion for technology and drive to deliver exceptional results, make me a valuable asset to any organization seeking to leverage the power of data and machine learning to drive business growth and innovation."],
   "twitter_link":"",
-  "github_link":"",
-  "linkedin_link":"",
-  "gscholar_link":"",
+  "github_link":"https://github.com/Zain-Saiyed",
+  "linkedin_link":"https://ca.linkedin.com/in/zain-saiyed",
+  "gscholar_link":"https://scholar.google.com/citations?hl=en&user=3OrhaEMAAAAJ",
   "projects": [
     {
-      "title": "Personal Portfolio Website",
-      "description": "A personal portfolio website showcasing my projects, skills, and achievements.",
+      "title": "AI-Chess Game",
+      "description": "This project contains the 2-player chess and AI chess game implemented in Python programming language. In addition to this it also contains the executable files (in folders 2-Player Chess EXE and AI Chess EXE) for the same so that any user can play the game without having to download Python and rest of the dependencies required to run the python scripts.",
       "completionDate": {
-        "$date": "2022-05-05T00:00:00.000Z"
+        "$date": "2022-02-07T00:00:00.000Z"
+      },
+      "status": "n",
+      "technologies": ['Tensorflow','Keras','Firebase','Python','Android application development','Git'],
+      "github_link": "https://github.com/Zain-Saiyed/Chess-Game",
+      "demo_link": "https://github.com/Zain-Saiyed/Chess-Game?tab=readme-ov-file#download-and-play",
+      "images": [
+        "https://raw.githubusercontent.com/Zain-Saiyed/Chess-Game/master/welcome.JPG",
+        "https://raw.githubusercontent.com/Zain-Saiyed/Chess-Game/master/gameplay1.JPG",
+        "https://raw.githubusercontent.com/Zain-Saiyed/Chess-Game/master/gameplay6.JPG",
+        "https://raw.githubusercontent.com/Zain-Saiyed/Chess-Game/master/gameplay2.JPG",
+        "https://raw.githubusercontent.com/Zain-Saiyed/Chess-Game/master/gameplay3.JPG",
+        "https://raw.githubusercontent.com/Zain-Saiyed/Chess-Game/master/gameplay5.JPG",
+      ],
+      "project_id": {
+        "$oid": "630f3d8e4f9d75e91a345600"
+      }
+    },{
+      "title": "Converse Now",
+      "description": "Converse-Now, is an android application which predicts a captured image containing a Hand Sign to its coresponding Alphabet, and also outputs the coresponding probability of prediction. This app will provide a interface which will bridge the gap between the differently abled and the common mass. Other features are that: users can also Submit captured Images to us, with which we can further optimize and improve the neural network model for better accuracy and predictions.",
+      "completionDate": {
+        "$date": "2019-11-15T00:00:00.000Z"
       },
       "status": "completed",
-      "technologies": [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "React"
-      ],
-      "githubLink": "https://github.com/example/portfolio",
+      "technologies": ['Tensorflow','Keras','Firebase','Python','Android application development','Git'],
+      "github_link": 'https://github.com/Zain-Saiyed/Converse_Now',
       "images": [
-        "portfolio1.jpg",
-        "portfolio2.jpg"
+        "https://raw.githubusercontent.com/Zain-Saiyed/Converse_Now/master/Images/cover_app.jpg"
       ],
       "project_id": {
-        "$oid": "630f3d8e4f9d75e91a345600"
+        "$oid": "630f3d8e4f9d75e91a345601"
       }
     },{
-      "title": "Personal Portfolio Website",
-      "description": "A personal portfolio website showcasing my projects, skills, and achievements.",
+      "title": "Waste Classifier Application",
+      "description": "Recycle-ifier, is an android application which classifies whether the captured image contains Organic or Recycleable items and also outputs the coresponding probability of prediction. In addition to this users can also Submit captured Images to us, with which we can further optimize and improve the neural network model for better accuracy and predictions. The name Recycle-ifier is derived from two words which are- Recyclable and classifier. As the main function of the app is to classify if image has Recycleable or Organic items.",
       "completionDate": {
-        "$date": "2022-05-05T00:00:00.000Z"
+        "$date": "2020-03-15T00:00:00.000Z"
       },
-      "status": "in-progress",
-      "technologies": [
-        "HTML",
-      ],
-      "githubLink": "https://github.com/example/portfolio",
+      "status": "completed",
+      "technologies": ['Tensorflow','Keras','Firebase','Python','Android application development','Git'],
+      "github_link": 'https://github.com/Zain-Saiyed/Waste-Classifier-Application',
+      "demo_link":'https://github.com/Zain-Saiyed/Waste-Classifier-Application/blob/master/Images/recycleifier_demo.gif',
       "images": [
         "portfolio1.jpg",
         "portfolio2.jpg"
       ],
       "project_id": {
-        "$oid": "630f3d8e4f9d75e91a345600"
-      }
-    },{
-      "title": "Personal Portfolio Website",
-      "description": "A personal portfolio website showcasing my projects, skills, and achievements.",
-      "completionDate": {
-        "$date": "2022-05-05T00:00:00.000Z"
-      },
-      "status": "in-progress",
-      "technologies": ["lol"
-      ],
-      "githubLink": "https://github.com/example/portfolio",
-      "images": [
-        "portfolio1.jpg",
-        "portfolio2.jpg"
-      ],
-      "project_id": {
-        "$oid": "630f3d8e4f9d75e91a345600"
+        "$oid": "630f3d8e4f9d75e91a345602"
       }
     }
   ],
   "education": [
     {
-      "degree": "PH.D",
-      "field_of_study": "Theory of Computation",
-      "university": "University of Windsor",
-      "start_date": {
-        "$date": "2023-09-01T00:00:00.000Z"
-      },
-      "end_date": {
-        "$date": "2025-05-01T00:00:00.000Z"
-      },
-      "grade_obtained": "4",
-      "max_grade": "4.5",
-      "description": "Advisr: Prof. Momo. Focused on Computing and machine learning."
-    },
-    {
-      "degree": "Bachelor of Computer Science",
+      "degree": "Masters in Applied Computer Science",
       "field_of_study": "Computer Science",
       "university": "Dalhousie University",
       "start_date": {
-        "$date": "2018-09-01T00:00:00.000Z"
+        "$date": "2023-05-01T00:00:00.000Z"
       },
       "end_date": {
-        "$date": "2022-05-01T00:00:00.000Z"
+        "$date": "2024-09-01T00:00:00.000Z"
       },
-      "grade_obtained": "3.7",
-      "max_grade": "4",
-      "description": "Focused on software development and machine learning."
+      "grade_obtained": "4",
+      "max_grade": "4.3",
+      "description": "Learnt S.O.L.I.D. design principles, Design Patterns, MVC Archietcture. AWS, GCP and Azure Cloud Services. Serverless technologies."
     },
-    
+    {
+      "degree": "Bachelor of Computer Science Engineering",
+      "field_of_study": "Computer Science",
+      "university": "Symbiosis Institute of Technology",
+      "start_date": {
+        "$date": "2017-06-01T00:00:00.000Z"
+      },
+      "end_date": {
+        "$date": "2021-06-01T00:00:00.000Z"
+      },
+      "grade_obtained": "8.0",
+      "max_grade": "10",
+      "description": "Focused on software development and machine learning. Learning Analytics, Statistics, and Data modelling."
+    },
   ],
   "experience": [
     {
-      "company_name": "Tech Innovations Inc.",
-      "company_link": "https://techinnovations.com",
-      "role": "Software Developer Intern",
-      "location": "Halifax, Canada",
+      "company_name": "Vodafone Intelligent Solutions",
+      "company_link": "https://www.vodafone.com/careers/professional-career-areas/shared-services",
+      "role": "Graduate Engineer Trainee",
+      "location": "Pune, India",
       "start_date": {
         "$date": "2021-05-01T00:00:00.000Z"
       },
       "end_date": {
-        "$date": "2021-08-31T00:00:00.000Z"
+        "$date": "2022-05-31T00:00:00.000Z"
       },
-      "description": "Developed and maintained several internal tools used across the company."
+      "description": "Worked on data warehouses and SQL databases optimizing pipelines for overall performance."
     }
   ],
   "skills": [
+    {
+      "name": "AWS",
+      "rating": 9
+    },
+    {
+      "name": "GCP",
+      "rating": 9
+    },
     {
       "name": "Java",
       "rating": 8
     },
     {
+      "name": "Machine Learning",
+      "rating": 8
+    },
+    {
+      "name": "Data Science",
+      "rating": 8
+    },
+    {
       "name": "Python",
-      "rating": 7
+      "rating": 8
+    },
+    {
+      "name": "SQL",
+      "rating": 9
     },
     {
       "name": "React",
       "rating": 6
     },
     {
-      "name": "Matlab",
-      "rating": 2
+      "name": "PowerBI",
+      "rating": 6
     },
     {
       "name": "JavaSript",
@@ -180,92 +202,77 @@ const portfolio = {
       "rating": 5
     },
     {
-      "name": "C#",
-      "rating": 3
+      "name": "JIRA",
+      "rating": 6
+    },
+    {
+      "name": "TypeScript",
+      "rating": 2
     }
   ],
   "achievements": [
     {
       "completionDate": {
-        "$date": "2020-11-15T00:00:00.000Z"
+        "$date": "2024-03-01T00:00:00.000Z"
       },
-      "detail": "Dean's List 2020"
+      "detail": "Won Second place at Cognizant BrAInstrom challenge."
     },
     {
       "completionDate": {
-        "$date": "2021-05-25T00:00:00.000Z"
+        "$date": "2024-01-01T00:00:00.000Z"
       },
-      "detail": "Winner of Local Hack Day Winner of Local Hack Day Winner of Local Hack Day: Build 2021"
+      "detail": "Qualified for a health & wellness Generative AI hackathon held in Dalhousie University."
     },
     {
       "completionDate": {
-        "$date": "2021-05-25T00:00:00.000Z"
+        "$date": "2019-09-01T00:00:00.000Z"
       },
-      "detail": "Winner of Local Hack Day Winner of Local Hack Day Winner of Local Hack Day: Build 2021"
-    },
+      "detail": "Won First place in HERE Technologies Datathon by building an Android application."
+    }
+  ],
+  "research": [
     {
-      "completionDate": {
-        "$date": "2021-05-25T00:00:00.000Z"
+      "title": "Explainable Misinformation Detection Across Multiple Social Media Platforms",
+      "journal": "IEEE Access",
+      "publication_date": {
+        "$date": "2023-03-08T00:00:00.000Z"
       },
-      "detail": "Winner of Local Hack Day Winner of Local Hack Day Winner of Local Hack Day: Build 2021"
+      "status":"completed",
+      "authors": ["GARGI JOSHI" , "ANANYA SRIVASTAVA" , "BHARGAV YAGNIK" , "MOHAMMED HASAN" ,"ZAINUDDIN SAIYED" , "LUBNA A. GABRALLA" , "AJITH ABRAHAM (Senior Member, IEEE)", "RAHEE WALAMBE", "KETAN KOTECHA"],
+      "description": "The abstract of the paper highlights the significant impact of Web Information Processing (W.I.P.) on modern society, emphasizing the prevalence of misinformation on social media platforms. The paper discusses the use of machine learning-based models to detect misinformation, addressing challenges due to the variety of social media platforms. It proposes integrating domain adaptation and explainable A.I. techniques to enhance generalized detection and provide transparent outcomes. By applying Domain Adversarial Neural Network (DANN) for detection and Local Interpretable Model-Agnostic Explanations (LIME) for explanation, the study focuses on combating COVID-19 misinformation as a case study. Results indicate improved classification performance with DANN, enhancing accuracy and A.U.C. metrics while ensuring trustworthy information processing to combat misinformation effectively.",
+      "methods": ["Deep Learning", "Natural Language Processing", "Domain Adaptation", "Web Scraping", "Misinformation Detection", "Explainable AI", "Covid-19"],
+      "publication_page": "https://ieeexplore.ieee.org/document/10064251",
+      "download_link": "https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=10064251"
     }
   ],
   "certifications": [
     {
-      "title": "Certified Java Developer",
-      "issuer": "Oracle",
+      "title": "Deep learning specialization",
+      "issuer": "DeepLearning.ai - Coursera",
       "date": {
-        "$date": "2020-08-20T00:00:00.000Z"
+        "$date": "2020-11-20T00:00:00.000Z"
       },
-      "verification_link": "https://certification.oracle.com/verify",
-      "expiry_date": {
-        "$date": "2023-03-12T00:00:00.000Z"
-      }
+      "expiry_date" : null, 
+      "verification_link": "https://drive.google.com/drive/folders/1YLIltgjAGm8jpMKfcqsqhS0flwjkFJt7"
     },
     {
-      "title": "Certified Java Developer",
-      "issuer": "Oracle",
+      "title": "Architecting with Google Compute Engine specialization",
+      "issuer": "Google Cloud - Coursera",
       "date": {
         "$date": "2020-08-20T00:00:00.000Z"
       },
-      "verification_link": "https://certification.oracle.com/verify",
-      "expiry_date": {
-        "$date": "2023-03-12T00:00:00.000Z"
-      }
+      "expiry_date" : null,
+      "verification_link": "https://drive.google.com/drive/folders/1EJRlRCcOKUGHRTg7rrjXr9uDI9pNl_yT"
     },
     {
-      "title": "Certified Java Developer",
-      "issuer": "Oracle",
+      "title": "Machine Learning",
+      "issuer": "Stanford - Coursera",
       "date": {
-        "$date": "2020-08-20T00:00:00.000Z"
+        "$date": "2019-02-20T00:00:00.000Z"
       },
-      "verification_link": "https://certification.oracle.com/verify",
-      "expiry_date": {
-        "$date": "2023-03-12T00:00:00.000Z"
-      }
+      "expiry_date" : null,
+      "verification_link": "https://drive.google.com/file/d/1dbPO7K3xpn7m6nhjfcOK-Lix6bZ8p0OI/view",
     },
-    {
-      "title": "Certified Java Developer",
-      "issuer": "Oracle",
-      "date": {
-        "$date": "2020-08-20T00:00:00.000Z"
-      },
-      "verification_link": "https://certification.oracle.com/verify",
-      "expiry_date": {
-        "$date": "2023-03-12T00:00:00.000Z"
-      }
-    },
-    {
-      "title": "Certified Java Developer",
-      "issuer": "Oracle",
-      "date": {
-        "$date": "2020-08-20T00:00:00.000Z"
-      },
-      "verification_link": "https://certification.oracle.com/verify",
-      "expiry_date": {
-        "$date": "2023-03-12T00:00:00.000Z"
-      }
-    }
   ],
   "createdAt": {
     "$date": "2022-06-01T00:00:00.000Z"
@@ -274,8 +281,8 @@ const portfolio = {
     "$date": "2022-06-15T00:00:00.000Z"
   },
   "resume_link": "https://www.soundczech.cz/temp/lorem-ipsum.pdf",
-  "portfolioName": "Data Engineer",
-  "default": false,
+  "portfolioName": "Software Developer",
+  "default": true,
   "user_id": {
     "$oid": "60af884b5b50cabd3d270000"
   }
@@ -284,6 +291,23 @@ const portfolio = {
 const Portfolio = (props: Props) => {
   const onMobile = useOnMobile();
   const onTablets = useOnTablets();
+  
+  const { user_name } = useParams();
+  const [portfolio_, set_portfolio_] = useState([]);
+
+  const get_user_portfolio_details = async () => {
+    try {
+    const response = await axios.get(`https://localhost:3001/api/portfolio/${user_name}`)
+      console.log(response.data);
+  
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    get_user_portfolio_details();
+  }, []);
   
   return (
     <Box sx={{ p: onMobile ? "100px 0" : "160px 0px 0px 0px" }}>
@@ -297,7 +321,7 @@ const Portfolio = (props: Props) => {
 
             <Box sx={{ pt: 0, pb: "60px", ...((onTablets || onMobile) && { pb: "65px" }), }} >
               
-              <Typography variant="h2" sx={{ mb: "24px", fontSize: "6rem", lineHeight: "5rem", fontWeight: 600, }} >
+              <Typography sx={{ mb: "24px", fontSize: onMobile ? "4rem" : "6rem", lineHeight: "5rem", fontWeight: 600, }} >
                 {portfolio.user_data.profile.first_name.toUpperCase() + " " + portfolio.user_data.profile.last_name.toUpperCase()}
               </Typography>
 
@@ -336,14 +360,22 @@ const Portfolio = (props: Props) => {
               {portfolio.education.map((item, index) => (
                 <Paper key={index} elevation={3} style={{ padding: '20px', marginBottom: '2rem' }}>  {/* , backgroundColor: index === 0 ? '#ffffe0' : '#fff' */}
                   
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography style={{ fontSize: "1.75rem", fontWeight:"bold" }}>{item.university.toLocaleUpperCase()}</Typography>
+                  <Box style={{ display: 'flex', flexDirection: onMobile ? 'column' : 'row', justifyContent: 'space-between' }}>
+                    <Typography style={{ fontSize: "1.75rem", fontWeight:"bold", marginBottom: "0.5rem" }}>{item.university.toLocaleUpperCase()}</Typography>
+                    {!onMobile && (
+                      <Typography>
+                        {new Date(item.start_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {new Date(item.end_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                      </Typography>
+                    )}
+                  </Box>
+                  <Typography style={{ fontWeight:"bold" }}> {item.degree} </Typography>
+                  {onMobile && (
                     <Typography>
                       {new Date(item.start_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {new Date(item.end_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                     </Typography>
-                  </div>
-                  <Typography> {item.degree} </Typography>
-                  <Typography style={{ marginTop:"1.5rem" }}>{item.field_of_study}</Typography>
+                  )}
+                  
+                  <Typography>{item.field_of_study}</Typography>
                   <Typography> CGPA : {item.grade_obtained}/{item.max_grade}</Typography>
                 
                   <Typography style={{ marginTop: '1.5rem', fontWeight: 'bold' }}>Summary: </Typography>
@@ -357,18 +389,26 @@ const Portfolio = (props: Props) => {
               
               {portfolio.experience.map((item, index) => (
                 <Paper key={index} elevation={3} style={{ padding: '20px', marginBottom: '2rem' }}> {/* , backgroundColor: index === 0 ? '#ffffe0' : '#fff' */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', flexDirection: onMobile ? 'column' : 'row', justifyContent: 'space-between' }}>
                     <Typography style={{ fontSize: "1.75rem", fontWeight: "bold" }}>{item.company_name}</Typography>
+                    {!onMobile && (
+                      <Typography>
+                        {new Date(item.start_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {new Date(item.end_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                      </Typography>
+                    )}
+                  </div>
+                  <Typography style={{fontWeight: "bold"}}>{item.role}</Typography>
+                  {onMobile && (
                     <Typography>
                       {new Date(item.start_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {new Date(item.end_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                     </Typography>
-                  </div>
-                  <Typography variant="body1">{item.role}</Typography>
-                  <Typography variant="body1">{item.location}</Typography>
+                  )}
+                  <Typography>{item.location}</Typography>
+
                   <Typography style={{ marginTop: '1.5rem', fontWeight: 'bold' }}>Summary: </Typography>
                   <Typography style={{ fontStyle: "italic" }}>{item.description}</Typography>
                   <Typography style={{ marginTop: '1.5rem' }}>
-                    <Link href={item.company_link} target="_blank" rel="noopener noreferrer">{item.company_name}</Link>
+                    <LocationCityIcon style={{verticalAlign: "middle"}} /> <Link href={item.company_link} target="_blank" rel="noopener noreferrer">{item.company_name}</Link>
                   </Typography>
                 </Paper>
               ))}
@@ -380,7 +420,7 @@ const Portfolio = (props: Props) => {
               <div style={{ columnCount: 2, columnGap: '20px', maxWidth: '900px', margin: '0 auto', marginBottom: '2rem' }}>
                 {portfolio.projects.map((project, index) => (
                   <Paper key={index} elevation={3} style={{ marginBottom: '20px', breakInside: 'avoid' }}> {/* , backgroundColor: index % 2 === 0 ? '#F0F2EF' : '#fff' */}
-                    <div style={{ display: 'flex', alignItems: 'center', padding: '20px' }}>
+                    <div style={{  alignItems: 'center', padding: '20px' }}>
                       
                       { project.status === "completed" ? (
                         <DoneAllIcon sx={{ marginRight: '10px', color: 'green' }} />
@@ -388,8 +428,8 @@ const Portfolio = (props: Props) => {
                         <PendingIcon sx={{ marginRight: '10px', color: 'orange' }} />
                       )}
                       <div>
-                      <a key={index} href={"https://localhost:3000/projects/1"}>
-                        <Typography style={{ fontSize: "1.5rem", marginBottom: "1rem", color: '#0d47a1' }}>{project.title}</Typography>
+                      <a key={index} href={`/portfolio/${user_name}/project/${project.project_id.$oid}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Typography style={{ fontSize: "1.5rem", marginBottom: "1rem", color: '#0d47a1' }}>{project.title} <OpenInNewIcon style={{ verticalAlign: "middle", marginRight: "5px", color:'black'}} /></Typography>
                       </a>
                         <Typography>{project.description}</Typography>
                         {project.technologies && project.technologies.length > 0 && (
@@ -399,8 +439,43 @@ const Portfolio = (props: Props) => {
                             ))}
                           </div>
                         )}
-                        <Button variant="contained" href={project.githubLink} style={{marginTop:'1rem'}} startIcon={<GitHubIcon style={{ verticalAlign: "middle", marginRight: "5px", color:'black'}} />} download>
+                        <Button variant="contained" href={project.github_link} style={{marginTop:'1rem'}} startIcon={<GitHubIcon style={{ verticalAlign: "middle", marginRight: "5px", color:'black'}} />} download>
                           View on GitHub
+                        </Button>
+                      </div>
+                    </div>
+                  </Paper>
+                ))}
+              </div>
+
+              <Divider/>
+
+              <Typography sx={{ mt:"1rem", mb: "3rem", fontSize: "3rem" }}> RESEARCH EXPERIENCE </Typography>
+
+              <div style={{ columnGap: '20px', maxWidth: '900px', margin: '0 auto', marginBottom: '2rem' }}>
+                {portfolio.research.map((publication, index) => (
+                  <Paper key={index} elevation={3} style={{ marginBottom: '20px', breakInside: 'avoid' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', padding: '20px' }}>
+                      {publication.status === "completed" ? (
+                        <DoneAllIcon sx={{ marginRight: '10px', color: 'green' }} />
+                      ) : (
+                        <PendingIcon sx={{ marginRight: '10px', color: 'orange' }} />
+                      )}
+                      <div>
+                        <Typography style={{ fontSize: "1.5rem", marginBottom: "1rem", color: '#0d47a1' }}>{publication.title} <OpenInNewIcon style={{ verticalAlign: "middle", marginRight: "5px", color: 'black' }} /></Typography>
+                        <Typography>{publication.description}</Typography>
+                        {publication.methods && publication.methods.length > 0 && (
+                          <div style={{ marginTop: '1rem', marginBottom: '0.5rem' }}>
+                            {publication.methods.map((method, index) => (
+                              <Chip key={index} label={method} style={{ marginRight: '0.5rem' }} />
+                            ))}
+                          </div>
+                        )}
+                        <Button variant="contained" href={publication.publication_page} style={{ marginTop: '1rem', marginRight: '1rem' }} startIcon={<OpenInNewIcon style={{ verticalAlign: "middle", marginRight: "5px", color: 'black' }} />} target="_blank">
+                          View Publication
+                        </Button>
+                        <Button variant="contained" href={publication.download_link} style={{ marginTop: '1rem' }} startIcon={<GitHubIcon style={{ verticalAlign: "middle", marginRight: "5px", color: 'black' }} />} target="_blank">
+                          Download PDF
                         </Button>
                       </div>
                     </div>
@@ -419,9 +494,9 @@ const Portfolio = (props: Props) => {
               <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', maxWidth: '75%', margin: '0 auto', marginBottom: '2rem' }}>
                 {portfolio.skills.map((skill, index) => (
                   <div key={index} style={{ width: '30%', marginBottom: '1.2rem' }}>
-                    <Paper elevation={3} style={{ padding: '1.2rem', height: '100%', borderRadius: '3rem' }}>
+                    <Paper elevation={3} style={{ padding: '1.2rem', height: '100%', borderRadius: '1rem' }}>
                     {/* <Paper elevation={3} style={{ padding: '1.2rem', height: '100%' }}> */}
-                      <Typography style={{ fontSize: '1.5rem' }}>{skill.name}</Typography>
+                      <Typography style={{ fontSize: '1.15rem' }}>{skill.name}</Typography>
                       <LinearProgress variant="determinate" value={skill.rating * 10}
                         sx={{ height: '10px', '& .MuiLinearProgress-bar': { backgroundColor: getProgressBarColor(skill.rating), } }}
                       />
@@ -468,7 +543,9 @@ const Portfolio = (props: Props) => {
                         <Typography style={{ fontSize: "1.5rem", marginBottom: "1rem", color: '#0d47a1' }}>{certification.title}</Typography>
                         <Typography >Issuer: {certification.issuer}</Typography>
                         <Typography >Issued Date: {new Date(certification.date.$date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</Typography>
-                        <Typography >Expiry Date: {new Date(certification.expiry_date.$date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</Typography>
+                        {(certification.expiry_date || certification.expiry_date!=null) && (
+                          <Typography>Expiry Date: {new Date(certification.expiry_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</Typography>
+                        )}
                         <div style={{ display: 'flex', alignItems: 'center', marginTop: '1rem' }}>
                           <Typography>
                             <Link href={certification.verification_link} target="_blank" rel="noopener noreferrer" style={{ color: 'green' }}>Verify Certification</Link>

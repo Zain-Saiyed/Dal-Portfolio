@@ -46,7 +46,7 @@ const SIDE_BAR_ITEMS: Array<LinkToPage> = [
   },
   {
     title: "Portfolio",
-    path: "/portfolio",
+    path: "/portfolio/zsaiyed",
     icon: "info",
   },
 ];
