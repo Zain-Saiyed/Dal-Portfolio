@@ -18,7 +18,7 @@ const PublicRoutes = () => {
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
-        <Route path="/dalportfolios-discussion" element={<DiscussionForumPage  />} />
+        <Route path="/dalportfolios-discussions" element={<DiscussionForumPage  />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
