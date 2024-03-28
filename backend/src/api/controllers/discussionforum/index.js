@@ -1,0 +1,1 @@
+export {default as saveDiscussionPost } from './addpost.js'

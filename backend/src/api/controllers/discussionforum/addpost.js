@@ -1,7 +1,7 @@
-import DiscussionPost from "../../../models/discussionforum/mainpost";
-import { logger, errorHelper, getText } from "../../../utils";
+import DiscussionPost from "../../../models/discussionforum/mainpost.js";
+import {getText} from "../../../utils/index.js";
 
-const saveDiscussionPost = async (req, res) => {
+export default async (req, res) => {
   try {
     const { username, title, description, date } = req.body;
     const discussionPost = new DiscussionPost({
@@ -13,7 +13,6 @@ const saveDiscussionPost = async (req, res) => {
     });
     const savedPost = await discussionPost.save();
     console.log("Discussion post saved successfully:", savedPost);
-    //add logger 
     return res.status(201).json({
         resultMessage: { en: getText("en", "00701"), fr: getText("fr", "00701")},
         resultCode: "00701"
@@ -28,5 +27,3 @@ const saveDiscussionPost = async (req, res) => {
     });
   }
 };
-
-export default saveDiscussionPost;
