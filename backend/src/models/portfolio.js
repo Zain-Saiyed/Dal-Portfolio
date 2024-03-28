@@ -4,15 +4,23 @@ const { Schema, model } = mongoose;
 // Defining new Mongoose Schema for Portfolio collection
 const portfolioSchema = new Schema({
   portfolioType: { type: String, required: true },
+  summary: [{ type: String }],
+  twitter_link: { type: String },
+  github_link: { type: String },
+  linkedin_link: { type: String },
+  gscholar_link: { type: String },
+  resume_link: { type: String },
   projects: [{
     title: { type: String, required: true },
     description: { type: String, required: true },
     completionDate: { type: Date, required: true },
     status: { type: String, enum: ['completed', 'in-progress'], required: true },
     technologies: [{ type: String }],
-    githubLink: { type: String, required: true },
+    github_link: { type: String, required: true },
+    demo_link: { type: String },
     images: [{ type: String }],
-    project_id: { type: Schema.Types.ObjectId, required: true }
+    remarks: [{ type: String }],
+    project_id: { type: String, required: true }
   }],
   education: [{
     degree: { type: String, required: true },
@@ -41,18 +49,34 @@ const portfolioSchema = new Schema({
     completionDate: { type: Date, required: true },
     detail: { type: String, required: true }
   }],
+  research: [{
+    title: { type: String, required: true },
+    journal: { type: String },
+    publication_date: { type: Date },
+    status: { type: String, enum: ['completed', 'in-progress'] },
+    authors: [{ type: String }],
+    description: { type: String, required: true },
+    methods: [{ type: String }],
+    publication_page: { type: String },
+    download_link: { type: String }
+  }],
   certifications: [{
     title: { type: String, required: true },
     issuer: { type: String, required: true },
     date: { type: Date, required: true },
-    verification_link: { type: String },
-    expiry_date: { type: Date, required: true }
+    expiry_date: { type: Date },
+    verification_link: { type: String }
   }],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   portfolioName: { type: String, required: true },
   default: { type: Boolean, default: false },
-  user_id: { type: Schema.Types.ObjectId, required: true }
+  user_id: { type: Schema.Types.ObjectId, required: true },
+  username: { type: String, required: true }
+},
+{
+  timestamps: true,
+  collection: "portfolios",
 });
 
 // Creating the Model for the schema
