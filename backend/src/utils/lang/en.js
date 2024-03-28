@@ -70,5 +70,7 @@ export default {
   "00089": "The user information has gotten successfully.",
   "00092": "Your account was deleted successfully.",
   "00701": "Your post was submitted sucessfully. ",
-  "00702": "Your post could not be submitted sucessfully. "
+  "00702": "Your post could not be submitted sucessfully. ",
+  "00703": "All discussion posts fetched successfully",
+  "00704": "Error fetching discussion posts:"
 };

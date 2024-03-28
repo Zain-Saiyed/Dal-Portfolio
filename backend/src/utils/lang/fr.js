@@ -74,5 +74,7 @@ export default {
   "00089": "Les informations de l'utilisateur ont été obtenues avec succès.",
   "00092": "Votre compte a été supprimé avec succès.",
   "00701": "Votre publication a été soumise avec succès.",
-  "00702": "Votre publication n'a pas pu être soumise avec succès."
+  "00702": "Votre publication n'a pas pu être soumise avec succès.",
+  "00703": "Tous les messages de discussion ont été récupérés avec succès.",
+  "00704": "Erreur lors de la récupération des messages de discussion."
 };
