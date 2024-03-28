@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import user from './user.js';
-import discussionforum from './user.js';
+import discussionforum from './discussionforum.js';
+
 const router = Router();
 
 router.use('/user', user);

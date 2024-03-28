@@ -1,7 +1,8 @@
 import { Router } from "express";
-import saveDiscussionPost from "../controllers/discussionforum/addpost";
+import {saveDiscussionPost} from '../controllers/discussionforum/index.js'
 
 const router = Router();
-router.post('/add-post', saveDiscussionPost);
+
+router.post("/add-post", saveDiscussionPost);
 
 export default router;
