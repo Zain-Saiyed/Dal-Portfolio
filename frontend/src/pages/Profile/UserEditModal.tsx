@@ -102,13 +102,16 @@ const UserEditModal: FC<Props> = ({
         last_name: values.last_name,
         gender: values.gender,
         dob: values?.dob?.value,
-      }
-    }
-    POST(`/api/profile/user/${instance?.id}/update`, payload).then((res) => {
-      console.log(res);
-    });
-    onSave();
-    handleClose();
+      },
+    };
+    POST(`/api/profile/user/${instance?._id}/update`, payload)
+      .then((res) => {
+        console.log(res);
+      })
+      .finally(() => {
+        onSave();
+        handleClose();
+      });
   };
 
   return (
@@ -180,7 +183,7 @@ const UserEditModal: FC<Props> = ({
                     <InputField
                       {...input}
                       errorText={error}
-                      isError={!!error}
+                      isError={!!error}                      
                       {...formik?.getFieldProps(input?.name)}
                     />
                   </Grid>

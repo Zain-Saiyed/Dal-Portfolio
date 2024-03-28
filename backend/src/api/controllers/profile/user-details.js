@@ -1,5 +1,6 @@
 import { User } from "../../../models/index.js";
 import { errorHelper, getText } from "../../../utils/index.js";
+import { validateUpdateUser } from "../../validators/user.validator.js";
 
 const fetchUserDetails = async (req, res) => {
   const user_id = req.params.id;
@@ -25,13 +26,21 @@ const fetchUserDetails = async (req, res) => {
 
 const updateUserDetails = async (req, res) => {
   const user_id = req.params.id;
+  const { error, value, warning } = validateUpdateUser(req.body);
+
+  if (error) {
+		return res
+			.status(400)
+			.json(errorHelper("00025", req, error.details[0].message));
+	}
+
   if (!user_id) {
     return res
       .status(500)
       .json(errorHelper("00007", req, "User ID is required!"));
   }
 
-  const user = await User.findByIdAndUpdate(user_id, req.body, {
+  const user = await User.findByIdAndUpdate(user_id, value, {
     new: true,
   }).catch((err) => {
     return res.status(500).json(errorHelper("00014", req, err.message));

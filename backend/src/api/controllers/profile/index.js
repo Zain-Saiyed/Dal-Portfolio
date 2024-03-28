@@ -1,1 +1,1 @@
-export {  fetchUserDetails, updateUserDetails } from './userDetails.js';
+export {  fetchUserDetails, updateUserDetails } from './user-details.js';

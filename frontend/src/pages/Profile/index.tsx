@@ -75,7 +75,7 @@ const Profile = (props: Props) => {
             <Tab key={index} label={tab.label} value={tab.value} />
           ))}
         </Tabs>
-        <Box sx={{ marginTop: onMobile ? 1 : 0 }}>
+        <Box sx={{ marginTop: onMobile ? 1 : 0, width: "100%" }}>
           {activeTab === 0 && <Portfolio />}
           {activeTab === 1 && <Settings />}
         </Box>

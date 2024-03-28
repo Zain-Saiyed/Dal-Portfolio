@@ -10,6 +10,7 @@ export const LIGHT_THEME: ThemeOptions = {
     MuiButton: {
       defaultProps: {
         color: "warning",
+        size: "small",
         variant: "contained",
         sx: {
           color: "#000",

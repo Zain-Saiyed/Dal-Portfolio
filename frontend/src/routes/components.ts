@@ -38,6 +38,14 @@ const NotFoundPage = React.lazy(() =>
   )
 );
 
+const CreatePortfolioPage = React.lazy(() =>
+  import(
+    /* webpackChunkName: "CreatePortfolioPage" */ "pages/Profile/Portfolio/Form"
+  ).then((module) => ({
+    default: module.default,
+  }))
+);
+
 export {
   HomePage,
   ContactUsPage,
@@ -45,4 +53,5 @@ export {
   NotFoundPage,
   AboutUsPage,
   ProfilePage,
+  CreatePortfolioPage
 };

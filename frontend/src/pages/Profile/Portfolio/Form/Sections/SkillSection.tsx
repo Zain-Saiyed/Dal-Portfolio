@@ -1,0 +1,145 @@
+import { Box, Grid } from "@mui/material";
+import { Button, InputField, SelectField } from "components";
+import { ErrorMessage, FieldArray, Form, Formik } from "formik";
+import React, { Fragment, useEffect } from "react";
+import { isEmpty } from "utils/helpers";
+
+type Props = {
+  sectionId: string;
+  sectionValues: any;
+  saveValues: Function;
+};
+
+const formConfig: any = {
+  name: "",
+  rating: "",
+};
+
+const sectionId = "skills";
+
+const SkillSection = ({ sectionValues, saveValues }: Props) => {
+  const handleValidation = (values: any) => {};
+
+  const [formValues, setFormValues] = React.useState<any>({
+    [sectionId]: [formConfig],
+  });
+
+  useEffect(() => {
+    if (!isEmpty(sectionValues)) {
+      setFormValues({ [sectionId]: sectionValues });
+    } else {
+      setFormValues({ [sectionId]: [formConfig] });
+    }
+  }, [sectionValues]);
+
+  return (
+    <Formik
+      initialValues={formValues}
+      enableReinitialize
+      onSubmit={(values) => {
+        console.log(values);
+      }}
+    >
+      {({ values, setValues, errors, getFieldProps, handleSubmit }) => (
+        <Box
+          sx={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box sx={{ height: "90%", overflowY: "scroll", paddingY: 1 }}>
+            <Form>
+              <FieldArray name={sectionId}>
+                {({ insert, remove, push, replace }) => (
+                  <Fragment>
+                    {values?.[sectionId]?.map((ins: any, index: number) => (
+                      <Box key={index} sx={{ marginBottom: 3 }}>
+                        <Grid
+                          sx={{ width: "100%" }}
+                          container
+                          columns={{ xs: 1, sm: 1, md: 2, xl: 3 }}
+                          columnSpacing={{ xs: 1, sm: 2, md: 2, xl: 3 }}
+                          rowSpacing={{ xs: 3, sm: 3, md: 3, xl: 3 }}
+                        >
+                          {[
+                            {
+                              id: `${sectionId}-name-${index}`,
+                              name: `${sectionId}.${index}.name`,
+                              label: "Skill Name",
+                              type: "text",
+                              required: true,
+                              value: ins?.name,
+                              component: InputField,
+                            },
+                            {
+                              id: `${sectionId}-rating-${index}`,
+                              name: `${sectionId}.${index}.rating`,
+                              label: "Rating",
+                              options: [1, 2, 3, 4, 5]?.map((item: any) => ({
+                                label: item,
+                                value: item,
+                              })),
+                              required: true,
+                              value: ins?.rating,
+                              component: SelectField,
+                            },
+                          ].map((item: any, innerIndex: number) => {
+                            const { component: Component, ...rest } = item;
+                            return (
+                              <Grid
+                                item
+                                xs={1}
+                                md={1}
+                                key={`input-item-${innerIndex}`}
+                              >
+                                <Component
+                                  {...rest}
+                                  // errorText={error}
+                                  // isError={!!error}
+                                  fullWidth
+                                  {...getFieldProps(rest?.name)}
+                                />
+                                <ErrorMessage name={rest?.name} />
+                              </Grid>
+                            );
+                          })}
+                        </Grid>
+                        <Button
+                          sx={{ marginTop: 3 }}
+                          label="Remove"
+                          onClick={() => remove(index)}
+                        />
+                      </Box>
+                    ))}
+                    <Button
+                      sx={{ float: "right" }}
+                      label="Add Skill"
+                      onClick={() => push(formConfig)}
+                    />
+                  </Fragment>
+                )}
+              </FieldArray>
+            </Form>
+          </Box>
+          <Box
+            sx={{
+              height: "8%",
+              paddingTop: 1,
+              textAlign: "right",
+              // borderTop: "1px solid",
+            }}
+          >
+            <Button onClick={() => saveValues(values?.[sectionId])}>
+              Save
+            </Button>
+          </Box>
+        </Box>
+      )}
+    </Formik>
+  );
+};
+
+export default SkillSection;

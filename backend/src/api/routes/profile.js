@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { fetchUserDetails, updateUserDetails } from "../controllers/profile/index.js";
+import auth from "../middlewares/auth.js";
 
 const router = Router();
 
