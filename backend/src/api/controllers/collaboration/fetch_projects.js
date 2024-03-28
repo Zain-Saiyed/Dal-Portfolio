@@ -7,4 +7,5 @@ export default async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: "Failed to fetch projects" });
   }
+  //todo: send 401 after auth logic is available to prevent unauthorized access
 };
