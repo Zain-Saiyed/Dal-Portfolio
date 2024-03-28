@@ -76,5 +76,8 @@ export default {
   "00701": "Votre publication a été soumise avec succès.",
   "00702": "Votre publication n'a pas pu être soumise avec succès.",
   "00703": "Tous les messages de discussion ont été récupérés avec succès.",
-  "00704": "Erreur lors de la récupération des messages de discussion."
+  "00704": "Erreur lors de la récupération des messages de discussion.",
+  "00705": "Le message de discussion n'a pas pu être trouvé",
+  "00706": "La réponse a été ajoutée avec succès.",
+  "00707": "La réponse a été ajoutée avec succès."
 };

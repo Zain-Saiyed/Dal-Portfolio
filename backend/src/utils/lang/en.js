@@ -72,5 +72,8 @@ export default {
   "00701": "Your post was submitted sucessfully. ",
   "00702": "Your post could not be submitted sucessfully. ",
   "00703": "All discussion posts fetched successfully",
-  "00704": "Error fetching discussion posts:"
+  "00704": "Error fetching discussion posts:",
+  "00705": "Discussion post could not be found",
+  "00706": "Reply added successfully.",
+  "00707": "Reply could not be added."
 };
