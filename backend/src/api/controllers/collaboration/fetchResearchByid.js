@@ -1,4 +1,4 @@
-import { CollabProjects } from "../../../models/index.js";
+import { CollabResearchStudies } from "../../../models/index.js";
 import { ObjectId } from "mongodb";
 
 export default async (req, res) => {
@@ -7,10 +7,10 @@ export default async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: "Invalid _id format" });
     }
-    const project = await CollabProjects.find({"_id" : ObjectId(id)}); // Fetch document by _id
+    const project = await CollabResearchStudies.find({"_id" : ObjectId(id)}); // Fetch document by _id
     if (!project) {
       // Check if document exists
-      return res.status(404).json({ error: "Project not found" });
+      return res.status(404).json({ error: "Research not found" });
     }
     return res.status(200).json(project);
   } catch (error) {
