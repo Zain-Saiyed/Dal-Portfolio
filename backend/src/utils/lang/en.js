@@ -75,5 +75,8 @@ export default {
   "00704": "Error fetching discussion posts:",
   "00705": "Discussion post could not be found",
   "00706": "Reply added successfully.",
-  "00707": "Reply could not be added."
+  "00707": "Reply could not be added.",
+  "00708": "PostId is required in the request body.",
+  "00709": "Discussion post deleted successfully.",
+  "00710": "Error deleting discussion post."
 };

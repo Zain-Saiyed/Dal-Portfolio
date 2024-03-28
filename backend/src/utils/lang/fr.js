@@ -79,5 +79,8 @@ export default {
   "00704": "Erreur lors de la récupération des messages de discussion.",
   "00705": "Le message de discussion n'a pas pu être trouvé",
   "00706": "La réponse a été ajoutée avec succès.",
-  "00707": "La réponse a été ajoutée avec succès."
+  "00707": "La réponse a été ajoutée avec succès.",
+  "00708": "L'identifiant du message est requis dans le corps de la requête",
+  "00709": "Le message de discussion a été supprimé avec succès.",
+  "00710": "Erreur lors de la suppression du message de discussion."
 };
