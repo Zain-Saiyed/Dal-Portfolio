@@ -73,4 +73,6 @@ export default {
   "00086": "Vos informations de profil ont été modifiées avec succès.",
   "00089": "Les informations de l'utilisateur ont été obtenues avec succès.",
   "00092": "Votre compte a été supprimé avec succès.",
+  "00701": "Votre publication a été soumise avec succès.",
+  "00702": "Votre publication n'a pas pu être soumise avec succès."
 };
