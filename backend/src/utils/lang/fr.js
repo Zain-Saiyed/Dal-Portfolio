@@ -2,6 +2,7 @@ export default {
   verificationCodeTitle: "Code de vérification - DalPortfolio",
   verificationCodeBody: "Voici votre code de confirmation :",
   welcomeCode: "Bienvenue sur DalPortfolio,",
+  "00004": "User details have fetched successfully.",
   "00005": "Veuillez fournir toutes les informations pour envoyer un code.",
   "00006": "Accès refusé. Aucun jeton fourni.",
   "00007": "Identifiant utilisateur invalide.",
@@ -73,4 +74,5 @@ export default {
   "00086": "Vos informations de profil ont été modifiées avec succès.",
   "00089": "Les informations de l'utilisateur ont été obtenues avec succès.",
   "00092": "Votre compte a été supprimé avec succès.",
+  "00093": "User information has updated successfully.",
 };
