@@ -1,3 +1,4 @@
+//Author: Sushank Saini
 import DiscussionPost from "../../../models/discussionforum/mainpost.js";
 import {getText} from "../../../utils/index.js";
 

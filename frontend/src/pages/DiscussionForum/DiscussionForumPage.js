@@ -1,3 +1,4 @@
+//Author: Sushank Saini
 import React, { useState, useEffect } from 'react';
 import DiscussionPrompt from 'components/DiscussionForum/DiscussionPrompt';
 import DiscussionPost from 'components/DiscussionForum/DiscussionPost';

@@ -1,3 +1,4 @@
+//Author: Sushank Saini, Hatim Patrawala
 export default {
   verificationCodeTitle: "Code de vérification - DalPortfolio",
   verificationCodeBody: "Voici votre code de confirmation :",

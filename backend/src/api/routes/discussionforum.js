@@ -1,3 +1,4 @@
+//Author: Sushank Saini
 import { Router } from "express";
 import {deletePost, deleteReply, saveDiscussionPost, saveReply} from '../controllers/discussionforum/index.js'
 import { getAllPosts } from "../controllers/discussionforum/index.js";
