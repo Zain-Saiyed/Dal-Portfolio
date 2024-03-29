@@ -183,7 +183,7 @@ const UserEditModal: FC<Props> = ({
                     <InputField
                       {...input}
                       errorText={error}
-                      isError={!!error}                      
+                      isError={!!error}
                       {...formik?.getFieldProps(input?.name)}
                     />
                   </Grid>

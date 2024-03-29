@@ -8,6 +8,8 @@ type Props = {
   sectionId: string;
   sectionValues: any;
   saveValues: Function;
+  next: Function;
+  prev: Function;
 };
 
 const formConfig: any = {
@@ -31,8 +33,20 @@ const formConfig: any = {
 
 const sectionId = "bio";
 
-const BioSection = ({ sectionValues, saveValues }: Props) => {
-  const handleValidation = (values: any) => {};
+const BioSection = ({ sectionValues, saveValues, next, prev }: Props) => {
+  const handleValidation = (values: any) => {
+    const errors: any = {};
+    if (!values.first_name) {
+      errors.first_name = "Required";
+    }
+    if (!values.last_name) {
+      errors.last_name = "Required";
+    }
+    if (!values.email) {
+      errors.email = "Required";
+    }
+    return errors;
+  };
 
   const [formValues, setFormValues] = useState<any>(formConfig);
 
@@ -53,7 +67,7 @@ const BioSection = ({ sectionValues, saveValues }: Props) => {
         console.log(values);
       }}
     >
-      {({ values, setValues, errors, getFieldProps, handleSubmit }) => (
+      {({ values, errors, getFieldProps, validateForm }) => (
         <Box
           sx={{
             width: "100%",
@@ -234,11 +248,42 @@ const BioSection = ({ sectionValues, saveValues }: Props) => {
             sx={{
               height: "8%",
               paddingTop: 1,
-              textAlign: "right",
+              display: "flex",
+              justifyContent: "space-between",
               // borderTop: "1px solid",
             }}
           >
-            <Button onClick={() => saveValues(values)}>Save</Button>
+            <Box>
+              <Button
+                onClick={() => {
+                  saveValues(values);
+                  prev();
+                }}
+                disabled={!prev}
+              >
+                Previous
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                onClick={() => {
+                  saveValues(values);
+                  validateForm();
+                }}
+              >
+                Save
+              </Button>
+              <Button
+                onClick={async () => {
+                  saveValues(values);
+                  const _errors = await validateForm();
+                  isEmpty(_errors) && next();
+                }}
+                disabled={!next}
+              >
+                Next
+              </Button>
+            </Box>
           </Box>
         </Box>
       )}

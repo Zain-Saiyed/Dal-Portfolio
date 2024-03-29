@@ -9,8 +9,8 @@ import {
   ListItemButton,
   Divider,
 } from "@mui/material";
-import { Icon, SelectField } from "components";
-import { useOnMobile } from "hooks";
+import { Button, Icon, SelectField } from "components";
+import { useOnMobile, useToast } from "hooks";
 import React, { Fragment } from "react";
 import BioSection from "./Sections/BioSection";
 import EducationSection from "./Sections/EducationSection";
@@ -19,6 +19,7 @@ import ProjectSection from "./Sections/ProjectSection";
 import SkillSection from "./Sections/SkillSection";
 import CertificationSection from "./Sections/CertificationSection";
 import ConfigurationSection from "./Sections/ConfigurationSection";
+import { isEmpty } from "utils/helpers";
 
 type Props = {};
 
@@ -77,8 +78,10 @@ const sectionOrder = [
 ];
 
 const PortfolioForm = (props: Props) => {
+  const { showSuccess, showError } = useToast();
   const [activeTab, setActiveTab] = React.useState<string>("Configuration");
   const [formValues, setFormValues] = React.useState<any>({
+    configuration: {},
     bio: {},
     education: [],
     experience: [],
@@ -87,10 +90,209 @@ const PortfolioForm = (props: Props) => {
     certifications: [],
     achievements: [],
     social: [],
-    theme: {},
   });
 
+  const [sectionErrors, setSectionErrors] = React.useState<any>({});
+
   const onMobile = useOnMobile();
+
+  const handleSubmit = () => {
+    let errorList: any = {};
+    const validateConfiguration = () => {
+      let requiredFields = ["name", "color"];
+      let _errors: any = {};
+      requiredFields?.forEach((field: string) => {
+        if (!formValues?.configuration?.[field]) {
+          _errors[field] = "Required";
+        }
+      });
+      errorList.configuration = _errors;
+      setSectionErrors((prevState: any) => ({
+        ...prevState,
+        configuration: _errors,
+      }));
+    };
+    const validateBio = () => {
+      let requiredFields = ["first_name", "last_name", "email"];
+      let _errors: any = {};
+      requiredFields?.forEach((field: string) => {
+        if (!formValues?.bio?.[field]) {
+          _errors[field] = "Required";
+        }
+      });
+      errorList.bio = _errors;
+      setSectionErrors((prevState: any) => ({
+        ...prevState,
+        bio: _errors,
+      }));
+    };
+    const validateEducation = () => {
+      let requiredFields = [
+        "degree",
+        "field_of_study",
+        "university",
+        "start_date",
+        "end_date",
+      ];
+      let _errors: any = [];
+      if (isEmpty(formValues?.education)) {
+        errorList.education = true;
+        setSectionErrors((prevState: any) => ({
+          ...prevState,
+          education: true,
+        }));
+        return;
+      }
+      formValues?.education?.forEach((item: any, index: number) => {
+        let errors: any = {};
+        requiredFields?.forEach((field: string) => {
+          if (!item?.[field]) {
+            errors[field] = "Required";
+          }
+        });
+        _errors.push(errors);
+      });
+      errorList.education = _errors;
+      setSectionErrors((prevState: any) => ({
+        ...prevState,
+        education: _errors,
+      }));
+    };
+    const validateExperience = () => {
+      let requiredFields = [
+        "company_name",
+        "role",
+        "location",
+        "start_date",
+        "end_date",
+      ];
+      let _errors: any = [];
+      if (isEmpty(formValues?.experience)) {
+        errorList.experience = true;
+        setSectionErrors((prevState: any) => ({
+          ...prevState,
+          experience: true,
+        }));
+        return;
+      }
+      formValues?.experience?.forEach((item: any, index: number) => {
+        let errors: any = {};
+        requiredFields?.forEach((field: string) => {
+          if (!item?.[field]) {
+            errors[field] = "Required";
+          }
+        });
+        _errors.push(errors);
+      });
+      errorList.experience = _errors;
+      setSectionErrors((prevState: any) => ({
+        ...prevState,
+        experience: _errors,
+      }));
+    };
+    const validateProjects = () => {
+      let requiredFields = [
+        "title",
+        "description",
+        "status",
+        "start_date",
+        "end_date",
+      ];
+      let _errors: any = [];
+      if (isEmpty(formValues?.projects)) {
+        errorList.projects = true;
+        setSectionErrors((prevState: any) => ({
+          ...prevState,
+          projects: true,
+        }));
+        return;
+      }
+      formValues?.projects?.forEach((item: any, index: number) => {
+        let errors: any = {};
+        requiredFields?.forEach((field: string) => {
+          if (!item?.[field]) {
+            errors[field] = "Required";
+          }
+        });
+        _errors.push(errors);
+      });
+      errorList.projects = _errors;
+      setSectionErrors((prevState: any) => ({
+        ...prevState,
+        projects: _errors,
+      }));
+    };
+    const validateSkills = () => {
+      let requiredFields = ["name", "rating"];
+      let _errors: any = [];
+      if (isEmpty(formValues?.skills)) {
+        errorList.skills = true;
+        setSectionErrors((prevState: any) => ({
+          ...prevState,
+          skills: true,
+        }));
+        return;
+      }
+      formValues?.skills?.forEach((item: any, index: number) => {
+        let errors: any = {};
+        requiredFields?.forEach((field: string) => {
+          if (!item?.[field]) {
+            errors[field] = "Required";
+          }
+        });
+        _errors.push(errors);
+      });
+      errorList.skills = _errors;
+      setSectionErrors((prevState: any) => ({
+        ...prevState,
+        skills: _errors,
+      }));
+    };
+    const validateCertifications = () => {
+      let requiredFields = [
+        "title",
+        "issuer",
+        "issue_date",
+        "expiry_date",
+        "verification_link",
+      ];
+      let _errors: any = [];
+      if (isEmpty(formValues?.certifications)) {
+        errorList.certifications = true;
+        setSectionErrors((prevState: any) => ({
+          ...prevState,
+          certifications: true,
+        }));
+        return;
+      }
+      formValues?.certifications?.forEach((item: any, index: number) => {
+        let errors: any = {};
+        requiredFields?.forEach((field: string) => {
+          if (!item?.[field]) {
+            errors[field] = "Required";
+          }
+        });
+        _errors.push(errors);
+      });
+      errorList.certifications = _errors;
+      setSectionErrors((prevState: any) => ({
+        ...prevState,
+        certifications: _errors,
+      }));
+    };
+    validateConfiguration();
+    validateBio();
+    validateEducation();
+    validateExperience();
+    validateProjects();
+    validateSkills();
+    validateCertifications();
+    if (!isEmpty(errorList)) {
+      console.log("first error");
+      showError("Please fill all required fields");
+      return;
+    }
+  };
 
   return (
     <Box sx={{ width: onMobile ? "100%" : "70%", margin: "auto", padding: 1 }}>
@@ -100,16 +302,25 @@ const PortfolioForm = (props: Props) => {
           height: "calc(100vh - 100px)",
         }}
       >
-        <Box sx={{ height: "6%" }}>
+        <Box
+          sx={{
+            height: "6%",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Typography variant="h6" component="h6">
             Create Portfolio
           </Typography>
+          <Button label="Submit" onClick={handleSubmit} />
         </Box>
         <Box sx={{ height: "94%", width: "100%" }}>
           <Box
             sx={{
               height: "100%",
               width: "100%",
+              paddingTop: 1,
               display: "flex",
               justifyContent: "space-between",
               ...(onMobile && {
@@ -130,9 +341,7 @@ const PortfolioForm = (props: Props) => {
                 <Divider sx={{ marginY: 1 }} />
               </Fragment>
             ) : (
-              <Box
-                sx={{ width: sidebarWidth }}
-              >
+              <Box sx={{ width: sidebarWidth }}>
                 <List>
                   {sectionOrder.map((ins: any, index: number) => (
                     <ListItem
@@ -154,7 +363,25 @@ const PortfolioForm = (props: Props) => {
                         <ListItemIcon>
                           <Icon name={ins?.icon} />
                         </ListItemIcon>
-                        <ListItemText primary={ins?.label} />
+                        <ListItemText
+                          primary={
+                            <Box
+                              sx={{
+                                display: "flex",
+                                justifyContent: "left",
+                                alignItems: "center",
+                              }}
+                            >
+                              <Typography>{ins?.label}</Typography>
+                              {!isEmpty(sectionErrors?.[ins?.key]) && (
+                                <Icon
+                                  name="error"
+                                  sx={{ color: "red", marginLeft: 1 }}
+                                />
+                              )}
+                            </Box>
+                          }
+                        />
                       </ListItemButton>
                     </ListItem>
                   ))}
@@ -188,6 +415,16 @@ const PortfolioForm = (props: Props) => {
                           ...prevState,
                           [ins?.key]: values,
                         }))
+                      }
+                      next={
+                        index !== sectionOrder.length - 1
+                          ? () => setActiveTab(sectionOrder[index + 1]?.value)
+                          : null
+                      }
+                      prev={
+                        index !== 0
+                          ? () => setActiveTab(sectionOrder[index - 1]?.value)
+                          : null
                       }
                     />
                   );

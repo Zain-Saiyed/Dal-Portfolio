@@ -10,6 +10,8 @@ type Props = {
   sectionId: string;
   sectionValues: any;
   saveValues: Function;
+  next: Function;
+  prev: Function;
 };
 
 const formConfig = {
@@ -24,8 +26,35 @@ const formConfig = {
 
 const sectionId = "projects";
 
-const ProjectSection = ({ sectionValues, saveValues }: Props) => {
-  const handleValidation = (values: any) => {};
+const ProjectSection = ({ sectionValues, saveValues, next, prev }: Props) => {
+  const handleValidation = (values: any) => {
+    let errors: any = {};
+    values?.projects?.forEach((item: any, index: number) => {
+      if (!item?.title) {
+        errors[`projects.${index}.title`] = "Required";
+      }
+      if (!item?.description) {
+        errors[`projects.${index}.description`] = "Required";
+      }
+      if (!item?.status) {
+        errors[`projects.${index}.status`] = "Required";
+      }
+      if (isEmpty(item?.start_date?.value)) {
+        errors[`projects.${index}.start_date`] = "Required";
+      }
+      if (!!item?.start_date?.context?.validationError) {
+        errors[`projects.${index}.start_date`] = "Invalid Date";
+      }
+      if (isEmpty(item.end_date?.value)) {
+        errors[`projects.${index}.end_date`] = "Required";
+      }
+      if (!!item?.end_date?.context?.validationError) {
+        errors[`projects.${index}.end_date`] = "Invalid Date";
+      }
+    });
+
+    return errors;
+  };
 
   const [formValues, setFormValues] = React.useState<any>({
     [sectionId]: [formConfig],
@@ -42,12 +71,13 @@ const ProjectSection = ({ sectionValues, saveValues }: Props) => {
   return (
     <Formik
       initialValues={formValues}
+      validate={handleValidation}
       enableReinitialize
       onSubmit={(values) => {
         console.log(values);
       }}
     >
-      {({ values, setValues, errors, getFieldProps, handleSubmit }) => (
+      {({ values, setValues, errors, getFieldProps, validateForm }) => (
         <Box
           sx={{
             width: "100%",
@@ -91,6 +121,24 @@ const ProjectSection = ({ sectionValues, saveValues }: Props) => {
                               component: InputField,
                             },
                             {
+                              id: `${sectionId}-start-date-${index}`,
+                              name: `${sectionId}.${index}.start_date`,
+                              label: "Start Date",
+                              required: true,
+                              value: ins?.start_date || "",
+                              component: DatePicker,
+                              sx: { width: "100%" },
+                            },
+                            {
+                              id: `${sectionId}-end-date-${index}`,
+                              name: `${sectionId}.${index}.end_date`,
+                              label: "End Date",
+                              required: true,
+                              value: ins?.end_date || "",
+                              component: DatePicker,
+                              sx: { width: "100%" },
+                            },
+                            {
                               id: `${sectionId}-status-${index}`,
                               name: `${sectionId}.${index}.status`,
                               label: "Status",
@@ -111,24 +159,7 @@ const ProjectSection = ({ sectionValues, saveValues }: Props) => {
                               value: ins?.project_url,
                               component: InputField,
                             },
-                            {
-                              id: `${sectionId}-start-date-${index}`,
-                              name: `${sectionId}.${index}.start_date`,
-                              label: "Start Date",
-                              // required: true,
-                              value: ins?.start_date || "",
-                              component: DatePicker,
-                              sx: { width: "100%" },
-                            },
-                            {
-                              id: `${sectionId}-end-date-${index}`,
-                              name: `${sectionId}.${index}.end_date`,
-                              label: "End Date",
-                              // required: true,
-                              value: ins?.end_date || "",
-                              component: DatePicker,
-                              sx: { width: "100%" },
-                            },
+                            
                           ].map((item: any, innerIndex: number) => {
                             const { component: Component, ...rest } = item;
                             return (
@@ -140,12 +171,29 @@ const ProjectSection = ({ sectionValues, saveValues }: Props) => {
                               >
                                 <Component
                                   {...rest}
-                                  // errorText={error}
-                                  // isError={!!error}
+                                  errorText={errors?.[rest?.name]}
+                                  isError={!!errors?.[rest?.name]}
+                                  error={!!errors?.[rest?.name]}
                                   fullWidth
                                   {...getFieldProps(rest?.name)}
+                                  {...(rest?.name?.includes("status") && {
+                                    slotProps: {
+                                      select: {
+                                        helperText: errors?.[rest?.name],
+                                        required: rest?.required,
+                                        error: !!errors?.[rest?.name],
+                                      },
+                                    },
+                                  })}
                                   {...(rest?.name?.includes("date") && {
-                                    value: rest?.value?.["value"] || null,
+                                    slotProps: {
+                                      textField: {
+                                        helperText: errors?.[rest?.name],
+                                        required: rest?.required,
+                                        error: !!errors?.[rest?.name],
+                                      },
+                                    },
+                                    value: rest?.value?.value || null,
                                     onChange: (value: any, context: any) =>
                                       replace(index, {
                                         ...ins,
@@ -156,7 +204,6 @@ const ProjectSection = ({ sectionValues, saveValues }: Props) => {
                                       }),
                                   })}
                                 />
-                                <ErrorMessage name={rest?.name} />
                               </Grid>
                             );
                           })}
@@ -182,11 +229,43 @@ const ProjectSection = ({ sectionValues, saveValues }: Props) => {
             sx={{
               height: "8%",
               paddingTop: 1,
-              textAlign: "right",
+              display: "flex",
+              justifyContent: "space-between",
               // borderTop: "1px solid",
             }}
           >
-            <Button onClick={() => saveValues(values?.[sectionId])}>Save</Button>
+            <Box>
+              <Button
+                onClick={() => {
+                  saveValues(values?.[sectionId]);
+                  prev();
+                }}
+                disabled={!prev}
+              >
+                Previous
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                onClick={() => {
+                  saveValues(values?.[sectionId]);
+                  validateForm();
+                }}
+              >
+                Save
+              </Button>
+              <Button
+                onClick={async () => {
+                  saveValues(values?.[sectionId]);
+                  const _errors = await validateForm();
+                  console.log("_errors", _errors);
+                  isEmpty(_errors) && next();
+                }}
+                disabled={!next}
+              >
+                Next
+              </Button>
+            </Box>
           </Box>
         </Box>
       )}

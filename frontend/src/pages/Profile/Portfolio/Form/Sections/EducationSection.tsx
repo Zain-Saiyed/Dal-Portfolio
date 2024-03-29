@@ -2,7 +2,7 @@ import { Box, Grid } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Button, InputField } from "components";
 import { ErrorMessage, FieldArray, Form, Formik } from "formik";
-import { snakeCase } from "lodash";
+import { isError, snakeCase } from "lodash";
 import React, { Fragment, useEffect } from "react";
 import { isEmpty } from "utils/helpers";
 
@@ -10,6 +10,8 @@ type Props = {
   sectionId: string;
   sectionValues: any;
   saveValues: Function;
+  next: Function;
+  prev: Function;
 };
 
 const formConfig = {
@@ -23,12 +25,41 @@ const formConfig = {
 
 const sectionId = "education";
 
-const EducationSection = ({ sectionValues, saveValues }: Props) => {
-  const handleValidation = (values: any) => {};
+const EducationSection = ({ sectionValues, saveValues, next, prev }: Props) => {
+  const handleValidation = (values: any) => {
+    let errors: any = {};
+    values?.education?.forEach((item: any, index: number) => {
+      if (!item?.degree) {
+        errors[`education.${index}.degree`] = "Required";
+      }
+      if (!item?.field_of_study) {
+        errors[`education.${index}.field_of_study`] = "Required";
+      }
+      if (!item?.university) {
+        errors[`education.${index}.university`] = "Required";
+      }
+      if (isEmpty(item?.start_date?.value)) {
+        errors[`education.${index}.start_date`] = "Required";
+      }
+      if (!!item?.start_date?.context?.validationError) {
+        errors[`education.${index}.start_date`] = "Invalid Date";
+      }
+      if (isEmpty(item.end_date?.value)) {
+        errors[`education.${index}.end_date`] = "Required";
+      }
+      if (!!item?.end_date?.context?.validationError) {
+        errors[`education.${index}.end_date`] = "Invalid Date";
+      }
+    });
+
+    return errors;
+  };
 
   const [formValues, setFormValues] = React.useState<any>({
     [sectionId]: [formConfig],
   });
+
+  console.log("sectionValues", sectionValues);
 
   useEffect(() => {
     if (!isEmpty(sectionValues)) {
@@ -42,11 +73,12 @@ const EducationSection = ({ sectionValues, saveValues }: Props) => {
     <Formik
       initialValues={formValues}
       enableReinitialize
+      validate={handleValidation}
       onSubmit={(values) => {
         console.log(values);
       }}
     >
-      {({ values, setValues, errors, getFieldProps, handleSubmit }) => (
+      {({ values, errors, getFieldProps, validateForm }: any) => (
         <Box
           sx={{
             width: "100%",
@@ -56,6 +88,7 @@ const EducationSection = ({ sectionValues, saveValues }: Props) => {
             justifyContent: "space-between",
           }}
         >
+          <>{console.log("values", values)}</>
           <Box sx={{ height: "90%", overflowY: "scroll", paddingY: 1 }}>
             <Form>
               <FieldArray name="education">
@@ -103,7 +136,7 @@ const EducationSection = ({ sectionValues, saveValues }: Props) => {
                               name: `education.${index}.start_date`,
                               label: "Start Date",
                               type: "text",
-                              // required: true,
+                              required: true,
                               value: ins?.start_date || "",
                               component: DatePicker,
                               sx: { width: "100%" },
@@ -113,7 +146,7 @@ const EducationSection = ({ sectionValues, saveValues }: Props) => {
                               name: `education.${index}.end_date`,
                               label: "End Date",
                               type: "text",
-                              // required: true,
+                              required: true,
                               value: ins?.end_date || "",
                               component: DatePicker,
                               sx: { width: "100%" },
@@ -123,7 +156,6 @@ const EducationSection = ({ sectionValues, saveValues }: Props) => {
                               name: `education.${index}.description`,
                               label: "Description",
                               type: "text",
-                              required: true,
                               value: ins?.description,
                               component: InputField,
                             },
@@ -138,12 +170,19 @@ const EducationSection = ({ sectionValues, saveValues }: Props) => {
                               >
                                 <Component
                                   {...rest}
-                                  // errorText={error}
-                                  // isError={!!error}
+                                  errorText={errors?.[rest?.name]}
+                                  isError={!!errors?.[rest?.name]}
                                   fullWidth
                                   {...getFieldProps(rest?.name)}
                                   {...(rest?.name?.includes("date") && {
-                                    value: rest?.value?.["value"] || null,
+                                    slotProps: {
+                                      textField: {
+                                        helperText: errors?.[rest?.name],
+                                        required: rest?.required,
+                                        error: !!errors?.[rest?.name],
+                                      },
+                                    },
+                                    value: rest?.value?.value || null,
                                     onChange: (value: any, context: any) =>
                                       replace(index, {
                                         ...ins,
@@ -154,7 +193,6 @@ const EducationSection = ({ sectionValues, saveValues }: Props) => {
                                       }),
                                   })}
                                 />
-                                <ErrorMessage name={rest?.name} />
                               </Grid>
                             );
                           })}
@@ -180,13 +218,43 @@ const EducationSection = ({ sectionValues, saveValues }: Props) => {
             sx={{
               height: "8%",
               paddingTop: 1,
-              textAlign: "right",
+              display: "flex",
+              justifyContent: "space-between",
               // borderTop: "1px solid",
             }}
           >
-            <Button onClick={() => saveValues(values?.[sectionId])}>
-              Save
-            </Button>
+            <Box>
+              <Button
+                onClick={() => {
+                  saveValues(values?.[sectionId]);
+                  prev();
+                }}
+                disabled={!prev}
+              >
+                Previous
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                onClick={() => {
+                  saveValues(values?.[sectionId]);
+                  validateForm();
+                }}
+              >
+                Save
+              </Button>
+              <Button
+                onClick={async () => {
+                  saveValues(values?.[sectionId]);
+                  const _errors = await validateForm();
+                  console.log("_errors", _errors);
+                  isEmpty(_errors) && next();
+                }}
+                disabled={!next}
+              >
+                Next
+              </Button>
+            </Box>
           </Box>
         </Box>
       )}

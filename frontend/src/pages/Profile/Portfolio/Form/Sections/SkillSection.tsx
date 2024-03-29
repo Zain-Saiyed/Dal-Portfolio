@@ -8,6 +8,8 @@ type Props = {
   sectionId: string;
   sectionValues: any;
   saveValues: Function;
+  next: Function;
+  prev: Function;
 };
 
 const formConfig: any = {
@@ -17,8 +19,20 @@ const formConfig: any = {
 
 const sectionId = "skills";
 
-const SkillSection = ({ sectionValues, saveValues }: Props) => {
-  const handleValidation = (values: any) => {};
+const SkillSection = ({ sectionValues, saveValues, next, prev }: Props) => {
+  const handleValidation = (values: any) => {
+    let errors: any = {};
+    values?.skills?.forEach((item: any, index: number) => {
+      if (!item?.name) {
+        errors[`skills.${index}.name`] = "Required";
+      }
+      if (!item?.rating) {
+        errors[`skills.${index}.rating`] = "Required";
+      }
+    });
+
+    return errors;
+  };
 
   const [formValues, setFormValues] = React.useState<any>({
     [sectionId]: [formConfig],
@@ -35,12 +49,13 @@ const SkillSection = ({ sectionValues, saveValues }: Props) => {
   return (
     <Formik
       initialValues={formValues}
+      validate={handleValidation}
       enableReinitialize
       onSubmit={(values) => {
         console.log(values);
       }}
     >
-      {({ values, setValues, errors, getFieldProps, handleSubmit }) => (
+      {({ values, setValues, errors, getFieldProps, validateForm }) => (
         <Box
           sx={{
             width: "100%",
@@ -97,12 +112,21 @@ const SkillSection = ({ sectionValues, saveValues }: Props) => {
                               >
                                 <Component
                                   {...rest}
-                                  // errorText={error}
-                                  // isError={!!error}
+                                  errorText={errors?.[rest?.name]}
+                                  isError={!!errors?.[rest?.name]}
+                                  error={!!errors?.[rest?.name]}
                                   fullWidth
                                   {...getFieldProps(rest?.name)}
+                                  {...(rest?.name?.includes("rating") && {
+                                    slotProps: {
+                                      select: {
+                                        helperText: errors?.[rest?.name],
+                                        required: rest?.required,
+                                        error: !!errors?.[rest?.name],
+                                      },
+                                    },
+                                  })}
                                 />
-                                <ErrorMessage name={rest?.name} />
                               </Grid>
                             );
                           })}
@@ -128,13 +152,43 @@ const SkillSection = ({ sectionValues, saveValues }: Props) => {
             sx={{
               height: "8%",
               paddingTop: 1,
-              textAlign: "right",
+              display: "flex",
+              justifyContent: "space-between",
               // borderTop: "1px solid",
             }}
           >
-            <Button onClick={() => saveValues(values?.[sectionId])}>
-              Save
-            </Button>
+            <Box>
+              <Button
+                onClick={() => {
+                  saveValues(values?.[sectionId]);
+                  prev();
+                }}
+                disabled={!prev}
+              >
+                Previous
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                onClick={() => {
+                  saveValues(values?.[sectionId]);
+                  validateForm();
+                }}
+              >
+                Save
+              </Button>
+              <Button
+                onClick={async () => {
+                  saveValues(values?.[sectionId]);
+                  const _errors = await validateForm();
+                  console.log("_errors", _errors);
+                  isEmpty(_errors) && next();
+                }}
+                disabled={!next}
+              >
+                Next
+              </Button>
+            </Box>
           </Box>
         </Box>
       )}

@@ -10,6 +10,8 @@ type Props = {
   sectionId: string;
   sectionValues: any;
   saveValues: Function;
+  next: Function;
+  prev: Function;
 };
 
 const formConfig = {
@@ -23,8 +25,40 @@ const formConfig = {
 
 const sectionId = "experience";
 
-const ExperienceSection = ({ sectionValues, saveValues }: Props) => {
-  const handleValidation = (values: any) => {};
+const ExperienceSection = ({
+  sectionValues,
+  saveValues,
+  next,
+  prev,
+}: Props) => {
+  const handleValidation = (values: any) => {
+    let errors: any = {};
+    values?.experience?.forEach((item: any, index: number) => {
+      if (!item?.company_name) {
+        errors[`experience.${index}.company_name`] = "Required";
+      }
+      if (!item?.role) {
+        errors[`experience.${index}.role`] = "Required";
+      }
+      if (!item?.location) {
+        errors[`experience.${index}.location`] = "Required";
+      }
+      if (isEmpty(item?.start_date?.value)) {
+        errors[`experience.${index}.start_date`] = "Required";
+      }
+      if (!!item?.start_date?.context?.validationError) {
+        errors[`experience.${index}.start_date`] = "Invalid Date";
+      }
+      if (isEmpty(item.end_date?.value)) {
+        errors[`experience.${index}.end_date`] = "Required";
+      }
+      if (!!item?.end_date?.context?.validationError) {
+        errors[`experience.${index}.end_date`] = "Invalid Date";
+      }
+    });
+
+    return errors;
+  };
 
   const [formValues, setFormValues] = React.useState<any>({
     [sectionId]: [formConfig],
@@ -41,12 +75,13 @@ const ExperienceSection = ({ sectionValues, saveValues }: Props) => {
   return (
     <Formik
       initialValues={formValues}
+      validate={handleValidation}
       enableReinitialize
       onSubmit={(values) => {
         console.log(values);
       }}
     >
-      {({ values, setValues, errors, getFieldProps, handleSubmit }) => (
+      {({ values, setValues, errors, getFieldProps, validateForm }) => (
         <Box
           sx={{
             width: "100%",
@@ -120,8 +155,7 @@ const ExperienceSection = ({ sectionValues, saveValues }: Props) => {
                               id: `${sectionId}-description-${index}`,
                               name: `${sectionId}.${index}.description`,
                               label: "Description",
-                              type: "text",
-                              required: true,
+                              type: "text",                              
                               value: ins?.description,
                               component: InputField,
                             },
@@ -136,12 +170,19 @@ const ExperienceSection = ({ sectionValues, saveValues }: Props) => {
                               >
                                 <Component
                                   {...rest}
-                                  // errorText={error}
-                                  // isError={!!error}
+                                  errorText={errors?.[rest?.name]}
+                                  isError={!!errors?.[rest?.name]}
                                   fullWidth
                                   {...getFieldProps(rest?.name)}
                                   {...(rest?.name?.includes("date") && {
-                                    value: rest?.value?.["value"] || null,
+                                    slotProps: {
+                                      textField: {
+                                        helperText: errors?.[rest?.name],
+                                        required: rest?.required,
+                                        error: !!errors?.[rest?.name],
+                                      },
+                                    },
+                                    value: rest?.value?.value || null,
                                     onChange: (value: any, context: any) =>
                                       replace(index, {
                                         ...ins,
@@ -152,7 +193,6 @@ const ExperienceSection = ({ sectionValues, saveValues }: Props) => {
                                       }),
                                   })}
                                 />
-                                <ErrorMessage name={rest?.name} />
                               </Grid>
                             );
                           })}
@@ -178,13 +218,43 @@ const ExperienceSection = ({ sectionValues, saveValues }: Props) => {
             sx={{
               height: "8%",
               paddingTop: 1,
-              textAlign: "right",
+              display: "flex",
+              justifyContent: "space-between",
               // borderTop: "1px solid",
             }}
           >
-            <Button onClick={() => saveValues(values?.[sectionId])}>
-              Save
-            </Button>
+            <Box>
+              <Button
+                onClick={() => {
+                  saveValues(values?.[sectionId]);
+                  prev();
+                }}
+                disabled={!prev}
+              >
+                Previous
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                onClick={() => {
+                  saveValues(values?.[sectionId]);
+                  validateForm();
+                }}
+              >
+                Save
+              </Button>
+              <Button
+                onClick={async () => {
+                  saveValues(values?.[sectionId]);
+                  const _errors = await validateForm();
+                  console.log("_errors", _errors);
+                  isEmpty(_errors) && next();
+                }}
+                disabled={!next}
+              >
+                Next
+              </Button>
+            </Box>
           </Box>
         </Box>
       )}

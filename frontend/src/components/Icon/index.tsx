@@ -35,6 +35,7 @@ import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import BoltIcon from '@mui/icons-material/Bolt';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 import { APP_ICON_SIZE } from "components/config";
 
@@ -73,6 +74,7 @@ export const ICONS: Record<string, ComponentType> = {
   project: TrackChangesIcon,
   certification: MilitaryTechIcon,
   skill: BoltIcon,
+  error: ErrorOutlineIcon
 };
 
 const Icon: FC<SvgIconProps> = ({

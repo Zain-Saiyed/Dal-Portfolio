@@ -10,6 +10,8 @@ type Props = {
   sectionId: string;
   sectionValues: any;
   saveValues: Function;
+  next: Function;
+  prev: Function;
 };
 
 const formConfig = {
@@ -22,8 +24,40 @@ const formConfig = {
 
 const sectionId = "certifications";
 
-const CertificationSection = ({ sectionValues, saveValues }: Props) => {
-  const handleValidation = (values: any) => {};
+const CertificationSection = ({
+  sectionValues,
+  saveValues,
+  next,
+  prev,
+}: Props) => {
+  const handleValidation = (values: any) => {
+    let errors: any = {};
+    values?.certifications?.forEach((item: any, index: number) => {
+      if (!item?.title) {
+        errors[`certifications.${index}.title`] = "Required";
+      }
+      if (!item?.issuer) {
+        errors[`certifications.${index}.issuer`] = "Required";
+      }
+      if (isEmpty(item?.issue_date?.value)) {
+        errors[`certifications.${index}.issue_date`] = "Required";
+      }
+      if (!!item?.issue_date?.context?.validationError) {
+        errors[`certifications.${index}.issue_date`] = "Invalid Date";
+      }
+      if (isEmpty(item.expiry_date?.value)) {
+        errors[`certifications.${index}.expiry_date`] = "Required";
+      }
+      if (!!item?.expiry_date?.context?.validationError) {
+        errors[`certifications.${index}.expiry_date`] = "Invalid Date";
+      }
+      if (!item?.verification_link) {
+        errors[`certifications.${index}.verification_link`] = "Required";
+      }
+    });
+
+    return errors;
+  };
 
   const [formValues, setFormValues] = React.useState<any>({
     [sectionId]: [formConfig],
@@ -40,12 +74,13 @@ const CertificationSection = ({ sectionValues, saveValues }: Props) => {
   return (
     <Formik
       initialValues={formValues}
+      validate={handleValidation}
       enableReinitialize
       onSubmit={(values) => {
         console.log(values);
       }}
     >
-      {({ values, setValues, errors, getFieldProps, handleSubmit }) => (
+      {({ values, setValues, errors, getFieldProps, validateForm }) => (
         <Box
           sx={{
             width: "100%",
@@ -89,15 +124,6 @@ const CertificationSection = ({ sectionValues, saveValues }: Props) => {
                               component: InputField,
                             },
                             {
-                              id: `${sectionId}-location-${index}`,
-                              name: `${sectionId}.${index}.location`,
-                              label: "Location",
-                              type: "text",
-                              required: true,
-                              value: ins?.university,
-                              component: InputField,
-                            },
-                            {
                               id: `${sectionId}-issue-date-${index}`,
                               name: `${sectionId}.${index}.issue_date`,
                               label: "Issue Date",
@@ -135,12 +161,19 @@ const CertificationSection = ({ sectionValues, saveValues }: Props) => {
                               >
                                 <Component
                                   {...rest}
-                                  // errorText={error}
-                                  // isError={!!error}
+                                  errorText={errors?.[rest?.name]}
+                                  isError={!!errors?.[rest?.name]}
                                   fullWidth
                                   {...getFieldProps(rest?.name)}
                                   {...(rest?.name?.includes("date") && {
-                                    value: rest?.value?.["value"] || null,
+                                    slotProps: {
+                                      textField: {
+                                        helperText: errors?.[rest?.name],
+                                        required: rest?.required,
+                                        error: !!errors?.[rest?.name],
+                                      },
+                                    },
+                                    value: rest?.value?.value || null,
                                     onChange: (value: any, context: any) =>
                                       replace(index, {
                                         ...ins,
@@ -177,13 +210,42 @@ const CertificationSection = ({ sectionValues, saveValues }: Props) => {
             sx={{
               height: "8%",
               paddingTop: 1,
-              textAlign: "right",
+              display: "flex",
+              justifyContent: "space-between",
               // borderTop: "1px solid",
             }}
           >
-            <Button onClick={() => saveValues(values?.[sectionId])}>
-              Save
-            </Button>
+            <Box>
+              <Button
+                onClick={() => {
+                  saveValues(values?.[sectionId]);
+                  prev();
+                }}
+                disabled={!prev}
+              >
+                Previous
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                onClick={() => {
+                  saveValues(values?.[sectionId]);
+                  validateForm();
+                }}
+              >
+                Save
+              </Button>
+              <Button
+                onClick={async () => {
+                  saveValues(values?.[sectionId]);
+                  const _errors = await validateForm();
+                  isEmpty(_errors) && next();
+                }}
+                disabled={!next}
+              >
+                Next
+              </Button>
+            </Box>
           </Box>
         </Box>
       )}
