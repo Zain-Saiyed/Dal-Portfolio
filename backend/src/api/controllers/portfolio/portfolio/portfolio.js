@@ -8,7 +8,7 @@ export default async (request, response) => {
   try {
     // Check if user exists in the database in user collection
     const exists = await User.exists({ username: user_name });
-    
+    console.log(exists);
     // If user does not exists, return user not found error
     if (!exists) {
       return response.status(404).json(errorHelper("00033", request, "User not found"));

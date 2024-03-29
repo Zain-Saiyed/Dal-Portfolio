@@ -1,7 +1,8 @@
 import { useEffect, useState  } from "react";
 import { useParams } from 'react-router-dom';
-import { Box, Typography, Link, Divider, Paper, LinearProgress, Button, IconButton, Chip } from "@mui/material";
+import { Box, Typography, Link, Divider, Paper, LinearProgress, Button, IconButton, Chip, Grid } from "@mui/material";
 import { useOnMobile, useOnTablets } from "hooks";
+import { useNavigate } from "react-router-dom";
 
 import EmailIcon from "@mui/icons-material/Email";
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
@@ -16,6 +17,9 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import PendingIcon from '@mui/icons-material/Pending';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
+import LinkIcon from '@mui/icons-material/Link';
+import GroupsIcon from '@mui/icons-material/Groups';
+
 import { CircularProgress, Alert } from '@mui/material';
 
 import axios from 'axios';
@@ -81,6 +85,7 @@ interface PortfolioDetail {
 const Portfolio = (props: Props) => {
   const onMobile = useOnMobile();
   const onTablets = useOnTablets();
+  const navigate = useNavigate();
   
   const { user_name } = useParams();
   const [ portfolio, set_portfolio ] = useState<PortfolioDetail | null>(null);
@@ -89,9 +94,9 @@ const Portfolio = (props: Props) => {
 
   const get_user_portfolio_details = async () => {
     try {
-      const response =  await axios.post(`http://localhost:3001/api/portfolio`, {
+      const response =  await axios.post(`${process.env.REACT_APP_API_URL}/api/portfolio`, {
       user_name: user_name
-    })
+    });
       console.log(response.data.portfolio_detail);
       set_portfolio(response.data.portfolio_detail);
       set_loading(false);
@@ -244,7 +249,7 @@ const Portfolio = (props: Props) => {
                       <Box style={{textAlign: 'justify'}}>
                         <Box style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: "1rem" }}>
                           <a key={index} href={`/portfolio/${user_name}/project/${project.project_id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <Typography style={{ fontSize: "1.5rem", color: '#0d47a1', textAlign: onMobile ? "left" : "justify" }}>{project.title} <OpenInNewIcon style={{ verticalAlign: "middle", marginRight: "5px", color:'black'}} /></Typography>
+                            <Typography style={{ fontSize: "1.5rem", fontWeight: 'bold', color: '#0d47a1', textAlign: onMobile ? "left" : "justify" }}>{project.title} <OpenInNewIcon style={{ verticalAlign: "middle", marginRight: "5px", color:'black'}} /></Typography>
                           </a>
                           { project.status === "completed" ? (
                             <DoneAllIcon sx={{ color: 'green' }} />
@@ -260,7 +265,7 @@ const Portfolio = (props: Props) => {
                             }
                           </a>
                         </Typography>
-                        {/* <Typography>{project.description.length > 350 ? project.description.slice(0, 350).trim() + '... more'  : project.description}</Typography> */}
+                        
                         {project.technologies && project.technologies.length > 0 && (
                           <div style={{ marginTop: '1rem', marginBottom: '0.5rem' }}>
                             {project.technologies.map((tech_tool:string, index:number) => (
@@ -268,9 +273,23 @@ const Portfolio = (props: Props) => {
                             ))}
                           </div>
                         )}
-                        <Button variant="contained" href={project.github_link} style={{marginTop:'1rem'}} startIcon={<GitHubIcon style={{ verticalAlign: "middle", marginRight: "5px", color:'black'}} />} download>
-                          View on GitHub
-                        </Button>
+                        <Box>
+                          <Button variant="contained" href={project.github_link} startIcon={<GitHubIcon />}>
+                            View on GitHub
+                          </Button>
+                          {onMobile ? (
+                            <>
+                              <br />
+                              <Button variant="contained" href={project.demo_link} startIcon={<LinkIcon/>} style={{marginTop: "1rem", background: "purple", color: "white"}}> 
+                                View demo 
+                              </Button>
+                            </>
+                          ) : (
+                              <Button variant="contained" href={project.demo_link} startIcon={<LinkIcon/>} style={{marginLeft: "1rem", background: "purple", color: "white"}}> 
+                                View demo 
+                              </Button>
+                          )}
+                        </Box>
                       </Box>
                     </div>
                   </Paper>
@@ -286,7 +305,7 @@ const Portfolio = (props: Props) => {
                   <Paper key={index} elevation={3} style={{ marginBottom: '20px', breakInside: 'avoid' }}>
                     
                     <div style={{ alignItems: 'center', padding: '20px' }}>
-                      <Typography style={{ fontSize: "1.5rem", marginBottom: "1rem", color: '#0d47a1' }}>{publication.title} <OpenInNewIcon style={{ verticalAlign: "middle", marginRight: "5px", color: 'black' }} /></Typography>
+                      <Typography style={{ fontSize: "1.5rem", fontWeight: 'bold', marginBottom: "1rem", color: '#0d47a1' }}>{publication.title} <OpenInNewIcon style={{ verticalAlign: "middle", marginRight: "5px", color: 'black' }} /></Typography>
 
                         <Typography style={{ textAlign: "justify", marginBottom:"1rem"}}>{publication.description}</Typography>
                         
@@ -329,20 +348,20 @@ const Portfolio = (props: Props) => {
 
               <Typography sx={{ mt: "1rem", mb: "3rem", fontSize: "3rem" }}>SKILLS</Typography>
 
-              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', maxWidth: '75%', margin: '0 auto', marginBottom: '2rem' }}>
-                {portfolio.skills.map((skill, index) => (
-                  <div key={index} style={{ width: '30%', marginBottom: '1.2rem' }}>
-                    <Paper elevation={3} style={{ padding: '1.2rem', height: '100%', borderRadius: '1rem' }}>
-                    {/* <Paper elevation={3} style={{ padding: '1.2rem', height: '100%' }}> */}
-                      <Typography style={{ fontSize: '1.15rem' }}>{skill.name}</Typography>
-                      <LinearProgress variant="determinate" value={skill.rating * 10}
-                        sx={{ height: '10px', '& .MuiLinearProgress-bar': { backgroundColor: getProgressBarColor(skill.rating), } }}
-                      />
-                      <Typography style={{ fontSize: '1.15rem' }}>{skill.rating}/10</Typography>
-                    </Paper>
-                  </div>
-                ))}
-              </div>
+              <Grid container spacing={2} style={{ maxWidth: '75%', margin: '0 auto', marginBottom: '2rem' }}>
+                  {portfolio.skills.map((skill, index) => (
+                    <Grid item xs={12} sm={6} md={4} key={index}>
+                      <Paper elevation={3} style={{ padding: '1.2rem', height: '100%', borderRadius: '1rem' }}>
+                        <Typography style={{ fontSize: '1.15rem' }}>{skill.name}</Typography>
+                        <LinearProgress variant="determinate" value={skill.rating * 10}
+                          sx={{ height: '10px', '& .MuiLinearProgress-bar': { backgroundColor: getProgressBarColor(skill.rating), } }}
+                        />
+                        <Typography style={{ fontSize: '1.15rem' }}>{skill.rating}/10</Typography>
+                      </Paper>
+                    </Grid>
+                  ))}
+                </Grid>
+
 
 
               <Divider/>
@@ -406,17 +425,27 @@ const Portfolio = (props: Props) => {
 
               <Divider style={{marginTop: "2rem"}}/>
               
-              
-
-
-
-              <Divider style={{marginTop: "2rem"}}/>
-
               <Typography sx={{ mt: "1rem", mb: "1rem", fontSize: "3rem" }}>CONTACT</Typography>
               <Typography sx={{ mb:"1rem" }}>Lets collaborate and work together:</Typography>
-              <Button variant="contained" href={`mailto:${portfolio.user_data.email}`} startIcon={<EmailIcon style={{ verticalAlign: "middle", marginRight: "5px", color:'black'}} />} download>
+              
+              <Box>
+                <Button variant="contained" href={`mailto:${portfolio.user_data.email}`} startIcon={<EmailIcon style={{ verticalAlign: "middle", marginRight: "5px", color:'black'}} />}>
                 Inbox Me
-              </Button>
+                </Button>
+                {onMobile ? (
+                  <>
+                    <br />
+                    <Button variant="contained" onClick={() => navigate("/collaborate")} startIcon={<GroupsIcon/>} style={{marginTop: "1rem", background: "blue", color: "white"}}> 
+                      Collaborate
+                    </Button>
+                  </>
+                ) : (
+                    <Button variant="contained" onClick={() => navigate("/collaborate")} startIcon={<GroupsIcon/>} style={{marginLeft: "1rem", background: "blue", color: "white"}}> 
+                      Collaborate
+                    </Button>
+                )}
+              </Box>
+
               {/* <Button variant="contained" href={portfolio.resume_link} download>
                 Schedule a Meeting
               </Button> */}
