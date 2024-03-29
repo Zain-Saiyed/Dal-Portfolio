@@ -5,13 +5,15 @@ import DeleteConfirmationModal from './DeleteConfirmation';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {POST} from 'utils/axios';
 
-const ReplyDisplay = ({ id, email, date, description }) => {
+const ReplyDisplay = ({postId, id, email, date, description }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailureModal, setShowFailureModal] = useState(false);
   const navigate = useNavigate();
-
+  
+  console.log("postId:", postId);
   console.log("replyid:", id);
 
   const handleDeleteReply = () => {
@@ -26,10 +28,11 @@ const ReplyDisplay = ({ id, email, date, description }) => {
     setIsModalOpen(false);
     try {
       const payload = {
+        postId:postId,
         replyId: id,
       };
-      // const response =await POST('api/discussionforum/delete-post', payload);
-      // console.log(response);
+      const response =await POST('api/discussionforum/delete-reply', payload);
+      console.log(response);
       console.log('Reply deleted!');
       setShowSuccessModal(true);
     }
@@ -42,7 +45,7 @@ const ReplyDisplay = ({ id, email, date, description }) => {
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
     setTimeout(() => {
-      navigate('/dalportfolios-discussion-thread');
+      navigate('/dalportfolios-discussions');
     }, 1000);
   };
 
