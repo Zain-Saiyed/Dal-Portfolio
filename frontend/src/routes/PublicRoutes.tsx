@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import DiscussionForumPage from "pages/DiscussionForum/DiscussionForumPage";
 import DiscussionThread from "pages/DiscussionForum/DiscussionThreadPage";
-import { MyProjects } from "pages/Collaboration";
+import { MyProjects, MyRequests } from "pages/Collaboration";
 
 import {
   FAQPage,
@@ -20,9 +20,16 @@ const PublicRoutes = () => {
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
-        <Route path="/dalportfolios-discussions" element={<DiscussionForumPage  />} />
-        <Route path="/dalportfolios-discussion-thread" element={<DiscussionThread />} />
+        <Route
+          path="/dalportfolios-discussions"
+          element={<DiscussionForumPage />}
+        />
+        <Route
+          path="/dalportfolios-discussion-thread"
+          element={<DiscussionThread />}
+        />
         <Route path="/my-projects" element={<MyProjects />} />
+        <Route path="/my-collab-requests" element={<MyRequests />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
