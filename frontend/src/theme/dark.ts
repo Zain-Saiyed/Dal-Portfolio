@@ -21,6 +21,22 @@ export const DARK_THEME: ThemeOptions = {
         }
       },
     },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          "&.Mui-selected": {
+            color: "#fcd405",
+          },
+        },
+      },
+    },
+    MuiTabs: {
+      styleOverrides: {
+        indicator: {
+          backgroundColor: "#fcd405",
+        }
+      },
+    },
   },
 };
 

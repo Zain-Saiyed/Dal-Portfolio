@@ -5,9 +5,11 @@ import DiscussionThread from "pages/DiscussionForum/DiscussionThreadPage";
 import {
   FAQPage,
   HomePage,
+  ProfilePage,
   AboutUsPage,
   NotFoundPage,
   ContactUsPage,
+  CreatePortfolioPage,
 } from "routes/components";
 import { PublicLayout } from "layout";
 
@@ -21,6 +23,11 @@ const PublicRoutes = () => {
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/dalportfolios-discussions" element={<DiscussionForumPage  />} />
         <Route path="/dalportfolios-discussion-thread" element={<DiscussionThread />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route
+          path="/profile/portfolio/create"
+          element={<CreatePortfolioPage />}
+        />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
