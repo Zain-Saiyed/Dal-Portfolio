@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, Typography,TextField, IconButton } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import { useState } from 'react';
-import SendIcon from '@mui/icons-material/Send';
+import ReplyIcon from '@mui/icons-material/Reply';
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import {POST} from 'utils/axios'
@@ -106,7 +106,7 @@ const DiscussionPost = ({ id, email, date, title, description, replyCount,replie
                               endAdornment: (
                                   <InputAdornment position="end">
                                       <IconButton onClick={handleReplySubmit} sx={{'&:hover': {color: '#FFFFFF'}}}>
-                                          <SendIcon style={{ color: 'black' }}/>
+                                          <ReplyIcon style={{ color: 'black' }}/>
                                       </IconButton>
                                   </InputAdornment>
                               ),
