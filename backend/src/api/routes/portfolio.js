@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { portfolio } from "../controllers/portfolio/index.js";
+import { portfolio, project } from "../controllers/portfolio/index.js";
 
 const router = Router();
 
 router.post("/", portfolio);
+router.post("/project", project);
 
 export default router;
