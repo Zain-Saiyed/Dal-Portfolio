@@ -1,4 +1,4 @@
-import { GET } from "utils/axios";
+import { GET, POST } from "utils/axios";
 import { Typography } from "@mui/material";
 import { useLayoutEffect, useState } from "react";
 import { isEmpty } from "utils/helpers";
@@ -13,7 +13,12 @@ function MyProjects() {
 
   const [projects, setProjects] = useState([]);
   const [research, setResearch] = useState([]);
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+  const [selectedProjectCheckboxes, setSelectedProjectCheckboxes] = useState(
+    []
+  );
+  const [selectedResearchCheckboxes, setSelectedResearchCheckboxes] = useState(
+    []
+  );
 
   const fetchProjects = async () => {
     GET(`/api/collaboration/fetch_projects?user_id=65f360189050f7fb6f800988`)
@@ -28,15 +33,13 @@ function MyProjects() {
 
   const fetchResearch = async () => {
     GET("/api/collaboration/fetch_research?user_id=65f360189050f7fb6f800988")
-
       .then((response) => {
         console.log(response.data);
         setResearch(response.data);
       })
       .catch((error) => {
         console.log(error);
-      }
-      );
+      });
   };
 
   useLayoutEffect(() => {
@@ -44,8 +47,8 @@ function MyProjects() {
     isEmpty(research) && fetchResearch();
   }, []);
 
-  const handleCheckboxChange = (id) => {
-    const updatedCheckboxes = [...selectedCheckboxes];
+  const handleProjectCheckboxChange = (id) => {
+    const updatedCheckboxes = [...selectedProjectCheckboxes];
     const index = updatedCheckboxes.indexOf(id);
 
     if (index > -1) {
@@ -55,18 +58,44 @@ function MyProjects() {
     }
 
     console.log(updatedCheckboxes);
-    setSelectedCheckboxes(updatedCheckboxes);
+    setSelectedProjectCheckboxes(updatedCheckboxes);
   };
 
-  const isButtonEnabled = selectedCheckboxes.length > 0;
+  const handleResearchCheckboxChange = (id) => {
+    const updatedCheckboxes = [...selectedResearchCheckboxes];
+    const index = updatedCheckboxes.indexOf(id);
+
+    if (index > -1) {
+      updatedCheckboxes.splice(index, 1);
+    } else {
+      updatedCheckboxes.push(id);
+    }
+
+    console.log(updatedCheckboxes);
+    setSelectedResearchCheckboxes(updatedCheckboxes);
+  };
+
+  const isButtonEnabled =
+    selectedProjectCheckboxes.length > 0 ||
+    selectedResearchCheckboxes.length > 0;
 
   const handleSendRequest = () => {
-    console.log("Request sent for projects: ", selectedCheckboxes);
-    alert(
-      "Request sent successfully with " +
-        selectedCheckboxes.length +
-        " projects."
-    );
+    console.log("projects: ", selectedProjectCheckboxes);
+    console.log("research: ", selectedResearchCheckboxes);
+
+    POST("/api/collaboration/send_request", {
+      receiver_user_id: "bon",
+      sender_user_id: "voyage",
+      project_ids: selectedProjectCheckboxes,
+      research_ids: selectedResearchCheckboxes,
+      status: "PENDING",
+    })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -97,7 +126,9 @@ function MyProjects() {
                           <input
                             type="checkbox"
                             value={project.id}
-                            onChange={() => handleCheckboxChange(project._id)}
+                            onChange={() =>
+                              handleProjectCheckboxChange(project._id)
+                            }
                           />
                           <div className="project-title mx-4 px-2">
                             <Typography
@@ -176,7 +207,9 @@ function MyProjects() {
                           <input
                             type="checkbox"
                             value={project.id}
-                            onChange={() => handleCheckboxChange(project._id)}
+                            onChange={() =>
+                              handleResearchCheckboxChange(project._id)
+                            }
                           />
                           <div className="project-title mx-4 px-2">
                             <Typography
