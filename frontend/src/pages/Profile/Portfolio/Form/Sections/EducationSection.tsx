@@ -59,8 +59,6 @@ const EducationSection = ({ sectionValues, saveValues, next, prev }: Props) => {
     [sectionId]: [formConfig],
   });
 
-  console.log("sectionValues", sectionValues);
-
   useEffect(() => {
     if (!isEmpty(sectionValues)) {
       setFormValues({ [sectionId]: sectionValues });
