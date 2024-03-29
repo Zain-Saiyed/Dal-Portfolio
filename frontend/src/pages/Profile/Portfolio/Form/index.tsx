@@ -78,7 +78,8 @@ const sectionOrder = [
 ];
 
 const PortfolioForm = (props: Props) => {
-  const { showSuccess, showError } = useToast();
+  // const { showSuccess, showError } = useToast();
+  const { showError } = useToast();
   const [activeTab, setActiveTab] = React.useState<string>("Configuration");
   const [formValues, setFormValues] = React.useState<any>({
     configuration: {},
@@ -332,6 +333,7 @@ const PortfolioForm = (props: Props) => {
             {onMobile ? (
               <Fragment>
                 <SelectField
+                  variant="filled"
                   id="portfolio-sections-tabs"
                   label="Sections"
                   value={activeTab}

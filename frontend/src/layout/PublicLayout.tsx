@@ -44,11 +44,6 @@ const SIDE_BAR_ITEMS: Array<LinkToPage> = [
     path: "/about-us",
     icon: "info",
   },
-  {
-    title: "Portfolio",
-    path: "/portfolio/zsaiyed",
-    icon: "info",
-  },
 ];
 
 const NAVBAR_ITEMS: Array<LinkToPage> = SIDE_BAR_ITEMS.filter(

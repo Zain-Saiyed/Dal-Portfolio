@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 
-import { useToast } from "hooks";
+// import { useToast } from "hooks";
 import { InputField, SelectField } from "components";
 import { isEmail, isEmpty } from "utils/helpers";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -26,12 +26,12 @@ interface Props {
 }
 
 const UserEditModal: FC<Props> = ({
-  isOpen = false,
+  isOpen,
   handleClose,
   onSave,
   user,
 }: Props) => {
-  const { showSuccess } = useToast();
+  // const { showSuccess } = useToast();
   const [instance, setInstance] = useState<any>(null);
 
   const handleValidation = (values: any) => {
@@ -79,10 +79,6 @@ const UserEditModal: FC<Props> = ({
 
   useEffect(() => {
     setInstance(user);
-    prepareInitialValues();
-  }, [user]);
-
-  const prepareInitialValues = () => {
     formik.setValues({
       first_name: instance?.profile?.first_name,
       last_name: instance?.profile?.last_name,
@@ -91,7 +87,19 @@ const UserEditModal: FC<Props> = ({
       gender: instance?.profile?.gender,
       dob: instance?.profile?.dob || "",
     });
-  };
+
+  }, [user, formik, instance]);
+
+  // const prepareInitialValues = () => {
+  //   formik.setValues({
+  //     first_name: instance?.profile?.first_name,
+  //     last_name: instance?.profile?.last_name,
+  //     username: instance?.username,
+  //     email: instance?.email,
+  //     gender: instance?.profile?.gender,
+  //     dob: instance?.profile?.dob || "",
+  //   });
+  // };
 
   const handleSave = (values: any) => {
     const payload: any = {
@@ -192,6 +200,7 @@ const UserEditModal: FC<Props> = ({
 
               <Grid item xs={1} md={1}>
                 <SelectField
+                  variant="filled"
                   id="user-gender"
                   label="Gender"
                   name="gender"
