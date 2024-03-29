@@ -7,5 +7,5 @@ const router = Router();
 router.post("/add-post", saveDiscussionPost);
 router.get("/get-all-posts", getAllPosts);
 router.post("/add-reply", saveReply);
-router.delete("/delete-post", deletePost)
+router.post("/delete-post", deletePost)
 export default router;
