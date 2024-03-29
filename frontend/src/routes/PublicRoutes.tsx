@@ -8,6 +8,7 @@ import {
   AboutUsPage,
   NotFoundPage,
   ContactUsPage,
+  SearchPage,
 } from "routes/components";
 import { PublicLayout } from "layout";
 
@@ -19,6 +20,7 @@ const PublicRoutes = () => {
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
+        <Route path="/search-page" element={<SearchPage/>}/>
         <Route path="/dalportfolios-discussions" element={<DiscussionForumPage  />} />
         <Route path="/dalportfolios-discussion-thread" element={<DiscussionThread />} />
       </Route>
