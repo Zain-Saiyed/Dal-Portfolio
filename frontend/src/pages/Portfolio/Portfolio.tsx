@@ -2,6 +2,7 @@ import { useEffect, useState  } from "react";
 import { useParams } from 'react-router-dom';
 import { Box, Typography, Link, Divider, Paper, LinearProgress, Button, IconButton, Chip } from "@mui/material";
 import { useOnMobile, useOnTablets } from "hooks";
+
 import EmailIcon from "@mui/icons-material/Email";
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import EventIcon from '@mui/icons-material/Event';
@@ -15,6 +16,7 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import PendingIcon from '@mui/icons-material/Pending';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
+import { CircularProgress, Alert } from '@mui/material';
 
 import axios from 'axios';
 
@@ -330,7 +332,6 @@ interface PortfolioDetail {
   };
 }
 
-
 const Portfolio = (props: Props) => {
   const onMobile = useOnMobile();
   const onTablets = useOnTablets();
@@ -338,6 +339,7 @@ const Portfolio = (props: Props) => {
   const { user_name } = useParams();
   const [portfolio, set_portfolio] = useState<PortfolioDetail | null>(null);
   const [loading, setLoading] = useState(true);
+  const [flag_failed, setFlagFailed] = useState(false);
 
   const get_user_portfolio_details = async () => {
     try {
@@ -349,6 +351,7 @@ const Portfolio = (props: Props) => {
       setLoading(false);
     } catch (error) {
       console.log(error);
+      setFlagFailed(true);
     }
   };
 
@@ -356,12 +359,24 @@ const Portfolio = (props: Props) => {
     get_user_portfolio_details();
   }, [user_name]);
   
-  if (loading) {
-    return <div>Loading restaurant details...</div>;
+  if (loading && !flag_failed) {
+    return <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Typography style={{marginRight: "2rem"}}>Loading Portfolio details...</Typography>
+      <CircularProgress color="warning" size={60} />
+    </Box>;
   }
 
   if (!portfolio) {
-    return <div>Portfolio not found.</div>;
+    return (
+      <div>
+        <Alert severity="warning" variant="filled">
+          OOPS! Portfolio not found for this user.
+        </Alert>
+        <Typography variant="body1" style={{ marginTop: "2rem" }}>
+          Try visiting the <Link href="/search">search page</Link> to find the portfolio you are looking for.
+        </Typography>
+      </div>
+    );
   }
 
 
@@ -396,16 +411,16 @@ const Portfolio = (props: Props) => {
 
               <Box style={{marginBottom: "3rem"}}>
                 <a href={portfolio.twitter_link} target="_blank" rel="noopener noreferrer">
-                  <TwitterIcon style={{ fontSize: 30, marginRight: "3rem", color: '#1DA1F2' }} />
+                  <TwitterIcon style={{ fontSize: 30, marginRight: onMobile? "1rem" : "3rem", color: '#1DA1F2' }} />
                 </a>
                 <a href={portfolio.linkedin_link} target="_blank" rel="noopener noreferrer">
-                  <LinkedInIcon style={{ fontSize: 30, marginRight: "3rem", color: '#0077B5' }} />
+                  <LinkedInIcon style={{ fontSize: 30, marginRight: onMobile? "1rem" : "3rem", color: '#0077B5' }} />
                 </a>
                 <a href={portfolio.github_link} target="_blank" rel="noopener noreferrer">
-                  <GitHubIcon style={{ fontSize: 30, marginRight: "3rem", color: '#211F1F' }} />
+                  <GitHubIcon style={{ fontSize: 30, marginRight: onMobile? "1rem" : "3rem", color: '#211F1F' }} />
                 </a>
                 <a href={portfolio.gscholar_link} target="_blank" rel="noopener noreferrer">
-                  <SchoolIcon style={{ fontSize: 30, marginRight: "3rem", color: '#4285F4' }} />
+                  <SchoolIcon style={{ fontSize: 30, marginRight: onMobile? "1rem" : "3rem", color: '#4285F4' }} />
                 </a>
               </Box>
 
@@ -420,14 +435,14 @@ const Portfolio = (props: Props) => {
                     <Typography style={{ fontSize: "1.75rem", fontWeight:"bold", marginBottom: "0.5rem" }}>{item.university.toLocaleUpperCase()}</Typography>
                     {!onMobile && (
                       <Typography>
-                        {new Date(item.start_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {new Date(item.end_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                        {new Date(item.start_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {new Date(item.end_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                       </Typography>
                     )}
                   </Box>
                   <Typography style={{ fontWeight:"bold" }}> {item.degree} </Typography>
                   {onMobile && (
                     <Typography>
-                      {new Date(item.start_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {new Date(item.end_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                      {new Date(item.start_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {new Date(item.end_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                     </Typography>
                   )}
                   
@@ -439,6 +454,8 @@ const Portfolio = (props: Props) => {
                 </Paper>
               ))}
 
+              
+
               <Divider/>
 
               <Typography sx={{ mt:"1rem", mb: "3rem", fontSize: "3rem" }}> WORK EXPERIENCE </Typography>
@@ -449,14 +466,14 @@ const Portfolio = (props: Props) => {
                     <Typography style={{ fontSize: "1.75rem", fontWeight: "bold" }}>{item.company_name}</Typography>
                     {!onMobile && (
                       <Typography>
-                        {new Date(item.start_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {new Date(item.end_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                        {new Date(item.start_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {new Date(item.end_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                       </Typography>
                     )}
                   </div>
                   <Typography style={{fontWeight: "bold"}}>{item.role}</Typography>
                   {onMobile && (
                     <Typography>
-                      {new Date(item.start_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {new Date(item.end_date.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                      {new Date(item.start_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {new Date(item.end_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                     </Typography>
                   )}
                   <Typography>{item.location}</Typography>
@@ -526,6 +543,7 @@ const Portfolio = (props: Props) => {
                       <Typography style={{ fontSize: "1.5rem", marginBottom: "1rem", color: '#0d47a1' }}>{publication.title} <OpenInNewIcon style={{ verticalAlign: "middle", marginRight: "5px", color: 'black' }} /></Typography>
 
                         <Typography style={{ textAlign: "justify", marginBottom:"1rem"}}>{publication.description}</Typography>
+                        
                         {publication.status === "completed" ? (
                           <div style={{ display: 'flex', alignItems: 'center' }}>
                             <DoneAllIcon sx={{ marginRight: '1rem', color: 'green' }} />
@@ -537,6 +555,11 @@ const Portfolio = (props: Props) => {
                             <Typography style={{ color: 'orange' }}>In Progress</Typography>
                           </div>
                         )}
+                        <Typography style={{ textAlign: "justify", marginTop:"1rem", marginBottom:"1rem"}}>Journal: {publication.journal}</Typography>
+                        <Typography style={{marginTop:"1rem"}}>
+                          Completion Date: {new Date(publication.publication_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                        </Typography>
+                        <Typography style={{ textAlign: "justify", marginTop:"1rem"}}>Tags:</Typography>
 
                         {publication.methods && publication.methods.length > 0 && (
                           <div style={{ marginTop: '1rem', marginBottom: '0.5rem' }}>
@@ -578,7 +601,7 @@ const Portfolio = (props: Props) => {
 
               <Divider/>
 
-              <Typography sx={{ mt: "1rem", mb: "3rem", fontSize: "3rem" }}>ACHIEVEMENTS</Typography>
+              <Typography sx={{ mt: "1rem", mb: "3rem", fontSize: onMobile? "2.5rem" : "3rem" }}>ACHIEVEMENTS</Typography>
 
               <div style={{ maxWidth: '80%', margin: '0 auto', marginBottom: '2rem' }}>
                 {portfolio.achievements.map((achievement, index) => (
@@ -588,7 +611,7 @@ const Portfolio = (props: Props) => {
                       <Paper elevation={3} style={{ width: '100%', padding: '20px' }}>  {/* , backgroundColor: index % 2 === 0 ? '#ffffe0' : '#fff' */}
                         <Typography variant="h6">{achievement.detail}</Typography>
                         <Typography style={{marginTop:"1rem"}}>
-                          Completion Date: {new Date(achievement.completionDate.$date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                          Completion Date: {new Date(achievement.completionDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                         </Typography>
                       </Paper>
                     </div>
@@ -601,9 +624,9 @@ const Portfolio = (props: Props) => {
               
               <Divider/>
 
-              <Typography sx={{ mt: "1rem", mb: "3rem", fontSize: "3rem" }}>CERTIFICATIONS</Typography>
+              <Typography sx={{ mt: "1rem", mb: "3rem", fontSize: onMobile? "2.5rem" : "3rem" }}>CERTIFICATIONS</Typography>
 
-              <div style={{ columnCount: 2, columnGap: '20px', maxWidth: '900px', margin: '0 auto', marginBottom: '2rem' }}>
+              <div style={{ columnCount: onMobile? 1: 2, columnGap: '20px', maxWidth: '900px', margin: '0 auto', marginBottom: '2rem' }}>
                 {portfolio.certifications.map((certification, index) => (
                   <Paper key={index} elevation={3} style={{ marginBottom: '20px', breakInside: 'avoid' }}> {/* , backgroundColor: index % 2 === 0 ? '#F0F2EF' : '#fff' */}
                     <div style={{ display: 'flex', alignItems: 'center', padding: '20px' }}>
@@ -611,7 +634,7 @@ const Portfolio = (props: Props) => {
                       <div>
                         <Typography style={{ fontSize: "1.5rem", marginBottom: "1rem", color: '#0d47a1' }}>{certification.title}</Typography>
                         <Typography >Issuer: {certification.issuer}</Typography>
-                        <Typography >Issued Date: {new Date(certification.date.$date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</Typography>
+                        <Typography >Issued Date: {new Date(certification.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</Typography>
                         {(certification.expiry_date || certification.expiry_date!=null) && (
                           <Typography>Expiry Date: {new Date(certification.expiry_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</Typography>
                         )}
