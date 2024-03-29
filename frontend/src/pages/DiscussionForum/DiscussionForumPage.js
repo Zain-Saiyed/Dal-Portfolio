@@ -23,7 +23,7 @@ const DiscussionForumPage = () => {
       }
     };
     fetchData();
-  }, []);
+  },[]);
 
   return (
     <div>
