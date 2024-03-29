@@ -16,71 +16,27 @@ function MyProjects() {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
 
   const fetchProjects = async () => {
-    // GET("/api/collaboration/fetch_projects/")
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     setProjects(response.data.projects);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-
-    const api_projects = [
-      {
-        _id: "660515d15c1765026660cc89",
-        title: "Student Result Management",
-        contributors: ["Boon", "Aaron", "Benjamin", "Benhur"],
-        user_id: "65f360189050f7fb6f800988",
-      },
-      {
-        _id: "660516745c1765026660cc8c",
-        title: "Amazon clone using React",
-        contributors: ["Zain", "Sushank", "Hatim"],
-        user_id: "65f360189050f7fb6f800988",
-      },
-    ];
-
-    setProjects(api_projects);
+    GET(`/api/collaboration/fetch_projects?user_id=65f360189050f7fb6f800988`)
+      .then((response) => {
+        console.log(response.data);
+        setProjects(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const fetchResearch = async () => {
-    // GET("/api/collaboration/fetch_research/")
+    GET("/api/collaboration/fetch_research?user_id=65f360189050f7fb6f800988")
 
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     setResearch(response.data.research);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   }
-    //   );
-
-    const api_research = [
-      {
-        _id: "660516c05c1765026660cc8d",
-        title:
-          "Analysis of Russian students of the Web Development Market Operating Online on behance.com",
-        contributors: [
-          "Mohammed",
-          "Hatim",
-          "Boon",
-          "Zainuddin",
-          "Sushank",
-          "Jinay",
-          "Aaron",
-        ],
-        user_id: "65f360189050f7fb6f800988",
-      },
-      {
-        _id: "6605172d5c1765026660cc8e",
-        title:
-          "Beyond A Gaussian Denoiser: Residual Learning Of Deep CNN For Image Denoising",
-        contributors: ["Mohammed", "Hatim", "Jinay", "Zain"],
-        user_id: "65f360189050f7fb6f800988",
-      },
-    ];
-
-    setResearch(api_research);
+      .then((response) => {
+        console.log(response.data);
+        setResearch(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      }
+      );
   };
 
   useLayoutEffect(() => {
