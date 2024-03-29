@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { FC } from "react";
 
-interface Props extends SelectProps {
+interface Props extends Omit<SelectProps, 'id' | 'label' | 'options'> {
   id: string;
   label: string;
   options: { value: string; label: string }[];

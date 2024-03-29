@@ -30,6 +30,18 @@ const ProfilePage = React.lazy(() =>
   }))
 );
 
+const PortfolioPage = React.lazy(() =>
+  import(/* webpackChunkName: "Portfolio" */ "pages/Portfolio/").then((module) => ({
+    default: module.Portfolio,
+  }))
+);
+
+const ProjectPage = React.lazy(() =>
+  import(/* webpackChunkName: "Project" */ "pages/Portfolio/").then((module) => ({
+    default: module.Project,
+  }))
+);
+
 const NotFoundPage = React.lazy(() =>
   import(/* webpackChunkName: "NotFoundPage" */ "pages/NotFound").then(
     (module) => ({
@@ -46,12 +58,4 @@ const CreatePortfolioPage = React.lazy(() =>
   }))
 );
 
-export {
-  HomePage,
-  ContactUsPage,
-  FAQPage,
-  NotFoundPage,
-  AboutUsPage,
-  ProfilePage,
-  CreatePortfolioPage
-};
+export { HomePage, ContactUsPage, FAQPage, NotFoundPage, AboutUsPage, ProfilePage, PortfolioPage, ProjectPage, CreatePortfolioPage };
