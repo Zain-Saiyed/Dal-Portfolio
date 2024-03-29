@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import ReplyDisplay from 'components/DiscussionForum/ReplyDisplay';
 import MainPost from 'components/DiscussionForum/MainPost';
+import Banner from 'components/DiscussionForum/banner';
 
 const DiscussionThread = () => {
     const location = useLocation();
@@ -9,6 +10,7 @@ const DiscussionThread = () => {
     const reversedReplies = replies.slice().reverse();
     return (
         <div>
+        <Banner />
         <MainPost
            id={id}
            email={email}

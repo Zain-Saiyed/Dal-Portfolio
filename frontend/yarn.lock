@@ -1447,6 +1447,11 @@
   resolved "https://registry.npmjs.org/@floating-ui/utils/-/utils-0.2.1.tgz"
   integrity sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==
 
+"@fontsource/public-sans@^5.0.17":
+  version "5.0.17"
+  resolved "https://registry.npmjs.org/@fontsource/public-sans/-/public-sans-5.0.17.tgz"
+  integrity sha512-s5qJhMelUX7faD9wOkBRaR24e9ZB9A/HolfAwMnJ9G+uMvnF7UF2hypBxtb30skeGgGw9LBpFAgk0bCd2v6TXg==
+
 "@humanwhocodes/config-array@^0.11.13":
   version "0.11.14"
   resolved "https://registry.npmjs.org/@humanwhocodes/config-array/-/config-array-0.11.14.tgz"

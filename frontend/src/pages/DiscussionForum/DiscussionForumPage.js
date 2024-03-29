@@ -3,6 +3,7 @@ import DiscussionPrompt from 'components/DiscussionForum/DiscussionPrompt';
 import DiscussionPost from 'components/DiscussionForum/DiscussionPost';
 import { Container, Grid } from '@mui/material';
 import {GET} from 'utils/axios';
+import Banner from 'components/DiscussionForum/banner';
 const DiscussionForumPage = () => {
   const [posts, setPosts] = useState([]);
 
@@ -27,6 +28,7 @@ const DiscussionForumPage = () => {
 
   return (
     <div>
+      <Banner />
       <Container>
       <Grid container spacing={2} marginTop='10px'>
         <Grid item xs={12} sm={5} md={5} lg={5} justifyContent={"center"}>
