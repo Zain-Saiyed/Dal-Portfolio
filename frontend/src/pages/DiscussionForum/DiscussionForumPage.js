@@ -36,6 +36,7 @@ const DiscussionForumPage = () => {
           {posts.map((post) => (
             <div key={post.id} style={{ marginBottom: '20px' }}>
               <DiscussionPost
+                id={post._id}
                 email={post.userName}
                 date={post.date}
                 title={post.title}
