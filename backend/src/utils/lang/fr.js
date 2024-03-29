@@ -82,5 +82,7 @@ export default {
   "00707": "La réponse a été ajoutée avec succès.",
   "00708": "L'identifiant du message est requis dans le corps de la requête",
   "00709": "Le message de discussion a été supprimé avec succès.",
-  "00710": "Erreur lors de la suppression du message de discussion."
+  "00710": "Erreur lors de la suppression du message de discussion.",
+  "00711": "La réponse a été supprimée avec succès.",
+  "00712": "Erreur lors de la suppression de la réponse."
 };

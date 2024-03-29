@@ -78,5 +78,7 @@ export default {
   "00707": "Reply could not be added.",
   "00708": "PostId is required in the request body.",
   "00709": "Discussion post deleted successfully.",
-  "00710": "Error deleting discussion post."
+  "00710": "Error deleting discussion post.",
+  "00711": "Reply deleted successfully.",
+  "00712": "Error deleting reply."
 };
