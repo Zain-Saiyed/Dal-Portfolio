@@ -3,3 +3,4 @@ export { default as fetchResearch } from "./fetch_research.js";
 export { default as fetchProjectByid } from "./fetchProjectByid.js";
 export { default as fetchResearchByid } from "./fetchResearchByid.js";
 export { default as sendRequest } from "./send_requests.js";
+export { default as fetchCollabRequestsById } from "./fetchCollabRequestsById.js";

@@ -1,5 +1,5 @@
 import { React, useRef, useState } from "react";
-// import { FaBars, FaTimes } from "react-icons/fa";
+import { Typography } from "@mui/material";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
@@ -7,27 +7,22 @@ function Request() {
   const projects = [
     {
       title: "Planning and The Psychology of Web Development",
-      contributors: ["Project"],
+      type: ["Project"],
       id: 123,
     },
     {
       title: "Avoiding mistakes in Web development",
-      contributors: ["Project"],
+      type: ["Project"],
       id: 456,
     },
     {
       title: "Usability and the Web Experience - Usability Principles",
-      contributors: ["Research"],
+      type: ["Research"],
       id: 789,
     },
   ];
 
-  const navRef = useRef();
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
-
-  const showNavbar = () => {
-    navRef.current.classList.toggle("responsive_nav");
-  };
 
   const handleCheckboxChange = (id) => {
     const updatedCheckboxes = [...selectedCheckboxes];
@@ -50,7 +45,17 @@ function Request() {
             {projects?.length > 0 ? (
               <>
                 <div className="text-center">
-                  <h1 className="bold-text">My Collaboration Requests</h1>
+                  <Typography
+                    variant="h2"
+                    sx={{
+                      mb: "24px",
+                      fontSize: "38px",
+                      lineHeight: 1.1,
+                      fontWeight: 600,
+                    }}
+                  >
+                    My Collaboration Requests
+                  </Typography>
                 </div>
                 <form>
                   <div className="project">
@@ -109,15 +114,22 @@ function Request() {
                     <div className="card-index p-3">{index + 1}</div>
 
                     <div className="flex-grow-1">
-                      <h5 className="card-title">{project.title}</h5>
+                      <Typography
+                        sx={{
+                          fontSize: "18px",
+                          lineHeight: "24px",
+                        }}
+                      >
+                        {project.title}
+                      </Typography>
                       <div className="card-tags">
-                        {project.contributors.map((contributor) => (
+                        {project.type.map((work_type) => (
                           <button
                             disabled
                             className="btn btn-outline-primary btn-sm mr-2"
-                            key={contributor}
+                            key={work_type}
                           >
-                            {contributor}
+                            {work_type}
                           </button>
                         ))}
                       </div>
