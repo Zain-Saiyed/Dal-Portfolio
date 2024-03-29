@@ -19,6 +19,7 @@ const DiscussionThread = () => {
         {reversedReplies && reversedReplies.map((reply) => (
              <div key={reply.id}>
              <ReplyDisplay
+             id={reply._id}
              email={reply.userName}
              date={reply.date}
              description={reply.description}
