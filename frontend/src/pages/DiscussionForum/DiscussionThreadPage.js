@@ -9,6 +9,7 @@ const DiscussionThread = () => {
     return (
         <div>
         <MainPost
+           id={id}
            email={email}
            date={date}
            title={title}

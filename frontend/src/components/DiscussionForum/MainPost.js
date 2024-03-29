@@ -6,13 +6,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteConfirmationModal from './DeleteConfirmation';
 import { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import {POST} from 'utils/axios';
 
 
-const MainPost = ({email,date,title,description}) => {
+const MainPost = ({id,email,date,title,description}) => {
+    console.log("postid:",id);
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
-    
+    const [showFailureModal, setShowFailureModal] = useState(false);
+
     const handleBackClick = () => {
         navigate(-1);
       };
@@ -26,17 +29,30 @@ const MainPost = ({email,date,title,description}) => {
       setIsModalOpen(false);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     setIsModalOpen(false);
-    // TODO:Add logic to delete the post
+    try {
+      const payload = {
+        postId: id,
+      };
+    const response =await POST('api/discussionforum/delete-post', payload);
+    console.log(response);
     console.log('Post deleted!');
     setShowSuccessModal(true);
+    } 
+    catch (error) {
+      setShowFailureModal(true);
+      console.error('Error posting discussion:', error);
+    }
 };
 const handleCloseSuccessModal =() =>{
   setShowSuccessModal(false);
   setTimeout(() => {
     navigate('/dalportfolios-discussions');
 }, 1000);
+}
+const handleCloseFailureModal =() =>{
+  setShowFailureModal(false);
 }
     
 return (
@@ -78,6 +94,15 @@ return (
         <Button style={{ color: 'black'}} onClick={handleCloseSuccessModal}>Close</Button>
     </DialogActions>
 </Dialog>
+<Dialog open={showFailureModal} onClose={() => setShowFailureModal(false)}>
+                   <DialogTitle>Failure</DialogTitle>
+                     <DialogContent>
+                      <Typography>There was an error. Please try again.</Typography>
+                     </DialogContent>
+                <DialogActions>
+                   <Button style={{ color: 'black'}} onClick={handleCloseFailureModal}>Close</Button>
+                </DialogActions>
+          </Dialog>
 </Grid>
 );
 }
