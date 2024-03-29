@@ -1,48 +1,84 @@
-import { useEffect } from "react";
+import { useEffect, useState  } from "react";
 import { useParams } from 'react-router-dom';
-import { Box, Typography, Link, Divider, Paper, LinearProgress, Button, IconButton, Chip } from "@mui/material";
+import { Box, Typography, Link, Paper, Button, Chip } from "@mui/material";
 import { useOnMobile, useOnTablets } from "hooks";
 import GitHubIcon from '@mui/icons-material/GitHub';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import PendingIcon from '@mui/icons-material/Pending';
 import ReplyIcon from '@mui/icons-material/Reply';
 import LinkIcon from '@mui/icons-material/Link';
+import Carousel from "react-material-ui-carousel";
+import { CircularProgress, Alert } from '@mui/material';
+
 
 import axios from 'axios';
 
-import Footer from "../Home/Footer";
-import Carousel from "react-material-ui-carousel";
 
 type Props = {};
 
-const project = {
-  "title": "Waste Classifier Application",
-  "description": "Recycle-ifier, is an android application which classifies whether the captured image contains Organic or Recycleable items and also outputs the coresponding probability of prediction. In addition to this users can also Submit captured Images to us, with which we can further optimize and improve the neural network model for better accuracy and predictions. The name Recycle-ifier is derived from two words which are- Recyclable and classifier. As the main function of the app is to classify if image has Recycleable or Organic items.",
-  "completionDate": {
-    "$date": "2022-05-05T00:00:00.000Z"
-  },
-  "status": "completed",
-  "technologies": [
-    "Tensorflow",
-    "Keras",
-    "Python",
-    "Android Application Development"
-  ],
-  "github_link": "https://github.com/Zain-Saiyed/Waste-Classifier-Application",
-  "demo_link": "https://github.com/Zain-Saiyed/Waste-Classifier-Application",
-  "images": [
-    "https://raw.githubusercontent.com/Zain-Saiyed/Waste-Classifier-Application/master/Images/all_screens.jpg",
-    "https://raw.githubusercontent.com/Zain-Saiyed/Waste-Classifier-Application/master/Images/splash_screen.png"
-  ],
-  "remarks": [
-    "Download application APK by visiting the GitHub repository.",
-    "IOS devices are currently not supported.",
-    "Contact for more details about the application.",
-  ],
-  "project_id": {
-    "$oid": "630f3d8e4f9d75e91a345600"
+interface ProjectDetail {
+  title: string;
+  description: string[];
+  completionDate: string,
+  status: string,
+  github_link: string,
+  demo_link: string,
+  project_id: string,
+  technologies: any[]; 
+  images: any[]; 
+  remarks: any[]; 
+}
+
+
+// const project = {
+//   "title": "Waste Classifier Application",
+//   "description": "Recycle-ifier, is an android application which classifies whether the captured image contains Organic or Recycleable items and also outputs the coresponding probability of prediction. In addition to this users can also Submit captured Images to us, with which we can further optimize and improve the neural network model for better accuracy and predictions. The name Recycle-ifier is derived from two words which are- Recyclable and classifier. As the main function of the app is to classify if image has Recycleable or Organic items.",
+//   "completionDate": {
+//     "$date": "2022-05-05T00:00:00.000Z"
+//   },
+//   "status": "completed",
+//   "technologies": [
+//     "Tensorflow",
+//     "Keras",
+//     "Python",
+//     "Android Application Development"
+//   ],
+//   "github_link": "https://github.com/Zain-Saiyed/Waste-Classifier-Application",
+//   "demo_link": "https://github.com/Zain-Saiyed/Waste-Classifier-Application",
+//   "images": [
+//     "https://raw.githubusercontent.com/Zain-Saiyed/Waste-Classifier-Application/master/Images/all_screens.jpg",
+//     "https://raw.githubusercontent.com/Zain-Saiyed/Waste-Classifier-Application/master/Images/splash_screen.png"
+//   ],
+//   "remarks": [
+//     "Download application APK by visiting the GitHub repository.",
+//     "IOS devices are currently not supported.",
+//     "Contact for more details about the application.",
+//   ],
+//   "project_id": {
+//     "$oid": "630f3d8e4f9d75e91a345600"
+//   }
+// };
+
+const { user_name, project_id } = useParams();
+const [ project, set_project ] = useState<ProjectDetail | null>(null);
+const [ loading, set_loading ] = useState(true);
+const [ flag_failed, set_flag_failed ] = useState(false);
+
+const get_user_project_details = async () => {
+  try {
+    const response =  await axios.post(`http://localhost:3001/api/portfolio/project`, {
+    user_name: user_name,
+    project_id: project_id
+  })
+    console.log(response.data.project_detail);
+    set_project(response.data.project_detail);
+    set_loading(false);
+  } catch (error) {
+    console.log(error);
+    set_flag_failed(true);
   }
 };
+
 
 
 const Project = (props: Props) => {
@@ -67,7 +103,28 @@ const Project = (props: Props) => {
 
   useEffect(() => {
     get_user_project_details();
-  }, []);
+  }, [user_name, project_id]);
+  
+  if (loading && !flag_failed) {
+    return <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Typography style={{marginRight: "2rem"}}>Loading Portfolio details...</Typography>
+      <CircularProgress color="warning" size={60} />
+    </Box>;
+  }
+  
+  if (!project) {
+    return (
+      <div>
+        <Alert severity="warning" variant="filled">
+          OOPS! Project not found for this user.
+        </Alert>
+        <Typography variant="body1" style={{ marginTop: "2rem" }}>
+          Browser other projects by returning to <Link href={`/portfolio/${user_name}`}>Portfolio page</Link>.
+        </Typography>
+      </div>
+    );
+  }
+  
 
   return (
     <Box sx={{ p: onMobile ? "50px 0" : "70px 0px 0px 0px" }}>
@@ -107,7 +164,7 @@ const Project = (props: Props) => {
                   ) : (
                     <PendingIcon sx={{ marginLeft: '1rem', marginRight: '1rem', color: 'orange' }} />
                   )}
-                  {project.status} on {new Date(project.completionDate.$date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                  {project.status} on {new Date(project.completionDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
               </Box>
 
               <Typography sx={{ mt:"2rem", mb: "3rem", fontWeight: "bold" }}> Project Images: </Typography>

@@ -55,260 +55,6 @@ const getProgressBarColor = (rating:any) => {
   }
 };
 
-// const portfolio = {
-  
-//   "_id": {
-//     "$oid": "630f3d8e4f9d75e91a345600"
-//   },
-//   "user_data" : {
-//     "username": "zsaiyed",
-//     "email": "zainuddin.s@dal.ca",
-//     "profile": {
-//       "first_name": "Zainuddin",
-//       "last_name": "Saiyed"
-//     }
-//   },
-//   "portfolioType": "dalhousie_template",
-//   "summary": ["As a highly skilled and accomplished Machine Learning Engineer, I have a diverse background in software development, data science, and cloud computing. Throughout my career, I have demonstrated exceptional technical expertise across a wide range of domains, including Agile software development, DevOps, cloud infrastructure (AWS, GCP, Azure), programming (Java, C++, Python), web development (React, Flask, Streamlit), databases (MongoDB, SQL Server, MySQL), and machine learning (TensorFlow, Keras, Scikit-Learn).", 
-//    "I have a deep understanding of software engineering best practices and I am adept at implementing robust, scalable, and maintainable systems. My professional experience includes roles as a Machine Learning Engineer at Poly9, VP Techlabs Pvt Ltd, and a Graduate Engineer Trainee at Vodafone Intelligent Solutions (VOIS). In these positions, I have demonstrated my ability to develop and deploy cutting-edge AI and machine learning solutions, optimize data processing and storage, and collaborate cross-functionally to deliver impactful results.", 
-//    "I am proud to have been recognized for my achievements, winning awards at prestigious hackathons and challenges, which showcases my innovative problem-solving skills and entrepreneurial mindset. My diverse skill set, combined with my passion for technology and drive to deliver exceptional results, make me a valuable asset to any organization seeking to leverage the power of data and machine learning to drive business growth and innovation."
-//   ],
-//   "twitter_link":"",
-//   "github_link":"https://github.com/Zain-Saiyed",
-//   "linkedin_link":"https://ca.linkedin.com/in/zain-saiyed",
-//   "gscholar_link":"https://scholar.google.com/citations?hl=en&user=3OrhaEMAAAAJ",
-//   "projects": [
-//     {
-//       "title": "AI-Chess Game",
-//       "description": "This project contains the 2-player chess and AI chess game implemented in Python programming language. In addition to this it also contains the executable files (in folders 2-Player Chess EXE and AI Chess EXE) for the same so that any user can play the game without having to download Python and rest of the dependencies required to run the python scripts.",
-//       "completionDate": {
-//         "$date": "2022-02-07T00:00:00.000Z"
-//       },
-//       "status": "n",
-//       "technologies": ['Tensorflow','Keras','Firebase','Python','Android application development','Git'],
-//       "github_link": "https://github.com/Zain-Saiyed/Chess-Game",
-//       "demo_link": "https://github.com/Zain-Saiyed/Chess-Game?tab=readme-ov-file#download-and-play",
-//       "images": [
-//         "https://raw.githubusercontent.com/Zain-Saiyed/Chess-Game/master/welcome.JPG",
-//         "https://raw.githubusercontent.com/Zain-Saiyed/Chess-Game/master/gameplay1.JPG",
-//         "https://raw.githubusercontent.com/Zain-Saiyed/Chess-Game/master/gameplay6.JPG",
-//         "https://raw.githubusercontent.com/Zain-Saiyed/Chess-Game/master/gameplay2.JPG",
-//         "https://raw.githubusercontent.com/Zain-Saiyed/Chess-Game/master/gameplay3.JPG",
-//         "https://raw.githubusercontent.com/Zain-Saiyed/Chess-Game/master/gameplay5.JPG",
-//       ],
-//       "project_id": {
-//         "$oid": "630f3d8e4f9d75e91a345600"
-//       }
-//     },{
-//       "title": "Converse Now",
-//       "description": "Converse-Now, is an android application which predicts a captured image containing a Hand Sign to its coresponding Alphabet, and also outputs the coresponding probability of prediction. This app will provide a interface which will bridge the gap between the differently abled and the common mass. Other features are that: users can also Submit captured Images to us, with which we can further optimize and improve the neural network model for better accuracy and predictions.",
-//       "completionDate": {
-//         "$date": "2019-11-15T00:00:00.000Z"
-//       },
-//       "status": "completed",
-//       "technologies": ['Tensorflow','Keras','Firebase','Python','Android application development','Git'],
-//       "github_link": 'https://github.com/Zain-Saiyed/Converse_Now',
-//       "images": [
-//         "https://raw.githubusercontent.com/Zain-Saiyed/Converse_Now/master/Images/cover_app.jpg"
-//       ],
-//       "project_id": {
-//         "$oid": "630f3d8e4f9d75e91a345601"
-//       }
-//     },{
-//       "title": "Waste Classifier Application",
-//       "description": "Recycle-ifier, is an android application which classifies whether the captured image contains Organic or Recycleable items and also outputs the coresponding probability of prediction. In addition to this users can also Submit captured Images to us, with which we can further optimize and improve the neural network model for better accuracy and predictions. The name Recycle-ifier is derived from two words which are- Recyclable and classifier. As the main function of the app is to classify if image has Recycleable or Organic items.",
-//       "completionDate": {
-//         "$date": "2020-03-15T00:00:00.000Z"
-//       },
-//       "status": "completed",
-//       "technologies": ['Tensorflow','Keras','Firebase','Python','Android application development','Git'],
-//       "github_link": 'https://github.com/Zain-Saiyed/Waste-Classifier-Application',
-//       "demo_link":'https://github.com/Zain-Saiyed/Waste-Classifier-Application/blob/master/Images/recycleifier_demo.gif',
-//       "images": [
-//         "portfolio1.jpg",
-//         "portfolio2.jpg"
-//       ],
-//       "project_id": {
-//         "$oid": "630f3d8e4f9d75e91a345602"
-//       }
-//     }
-//   ],
-//   "education": [
-//     {
-//       "degree": "Masters in Applied Computer Science",
-//       "field_of_study": "Computer Science",
-//       "university": "Dalhousie University",
-//       "start_date": {
-//         "$date": "2023-05-01T00:00:00.000Z"
-//       },
-//       "end_date": {
-//         "$date": "2024-09-01T00:00:00.000Z"
-//       },
-//       "grade_obtained": "4",
-//       "max_grade": "4.3",
-//       "description": "Learnt S.O.L.I.D. design principles, Design Patterns, MVC Archietcture. AWS, GCP and Azure Cloud Services. Serverless technologies."
-//     },
-//     {
-//       "degree": "Bachelor of Computer Science Engineering",
-//       "field_of_study": "Computer Science",
-//       "university": "Symbiosis Institute of Technology",
-//       "start_date": {
-//         "$date": "2017-06-01T00:00:00.000Z"
-//       },
-//       "end_date": {
-//         "$date": "2021-06-01T00:00:00.000Z"
-//       },
-//       "grade_obtained": "8.0",
-//       "max_grade": "10",
-//       "description": "Focused on software development and machine learning. Learning Analytics, Statistics, and Data modelling."
-//     },
-//   ],
-//   "experience": [
-//     {
-//       "company_name": "Vodafone Intelligent Solutions",
-//       "company_link": "https://www.vodafone.com/careers/professional-career-areas/shared-services",
-//       "role": "Graduate Engineer Trainee",
-//       "location": "Pune, India",
-//       "start_date": {
-//         "$date": "2021-05-01T00:00:00.000Z"
-//       },
-//       "end_date": {
-//         "$date": "2022-05-31T00:00:00.000Z"
-//       },
-//       "description": "Worked on data warehouses and SQL databases optimizing pipelines for overall performance."
-//     }
-//   ],
-//   "skills": [
-//     {
-//       "name": "AWS",
-//       "rating": 9
-//     },
-//     {
-//       "name": "GCP",
-//       "rating": 9
-//     },
-//     {
-//       "name": "Java",
-//       "rating": 8
-//     },
-//     {
-//       "name": "Machine Learning",
-//       "rating": 8
-//     },
-//     {
-//       "name": "Data Science",
-//       "rating": 8
-//     },
-//     {
-//       "name": "Python",
-//       "rating": 8
-//     },
-//     {
-//       "name": "SQL",
-//       "rating": 9
-//     },
-//     {
-//       "name": "React",
-//       "rating": 6
-//     },
-//     {
-//       "name": "PowerBI",
-//       "rating": 6
-//     },
-//     {
-//       "name": "JavaSript",
-//       "rating": 9
-//     },
-//     {
-//       "name": "C++",
-//       "rating": 5
-//     },
-//     {
-//       "name": "JIRA",
-//       "rating": 6
-//     },
-//     {
-//       "name": "TypeScript",
-//       "rating": 2
-//     }
-//   ],
-//   "achievements": [
-//     {
-//       "completionDate": {
-//         "$date": "2024-03-01T00:00:00.000Z"
-//       },
-//       "detail": "Won Second place at Cognizant BrAInstrom challenge."
-//     },
-//     {
-//       "completionDate": {
-//         "$date": "2024-01-01T00:00:00.000Z"
-//       },
-//       "detail": "Qualified for a health & wellness Generative AI hackathon held in Dalhousie University."
-//     },
-//     {
-//       "completionDate": {
-//         "$date": "2019-09-01T00:00:00.000Z"
-//       },
-//       "detail": "Won First place in HERE Technologies Datathon by building an Android application."
-//     }
-//   ],
-//   "research": [
-//     {
-//       "title": "Explainable Misinformation Detection Across Multiple Social Media Platforms",
-//       "journal": "IEEE Access",
-//       "publication_date": {
-//         "$date": "2023-03-08T00:00:00.000Z"
-//       },
-//       "status":"completed",
-//       "authors": ["GARGI JOSHI" , "ANANYA SRIVASTAVA" , "BHARGAV YAGNIK" , "MOHAMMED HASAN" ,"ZAINUDDIN SAIYED" , "LUBNA A. GABRALLA" , "AJITH ABRAHAM (Senior Member, IEEE)", "RAHEE WALAMBE", "KETAN KOTECHA"],
-//       "description": "The abstract of the paper highlights the significant impact of Web Information Processing (W.I.P.) on modern society, emphasizing the prevalence of misinformation on social media platforms. The paper discusses the use of machine learning-based models to detect misinformation, addressing challenges due to the variety of social media platforms. It proposes integrating domain adaptation and explainable A.I. techniques to enhance generalized detection and provide transparent outcomes. By applying Domain Adversarial Neural Network (DANN) for detection and Local Interpretable Model-Agnostic Explanations (LIME) for explanation, the study focuses on combating COVID-19 misinformation as a case study. Results indicate improved classification performance with DANN, enhancing accuracy and A.U.C. metrics while ensuring trustworthy information processing to combat misinformation effectively.",
-//       "methods": ["Deep Learning", "Natural Language Processing", "Domain Adaptation", "Web Scraping", "Misinformation Detection", "Explainable AI", "Covid-19"],
-//       "publication_page": "https://ieeexplore.ieee.org/document/10064251",
-//       "download_link": "https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=10064251"
-//     }
-//   ],
-//   "certifications": [
-//     {
-//       "title": "Deep learning specialization",
-//       "issuer": "DeepLearning.ai - Coursera",
-//       "date": {
-//         "$date": "2020-11-20T00:00:00.000Z"
-//       },
-//       "expiry_date" : null, 
-//       "verification_link": "https://drive.google.com/drive/folders/1YLIltgjAGm8jpMKfcqsqhS0flwjkFJt7"
-//     },
-//     {
-//       "title": "Architecting with Google Compute Engine specialization",
-//       "issuer": "Google Cloud - Coursera",
-//       "date": {
-//         "$date": "2020-08-20T00:00:00.000Z"
-//       },
-//       "expiry_date" : null,
-//       "verification_link": "https://drive.google.com/drive/folders/1EJRlRCcOKUGHRTg7rrjXr9uDI9pNl_yT"
-//     },
-//     {
-//       "title": "Machine Learning",
-//       "issuer": "Stanford - Coursera",
-//       "date": {
-//         "$date": "2019-02-20T00:00:00.000Z"
-//       },
-//       "expiry_date" : null,
-//       "verification_link": "https://drive.google.com/file/d/1dbPO7K3xpn7m6nhjfcOK-Lix6bZ8p0OI/view",
-//     },
-//   ],
-//   "createdAt": {
-//     "$date": "2022-06-01T00:00:00.000Z"
-//   },
-//   "updatedAt": {
-//     "$date": "2022-06-15T00:00:00.000Z"
-//   },
-//   "resume_link": "https://www.soundczech.cz/temp/lorem-ipsum.pdf",
-//   "portfolioName": "Software Developer",
-//   "default": true,
-//   "user_id": {
-//     "$oid": "60af884b5b50cabd3d270000"
-//   }
-// };
 interface PortfolioDetail {
   portfolioType: string;
   summary: string[];
@@ -317,13 +63,13 @@ interface PortfolioDetail {
   linkedin_link: string,
   gscholar_link: string,
   resume_link: string,
-  projects: any[]; // Define the type structure for projects
-  education: any[]; // Define the type structure for education
-  experience: any[]; // Define the type structure for experience
-  skills: any[]; // Define the type structure for skills
-  achievements: any[]; // Define the type structure for achievements
-  research: any[]; // Define the type structure for research
-  certifications: any[]; // Define the type structure for certifications
+  projects: any[]; 
+  education: any[]; 
+  experience: any[]; 
+  skills: any[];          
+  achievements: any[];    
+  research: any[];        
+  certifications: any[];  
   updatedAt: string;
   user_data: {
     email: string;
@@ -337,9 +83,9 @@ const Portfolio = (props: Props) => {
   const onTablets = useOnTablets();
   
   const { user_name } = useParams();
-  const [portfolio, set_portfolio] = useState<PortfolioDetail | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [flag_failed, setFlagFailed] = useState(false);
+  const [ portfolio, set_portfolio ] = useState<PortfolioDetail | null>(null);
+  const [ loading, set_loading ] = useState(true);
+  const [ flag_failed, set_flag_failed ] = useState(false);
 
   const get_user_portfolio_details = async () => {
     try {
@@ -348,10 +94,10 @@ const Portfolio = (props: Props) => {
     })
       console.log(response.data.portfolio_detail);
       set_portfolio(response.data.portfolio_detail);
-      setLoading(false);
+      set_loading(false);
     } catch (error) {
       console.log(error);
-      setFlagFailed(true);
+      set_flag_failed(true);
     }
   };
 
