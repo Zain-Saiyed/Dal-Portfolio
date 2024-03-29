@@ -20,6 +20,8 @@ import SkillSection from "./Sections/SkillSection";
 import CertificationSection from "./Sections/CertificationSection";
 import ConfigurationSection from "./Sections/ConfigurationSection";
 import { isEmpty } from "utils/helpers";
+import { POST } from "utils/axios";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
@@ -78,8 +80,8 @@ const sectionOrder = [
 ];
 
 const PortfolioForm = (props: Props) => {
-  // const { showSuccess, showError } = useToast();
-  const { showError } = useToast();
+  const navigate = useNavigate();
+  const { showSuccess, showError } = useToast();
   const [activeTab, setActiveTab] = React.useState<string>("Configuration");
   const [formValues, setFormValues] = React.useState<any>({
     configuration: {},
@@ -89,11 +91,13 @@ const PortfolioForm = (props: Props) => {
     projects: [],
     skills: [],
     certifications: [],
-    achievements: [],
-    social: [],
   });
 
+  console.log("formValues", formValues);
+
   const [sectionErrors, setSectionErrors] = React.useState<any>({});
+
+  console.log("sectionErrors", sectionErrors);
 
   const onMobile = useOnMobile();
 
@@ -151,7 +155,7 @@ const PortfolioForm = (props: Props) => {
             errors[field] = "Required";
           }
         });
-        _errors.push(errors);
+        !isEmpty(errors) && _errors.push(errors);
       });
       errorList.education = _errors;
       setSectionErrors((prevState: any) => ({
@@ -183,7 +187,7 @@ const PortfolioForm = (props: Props) => {
             errors[field] = "Required";
           }
         });
-        _errors.push(errors);
+        !isEmpty(errors) && _errors.push(errors);
       });
       errorList.experience = _errors;
       setSectionErrors((prevState: any) => ({
@@ -215,7 +219,7 @@ const PortfolioForm = (props: Props) => {
             errors[field] = "Required";
           }
         });
-        _errors.push(errors);
+        !isEmpty(errors) && _errors.push(errors);
       });
       errorList.projects = _errors;
       setSectionErrors((prevState: any) => ({
@@ -241,7 +245,7 @@ const PortfolioForm = (props: Props) => {
             errors[field] = "Required";
           }
         });
-        _errors.push(errors);
+        !isEmpty(errors) && _errors.push(errors);
       });
       errorList.skills = _errors;
       setSectionErrors((prevState: any) => ({
@@ -254,7 +258,6 @@ const PortfolioForm = (props: Props) => {
         "title",
         "issuer",
         "issue_date",
-        "expiry_date",
         "verification_link",
       ];
       let _errors: any = [];
@@ -273,7 +276,7 @@ const PortfolioForm = (props: Props) => {
             errors[field] = "Required";
           }
         });
-        _errors.push(errors);
+        !isEmpty(errors) && _errors.push(errors);
       });
       errorList.certifications = _errors;
       setSectionErrors((prevState: any) => ({
@@ -288,11 +291,51 @@ const PortfolioForm = (props: Props) => {
     validateProjects();
     validateSkills();
     validateCertifications();
-    if (!isEmpty(errorList)) {
+    if (!!Object.values(errorList).some((item) => !isEmpty(item))) {
       console.log("first error");
       showError("Please fill all required fields");
       return;
     }
+    const payload = {
+      configuration: formValues.configuration,
+      bio: formValues.bio,
+      education: formValues.education?.map((ins: any) => {
+        return {
+          ...ins,
+          start_date: ins?.start_date?.value,
+          end_date: ins?.end_date?.value,
+        };
+      }),
+      experience: formValues.experience?.map((ins: any) => {
+        return {
+          ...ins,
+          start_date: ins?.start_date?.value,
+          end_date: ins?.end_date?.value,
+        };
+      }),
+      projects: formValues.projects?.map((ins: any) => {
+        return {
+          ...ins,
+          start_date: ins?.start_date?.value,
+          end_date: ins?.end_date?.value,
+        };
+      }),
+      skills: formValues.skills,
+      certifications: formValues.certifications?.map((ins: any) => {
+        return {
+          ...ins,
+          issue_date: ins?.issue_date?.value || "",
+          expiry_date: ins?.expiry_date?.value || "",
+        };
+      }),
+    };
+    POST(`/api/profile/portfolio/65f360189050f7fb6f800988/create`, payload)
+      ?.then((res) => {
+        showSuccess("Portfolio created successfully");
+        console.log(res);
+        navigate("/profile");
+      })
+      .finally(() => {});
   };
 
   return (

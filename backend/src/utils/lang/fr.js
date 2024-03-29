@@ -75,4 +75,5 @@ export default {
   "00089": "Les informations de l'utilisateur ont été obtenues avec succès.",
   "00092": "Votre compte a été supprimé avec succès.",
   "00093": "User information has updated successfully.",
+  "00094": "Portfolio created successfully.",
 };

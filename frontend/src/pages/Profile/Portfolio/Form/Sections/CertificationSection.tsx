@@ -45,12 +45,6 @@ const CertificationSection = ({
       if (!!item?.issue_date?.context?.validationError) {
         errors[`certifications.${index}.issue_date`] = "Invalid Date";
       }
-      if (isEmpty(item.expiry_date?.value)) {
-        errors[`certifications.${index}.expiry_date`] = "Required";
-      }
-      if (!!item?.expiry_date?.context?.validationError) {
-        errors[`certifications.${index}.expiry_date`] = "Invalid Date";
-      }
       if (!item?.verification_link) {
         errors[`certifications.${index}.verification_link`] = "Required";
       }
@@ -127,7 +121,7 @@ const CertificationSection = ({
                               id: `${sectionId}-issue-date-${index}`,
                               name: `${sectionId}.${index}.issue_date`,
                               label: "Issue Date",
-                              // required: true,
+                              required: true,
                               value: ins?.issue_date || "",
                               component: DatePicker,
                               sx: { width: "100%" },

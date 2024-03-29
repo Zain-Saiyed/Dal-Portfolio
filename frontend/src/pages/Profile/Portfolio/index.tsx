@@ -1,12 +1,40 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
-import { Button, Icon, IconButton } from "components";
-import React from "react";
+import { Button, Icon, IconButton, Loader } from "components";
+import moment from "moment";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { GET } from "utils/axios";
 
 type Props = {};
 
 const Portfolio = (props: Props) => {
   const navigate = useNavigate();
+
+  const [portfolios, setPortfolios] = React.useState<any>([]);
+  const [loading, setLoading] = React.useState<boolean>(false);
+
+  useEffect(() => {
+    fetchPortfolioList();
+  }, []);
+
+  const fetchPortfolioList = () => {
+    setLoading(true);
+    GET(`/api/profile/user/65f360189050f7fb6f800988/portfolios`)
+      .then((res) => {
+        setPortfolios(res.data.portfolios);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <Container sx={{ width: "100%" }}>
       <Box display={"flex"} width={"100%"} justifyContent="right">
@@ -15,39 +43,37 @@ const Portfolio = (props: Props) => {
         </Button>
       </Box>
       <Stack spacing={3} marginTop={2}>
-        {["Full-stack Web Developer", "Devops Engineer", "AI Developer"].map(
-          (text, index) => (
-            <Stack
-              key={index}
-              direction="row"
-              justifyContent="space-between"
-              sx={{
-                border: "1px solid #F1F1F1",
-                borderRadius: 3,
-                padding: 2,
-                cursor: "pointer",
-                "&:hover": {
-                  bgcolor: "grey.100",
-                },
-              }}
-            >
-              <Box>
-                <Typography variant="h6" component={"h6"}>
-                  {text}
-                </Typography>
-                <Typography variant="body2" color={"grey.500"}>
-                  Created at: 27th Jan 2024
-                </Typography>
-              </Box>
-              <Box>
-                <Stack direction="row" justifyContent="flex-end">
-                  <IconButton icon="edit" />
-                  <IconButton icon="delete" />
-                </Stack>
-              </Box>
-            </Stack>
-          )
-        )}
+        {portfolios?.map((item: any, index: number) => (
+          <Stack
+            key={index}
+            direction="row"
+            justifyContent="space-between"
+            sx={{
+              border: "1px solid #F1F1F1",
+              borderRadius: 3,
+              padding: 2,
+              cursor: "pointer",
+              "&:hover": {
+                bgcolor: "grey.100",
+              },
+            }}
+          >
+            <Box>
+              <Typography variant="h6" component={"h6"}>
+                {item?.configuration?.name}
+              </Typography>
+              <Typography variant="body2" color={"grey.500"}>
+                {moment(item?.createdAt)?.format("MMM DD, YYYY")}
+              </Typography>
+            </Box>
+            <Box>
+              <Stack direction="row" justifyContent="flex-end">
+                <IconButton icon="edit" />
+                <IconButton icon="delete" />
+              </Stack>
+            </Box>
+          </Stack>
+        ))}
       </Stack>
     </Container>
   );

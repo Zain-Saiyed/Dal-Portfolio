@@ -1,85 +1,148 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
-// Defining new Mongoose Schema for Portfolio collection
-const portfolioSchema = new Schema({
-  portfolioType: { type: String, required: true },
-  summary: [{ type: String }],
-  twitter_link: { type: String },
-  github_link: { type: String },
-  linkedin_link: { type: String },
-  gscholar_link: { type: String },
-  resume_link: { type: String },
-  projects: [{
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    completionDate: { type: Date, required: true },
-    status: { type: String, enum: ['completed', 'in-progress'], required: true },
-    technologies: [{ type: String }],
-    github_link: { type: String, required: true },
-    demo_link: { type: String },
-    images: [{ type: String }],
-    remarks: [{ type: String }],
-    project_id: { type: String, required: true }
-  }],
-  education: [{
+const configurationSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    color: { type: String, required: true },
+  },
+  {
+    _id: false,
+  }
+);
+
+const bioSchema = new Schema(
+  {
+    first_name: { type: String, required: true },
+    last_name: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String },
+    address: { type: String },
+    city: { type: String },
+    country: { type: String },
+    about: { type: String },
+    github: { type: String },
+    linkedin: { type: String },
+    twitter: { type: String },
+    facebook: { type: String },
+    instagram: { type: String },
+    youtube: { type: String },
+    other_url: { type: String },
+    photo_url: { type: String },
+  },
+  {
+    _id: false,
+  }
+);
+
+const educationSchema = new Schema(
+  {
     degree: { type: String, required: true },
     field_of_study: { type: String, required: true },
     university: { type: String, required: true },
     start_date: { type: Date, required: true },
     end_date: { type: Date, required: true },
-    grade_obtained: { type: Number, required: true },
-    max_grade: { type: Number, required: true },
-    description: { type: String, required: true }
-  }],
-  experience: [{
+    description: { type: String },
+  },
+  {
+    _id: false,
+  }
+);
+
+const experienceSchema = new Schema(
+  {
     company_name: { type: String, required: true },
-    company_link: { type: String },
     role: { type: String, required: true },
     location: { type: String, required: true },
     start_date: { type: Date, required: true },
     end_date: { type: Date, required: true },
-    description: { type: String, required: true }
-  }],
-  skills: [{
-    name: { type: String, required: true },
-    rating: { type: Number, required: true }
-  }],
-  achievements: [{
-    completionDate: { type: Date, required: true },
-    detail: { type: String, required: true }
-  }],
-  research: [{
+    description: { type: String },
+  },
+  {
+    _id: false,
+  }
+);
+
+const projectSchema = new Schema(
+  {
     title: { type: String, required: true },
-    journal: { type: String },
-    publication_date: { type: Date },
-    status: { type: String, enum: ['completed', 'in-progress'] },
-    authors: [{ type: String }],
     description: { type: String, required: true },
-    methods: [{ type: String }],
-    publication_page: { type: String },
-    download_link: { type: String }
-  }],
-  certifications: [{
+    start_date: { type: Date, required: true },
+    end_date: { type: Date, required: true },
+    status: {
+      type: String,
+      enum: ["completed", "in-progress"],
+      required: true,
+    },
+    project_url: { type: String },
+  },
+  {
+    _id: false,
+  }
+);
+
+const skillSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    rating: { type: Number, required: true },
+  },
+  {
+    _id: false,
+  }
+);
+
+const certificationSchema = new Schema(
+  {
     title: { type: String, required: true },
     issuer: { type: String, required: true },
-    date: { type: Date, required: true },
+    issue_date: { type: Date, required: true },
     expiry_date: { type: Date },
-    verification_link: { type: String }
-  }],
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-  portfolioName: { type: String, required: true },
-  default: { type: Boolean, default: false },
-  user_id: { type: Schema.Types.ObjectId, required: true },
-  username: { type: String, required: true }
-},
-{
-  timestamps: true,
-  collection: "portfolios",
-});
+    verification_link: { type: String },
+  },
+  {
+    _id: false,
+  }
+);
 
-// Creating the Model for the schema
-const Portfolio = model("Portfolios", portfolioSchema);
+const portfolioSchema = new Schema(
+  {
+    configuration: {
+      type: configurationSchema,
+      required: true,
+    },
+    bio: {
+      type: bioSchema,
+      required: true,
+    },
+    education: {
+      type: [educationSchema],
+      required: true,
+    },
+    experience: {
+      type: [experienceSchema],
+      required: true,
+    },
+    projects: {
+      type: [projectSchema],
+      required: true,
+    },
+    skills: {
+      type: [skillSchema],
+      required: true,
+    },
+    certifications: {
+      type: [certificationSchema],
+      required: true,
+    },
+    is_default: { type: Boolean, default: false },
+    user_id: { type: Schema.Types.ObjectId, required: true },
+  },
+  {
+    timestamps: true,
+    collection: "portfolios",
+  }
+);
+
+const Portfolio = model("Portfolio", portfolioSchema);
 
 export default Portfolio;
