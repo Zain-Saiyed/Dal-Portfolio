@@ -6,6 +6,7 @@ import MainPost from 'components/DiscussionForum/MainPost';
 const DiscussionThread = () => {
     const location = useLocation();
     const { id, email, title, description,date,replies} = location.state;
+    const reversedReplies = replies.slice().reverse();
     return (
         <div>
         <MainPost
@@ -15,7 +16,7 @@ const DiscussionThread = () => {
            title={title}
            description={description}
         />
-        {replies && replies.map((reply) => (
+        {reversedReplies && reversedReplies.map((reply) => (
              <div key={reply.id}>
              <ReplyDisplay
              email={reply.userName}
