@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DiscussionPrompt from 'components/DiscussionForum/DiscussionPrompt';
 import DiscussionPost from 'components/DiscussionForum/DiscussionPost';
 import { Container, Grid } from '@mui/material';
+import {GET} from 'utils/axios';
 const DiscussionForumPage = () => {
    // Sample dummy data 
-   const [posts, setPosts] = useState([
+   /*const [posts, setPosts] = useState([
     {
       id: 1,
       email: 'example1@example.com',
@@ -38,7 +39,27 @@ const DiscussionForumPage = () => {
       }
       ],
     },
-  ]);
+  ]);*/
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+
+        const response = await GET('api/discussionforum/get-all-posts');
+        if (response.data && response.data.listOfPosts && Array.isArray(response.data.listOfPosts)) {
+          setPosts(response.data.listOfPosts);
+        } 
+        else {
+          console.error('Invalid data format:', response.data);
+        }
+      } 
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -51,7 +72,7 @@ const DiscussionForumPage = () => {
           {posts.map((post) => (
             <div key={post.id} style={{ marginBottom: '20px' }}>
               <DiscussionPost
-                email={post.email}
+                email={post.userName}
                 date={post.date}
                 title={post.title}
                 description={post.description}

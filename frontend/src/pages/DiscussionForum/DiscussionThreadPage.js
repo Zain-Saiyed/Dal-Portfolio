@@ -17,7 +17,7 @@ const DiscussionThread = () => {
         {replies && replies.map((reply) => (
              <div key={reply.id}>
              <ReplyDisplay
-             email={reply.email}
+             email={reply.userName}
              date={reply.date}
              description={reply.description}
             />
