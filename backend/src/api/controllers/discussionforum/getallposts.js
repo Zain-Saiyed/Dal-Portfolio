@@ -3,7 +3,7 @@ import {getText} from "../../../utils/index.js";
 
 export default async (req, res) => {
   try {
-    const discussionPosts = await DiscussionPost.find();
+    const discussionPosts = await DiscussionPost.find().sort({createdAt: -1});
     console.log("All discussion posts fetched successfully");
     res.status(200).json({
         listOfPosts: discussionPosts,
