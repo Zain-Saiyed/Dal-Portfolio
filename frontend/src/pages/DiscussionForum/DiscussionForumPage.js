@@ -4,42 +4,6 @@ import DiscussionPost from 'components/DiscussionForum/DiscussionPost';
 import { Container, Grid } from '@mui/material';
 import {GET} from 'utils/axios';
 const DiscussionForumPage = () => {
-   // Sample dummy data 
-   /*const [posts, setPosts] = useState([
-    {
-      id: 1,
-      email: 'example1@example.com',
-      date: '2024-03-16',
-      title: 'First Post',
-      description: 'This is the description for the first post.',
-      replies: [{
-        id:1,
-        email:'example@dal.ca',
-        description: 'Description 1',
-        date: 'today'
-      },
-      {
-        id:1,
-        email:'example@dal.ca',
-        description: 'Description 1',
-        date: 'today'
-      }],
-    },
-    {
-      id: 2,
-      email: 'example2@example.com',
-      date: '2024-03-17',
-      title: 'Second Post',
-      description: 'This is the description for the second post.',
-      replies: [{
-        id:1,
-        email:'example@dal.ca',
-        description: 'Description 1',
-        date: 'today'
-      }
-      ],
-    },
-  ]);*/
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
