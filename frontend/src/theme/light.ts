@@ -10,6 +10,7 @@ export const LIGHT_THEME: ThemeOptions = {
     MuiButton: {
       defaultProps: {
         color: "warning",
+        size: "small",
         variant: "contained",
         sx: {
           color: "#000",
@@ -18,8 +19,24 @@ export const LIGHT_THEME: ThemeOptions = {
           "&:hover": {
             opacity: 0.8,
             backgroundColor: "#fcd405",
-          }
+          },
         },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          "&.Mui-selected": {
+            color: "#fcd405",
+          },
+        },
+      },
+    },
+    MuiTabs: {
+      styleOverrides: {
+        indicator: {
+          backgroundColor: "#fcd405",
+        }
       },
     },
   },

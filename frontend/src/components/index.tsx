@@ -5,6 +5,8 @@ import Loader from "components/Loader";
 import Button from "components/Button";
 import AppView from "components/AppView";
 import IconButton from "components/IconButton";
+import InputField from "components/InputField";
+import SelectField from "components/SelectField";
 import ErrorBoundary from "components/ErrorBoundary";
 
 export {
@@ -15,5 +17,7 @@ export {
   Button,
   AppView,
   IconButton,
+  InputField,
+  SelectField,
   ErrorBoundary,
 };

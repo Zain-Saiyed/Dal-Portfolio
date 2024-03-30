@@ -62,8 +62,6 @@ const testimonials = [
 
 ];
 
-type Props = {}
-
 const Testimonials = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));

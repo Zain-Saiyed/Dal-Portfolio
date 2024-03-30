@@ -13,12 +13,10 @@ import { getText } from "../utils/index.js";
 
 export default (app) => {
   process.on("uncaughtException", async (error) => {
-    // console.log(error);
     logger("00001", "", error.message, "Uncaught Exception", "");
   });
 
   process.on("unhandledRejection", async (ex) => {
-    // console.log(ex);
     logger("00002", "", ex.message, "Unhandled Rejection", "");
   });
 
