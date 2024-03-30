@@ -5,6 +5,7 @@ import { ErrorMessage, FieldArray, Form, Formik } from "formik";
 import { snakeCase } from "lodash";
 import React, { Fragment, useEffect } from "react";
 import { isEmpty } from "utils/helpers";
+import dayjs from "dayjs";
 
 type Props = {
   sectionId: string;
@@ -43,16 +44,16 @@ const ExperienceSection = ({
       if (!item?.location) {
         errors[`experience.${index}.location`] = "Required";
       }
-      if (isEmpty(item?.start_date?.value)) {
+      if (isEmpty(item?.start_date)) {
         errors[`experience.${index}.start_date`] = "Required";
       }
-      if (!!item?.start_date?.context?.validationError) {
+      if (!dayjs(item?.start_date)?.isValid()) {
         errors[`experience.${index}.start_date`] = "Invalid Date";
       }
-      if (isEmpty(item.end_date?.value)) {
+      if (isEmpty(item.end_date)) {
         errors[`experience.${index}.end_date`] = "Required";
       }
-      if (!!item?.end_date?.context?.validationError) {
+      if (!dayjs(item?.end_date)?.isValid()) {
         errors[`experience.${index}.end_date`] = "Invalid Date";
       }
     });
@@ -155,7 +156,7 @@ const ExperienceSection = ({
                               id: `${sectionId}-description-${index}`,
                               name: `${sectionId}.${index}.description`,
                               label: "Description",
-                              type: "text",                              
+                              type: "text",
                               value: ins?.description,
                               component: InputField,
                             },
@@ -182,14 +183,15 @@ const ExperienceSection = ({
                                         error: !!errors?.[rest?.name],
                                       },
                                     },
-                                    value: rest?.value?.value || null,
+                                    value: dayjs(rest?.value),
                                     onChange: (value: any, context: any) =>
                                       replace(index, {
                                         ...ins,
-                                        [snakeCase(rest?.label)]: {
-                                          value: value,
-                                          context: context,
-                                        },
+                                        [snakeCase(rest?.label)]: value,
+                                        // [snakeCase(rest?.label)]: {
+                                        //   value: value,
+                                        //   context: context,
+                                        // },
                                       }),
                                   })}
                                 />
@@ -247,7 +249,6 @@ const ExperienceSection = ({
                 onClick={async () => {
                   saveValues(values?.[sectionId]);
                   const _errors = await validateForm();
-                  console.log("_errors", _errors);
                   isEmpty(_errors) && next();
                 }}
                 disabled={!next}

@@ -17,6 +17,7 @@ import { isEmail, isEmpty } from "utils/helpers";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useFormik } from "formik";
 import { POST } from "utils/axios";
+import dayjs, { Dayjs } from "dayjs";
 
 interface Props {
   user: any;
@@ -87,19 +88,7 @@ const UserEditModal: FC<Props> = ({
       gender: instance?.profile?.gender,
       dob: instance?.profile?.dob || "",
     });
-
-  }, [user, formik, instance]);
-
-  // const prepareInitialValues = () => {
-  //   formik.setValues({
-  //     first_name: instance?.profile?.first_name,
-  //     last_name: instance?.profile?.last_name,
-  //     username: instance?.username,
-  //     email: instance?.email,
-  //     gender: instance?.profile?.gender,
-  //     dob: instance?.profile?.dob || "",
-  //   });
-  // };
+  }, [user]);
 
   const handleSave = (values: any) => {
     const payload: any = {
@@ -109,7 +98,7 @@ const UserEditModal: FC<Props> = ({
         first_name: values.first_name,
         last_name: values.last_name,
         gender: values.gender,
-        dob: values?.dob?.value,
+        dob: values?.dob,
       },
     };
     POST(`/api/profile/user/${instance?._id}/update`, payload)
@@ -218,17 +207,16 @@ const UserEditModal: FC<Props> = ({
                   disableFuture
                   sx={{ width: "100%" }}
                   label="Date of Birth"
-                  {...formik.getFieldProps("dob")}
+                  // {...formik.getFieldProps("dob")}
                   slotProps={{ textField: { helperText: formik?.errors?.dob } }}
-                  value={
-                    formik?.values?.dob?.[
-                      "value" as keyof typeof formik.values.dob
-                    ] || null
-                  }
+                  value={dayjs(
+                    formik?.values?.dob
+                  )}
                   onChange={(value, context) => {
                     formik.setValues((prevState: any) => ({
                       ...prevState,
-                      dob: { value, context },
+                      // dob: { value, context },
+                      dob: value,
                     }));
                   }}
                 />

@@ -3,7 +3,7 @@ import { errorHelper, getText } from "../../../../utils/index.js";
 import { validateCreatePortfolio } from "../../../validators/portfolio.validator.js";
 
 export default async (req, res) => {
-  const user_id = req.params.id;
+  const user_id = req.params.user_id;
   const { error, value, warning } = validateCreatePortfolio(req.body);
   if (error) {
     return res
