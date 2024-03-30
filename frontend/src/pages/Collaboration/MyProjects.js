@@ -4,13 +4,10 @@ import { useLayoutEffect, useState } from "react";
 import { isEmpty } from "utils/helpers";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import { useNavigate } from "react-router-dom";
 import "../../css/MyProjects.css";
 import { Button } from "components";
 
 function MyProjects() {
-  const navigate = useNavigate();
-
   const [projects, setProjects] = useState([]);
   const [research, setResearch] = useState([]);
   const [selectedProjectCheckboxes, setSelectedProjectCheckboxes] = useState(

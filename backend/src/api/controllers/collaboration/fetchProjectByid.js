@@ -4,10 +4,7 @@ import { ObjectId } from "mongodb";
 export default async (req, res) => {
   try {
     const { id } = req.query;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid _id format" });
-    }
-    const project = await CollabProjects.find({"_id" : ObjectId(id)}); // Fetch document by _id
+    const project = await CollabProjects.find({ _id: ObjectId(id) }); // Fetch document by _id
     if (!project) {
       // Check if document exists
       return res.status(404).json({ error: "Project not found" });

@@ -1,4 +1,4 @@
 import MyProjects from "./MyProjects";
-import MyRequests from "./MyRequests";
+import MyCollabRequests from "./MyCollabRequests";
 
-export { MyProjects, MyRequests };
+export { MyProjects, MyCollabRequests };
