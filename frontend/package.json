@@ -10,7 +10,7 @@
     "@mui/x-date-pickers": "^6.19.8",
     "@types/lodash": "^4.17.0",
     "axios": "^1.6.8",
-    "axios": "^1.6.8",
+    "dayjs": "^1.11.10",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",

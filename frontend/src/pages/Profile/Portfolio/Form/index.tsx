@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Button, Icon, SelectField } from "components";
 import { useOnMobile, useToast } from "hooks";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import BioSection from "./Sections/BioSection";
 import EducationSection from "./Sections/EducationSection";
 import ExperienceSection from "./Sections/ExperienceSection";
@@ -20,8 +20,9 @@ import SkillSection from "./Sections/SkillSection";
 import CertificationSection from "./Sections/CertificationSection";
 import ConfigurationSection from "./Sections/ConfigurationSection";
 import { isEmpty } from "utils/helpers";
-import { POST } from "utils/axios";
-import { useNavigate } from "react-router-dom";
+import { POST, PUT } from "utils/axios";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import dayjs from "dayjs";
 
 type Props = {};
 
@@ -80,6 +81,8 @@ const sectionOrder = [
 ];
 
 const PortfolioForm = (props: Props) => {
+  const { portfolioId } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
   const { showSuccess, showError } = useToast();
   const [activeTab, setActiveTab] = React.useState<string>("Configuration");
@@ -93,13 +96,38 @@ const PortfolioForm = (props: Props) => {
     certifications: [],
   });
 
-  console.log("formValues", formValues);
-
   const [sectionErrors, setSectionErrors] = React.useState<any>({});
 
-  console.log("sectionErrors", sectionErrors);
+  const isEdit = !!portfolioId;
 
   const onMobile = useOnMobile();
+
+  useEffect(() => {
+    if (!isEmpty(location?.state)) {
+      prepareFormValues(location?.state?.portfolio);
+    }
+  }, [location?.state]);
+
+  const prepareFormValues = (data: any) => {
+    const {
+      configuration,
+      bio,
+      education,
+      experience,
+      projects,
+      skills,
+      certifications,
+    } = data;
+    setFormValues({
+      configuration: configuration || {},
+      bio: bio || {},
+      education: education || [],
+      experience: experience || [],
+      projects: projects || [],
+      skills: skills || [],
+      certifications: certifications || [],
+    });
+  };
 
   const handleSubmit = () => {
     let errorList: any = {};
@@ -153,6 +181,11 @@ const PortfolioForm = (props: Props) => {
         requiredFields?.forEach((field: string) => {
           if (!item?.[field]) {
             errors[field] = "Required";
+          } else if (
+            field.includes("date") &&
+            !dayjs(item?.[field])?.isValid()
+          ) {
+            errors[field] = "Invalid Date";
           }
         });
         !isEmpty(errors) && _errors.push(errors);
@@ -185,6 +218,11 @@ const PortfolioForm = (props: Props) => {
         requiredFields?.forEach((field: string) => {
           if (!item?.[field]) {
             errors[field] = "Required";
+          } else if (
+            field.includes("date") &&
+            !dayjs(item?.[field])?.isValid()
+          ) {
+            errors[field] = "Invalid Date";
           }
         });
         !isEmpty(errors) && _errors.push(errors);
@@ -217,6 +255,11 @@ const PortfolioForm = (props: Props) => {
         requiredFields?.forEach((field: string) => {
           if (!item?.[field]) {
             errors[field] = "Required";
+          } else if (
+            field.includes("date") &&
+            !dayjs(item?.[field])?.isValid()
+          ) {
+            errors[field] = "Invalid Date";
           }
         });
         !isEmpty(errors) && _errors.push(errors);
@@ -274,6 +317,11 @@ const PortfolioForm = (props: Props) => {
         requiredFields?.forEach((field: string) => {
           if (!item?.[field]) {
             errors[field] = "Required";
+          } else if (
+            field.includes("date") &&
+            !dayjs(item?.[field])?.isValid()
+          ) {
+            errors[field] = "Invalid Date";
           }
         });
         !isEmpty(errors) && _errors.push(errors);
@@ -292,47 +340,25 @@ const PortfolioForm = (props: Props) => {
     validateSkills();
     validateCertifications();
     if (!!Object.values(errorList).some((item) => !isEmpty(item))) {
-      console.log("first error");
       showError("Please fill all required fields");
       return;
     }
     const payload = {
       configuration: formValues.configuration,
       bio: formValues.bio,
-      education: formValues.education?.map((ins: any) => {
-        return {
-          ...ins,
-          start_date: ins?.start_date?.value,
-          end_date: ins?.end_date?.value,
-        };
-      }),
-      experience: formValues.experience?.map((ins: any) => {
-        return {
-          ...ins,
-          start_date: ins?.start_date?.value,
-          end_date: ins?.end_date?.value,
-        };
-      }),
-      projects: formValues.projects?.map((ins: any) => {
-        return {
-          ...ins,
-          start_date: ins?.start_date?.value,
-          end_date: ins?.end_date?.value,
-        };
-      }),
+      education: formValues.education,
+      experience: formValues.experience,
+      projects: formValues.projects,
       skills: formValues.skills,
-      certifications: formValues.certifications?.map((ins: any) => {
-        return {
-          ...ins,
-          issue_date: ins?.issue_date?.value || "",
-          expiry_date: ins?.expiry_date?.value || "",
-        };
-      }),
+      certifications: formValues.certifications,
     };
-    POST(`/api/profile/portfolio/65f360189050f7fb6f800988/create`, payload)
+    const url = isEdit
+      ? `/api/profile/portfolio/${portfolioId}/edit`
+      : `/api/profile/portfolio/65f360189050f7fb6f800988/create`;
+    const method = isEdit ? PUT : POST;
+    method(url, payload)
       ?.then((res) => {
-        showSuccess("Portfolio created successfully");
-        console.log(res);
+        showSuccess(res?.data?.resultMessage?.en);
         navigate("/profile");
       })
       .finally(() => {});
@@ -355,9 +381,20 @@ const PortfolioForm = (props: Props) => {
           }}
         >
           <Typography variant="h6" component="h6">
-            Create Portfolio
+            {isEdit ? "Update Portfolio" : "Create Portfolio"}
           </Typography>
-          <Button label="Submit" onClick={handleSubmit} />
+          <Box>
+            <Button
+              label="Back to Profile"
+              onClick={() => navigate("/profile")}
+            />
+            {activeTab !== "Certifications" && (
+              <Button
+                label={isEdit ? "Update" : "Create"}
+                onClick={handleSubmit}
+              />
+            )}
+          </Box>
         </Box>
         <Box sx={{ height: "94%", width: "100%" }}>
           <Box
@@ -455,6 +492,8 @@ const PortfolioForm = (props: Props) => {
                       key={ins?.key}
                       sectionId={ins?.key}
                       sectionValues={formValues?.[ins?.key]}
+                      handleSubmit={handleSubmit}
+                      isEdit={isEdit}
                       saveValues={(values: any) =>
                         setFormValues((prevState: any) => ({
                           ...prevState,
