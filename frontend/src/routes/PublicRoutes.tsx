@@ -11,7 +11,7 @@ import {
   ContactUsPage,
   CreatePortfolioPage,
   PortfolioPage,
-  ProjectPage
+  ProjectPage,
   SearchPage,
 } from "routes/components";
 import { PublicLayout } from "layout";
