@@ -17,6 +17,8 @@ import {
   TOP_BAR_DESKTOP_HEIGHT,
   TOP_BAR_MOBILE_HEIGHT,
 } from "layout/config";
+import useLogout from "hooks/useLogout";
+
 
 const SIDE_BAR_ITEMS: Array<LinkToPage> = [
   {
@@ -41,12 +43,13 @@ const SIDE_BAR_ITEMS: Array<LinkToPage> = [
   },
   {
     title: "Log Out",
-    path: "/auth/logout",
+    path: "/logout",
     icon: "logout",
   },
 ];
 
 const PrivateLayout: FC<PropsWithChildren> = () => {
+  const logout = useLogout();
   // const navigate = useNavigate();
   const [sideBarVisible, setSideBarVisible] = useState(false);
   const onMobile = useOnMobile();

@@ -1,3 +1,5 @@
+//Author: Mohammed Noor ul Hasan Kothaliya
+
 import React, { useState } from 'react';
 import {
     Box, Button, Container, FormControl, InputLabel, OutlinedInput, Typography, Paper, FormHelperText,
@@ -6,6 +8,7 @@ import {
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 import Footer from "pages/Home/Footer";
+import { POST } from 'utils/axios'; 
 
 
 const useStyles = makeStyles((theme) => ({
@@ -63,19 +66,21 @@ const ForgotPassword = () => {
         return emailRegex.test(email) && email.endsWith('@dal.ca');
     };
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         if (!validateEmail(email)) {
             setError('Please enter a valid email address ending with @dal.ca.');
         } 
-        //  If the email address is not recognized, display an error message
-        
-        //  If the email address is recognized, send a password reset link to the user's email address
         else {
             setError('');
-            setOpenDialog(true); // Show confirmation dialog
-            // Trigger the password reset logic here, typically involving an API call
-            console.log('Reset password link sent to:', email);
+            try {
+                const response = await POST('/api/user/forgot-password', { email });
+                console.log('Response:', response.data);
+                setOpenDialog(true); 
+            } catch (error: any) {
+                console.error('Error:', error);
+                setError(error.response?.data?.message || error.message)
+            }
         }
     };
 
@@ -122,7 +127,7 @@ const ForgotPassword = () => {
                 <DialogTitle>Email Sent</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        A password reset link has been sent to your registered email address. Please check your inbox.
+                        A password reset link has been sent to your registered email address which will expire in 1 hour. Please check your inbox.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

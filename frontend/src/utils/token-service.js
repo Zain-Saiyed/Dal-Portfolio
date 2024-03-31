@@ -1,3 +1,5 @@
+//Author: Mohammed Noor ul Hasan Kothaliya
+
 import Cookies from 'js-cookie'; 
 
 class TokenService {

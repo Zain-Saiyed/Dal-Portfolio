@@ -46,10 +46,10 @@ const PublicRoutes = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/reset-password/:username/:resetToken" element={<ResetPasswordPage />} />
         <Route path="/verify-email/:username/:verificationCode" element={<EmailVerificationPage />} />
 
-        
+    
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
