@@ -5,14 +5,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteConfirmationModal from './DeleteConfirmation';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {POST} from 'utils/axios';
 
-const ReplyDisplay = ({postId, id, email, date, description }) => {
+const ReplyDisplay = ({postId, id, email, date, description, onDelete }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailureModal, setShowFailureModal] = useState(false);
-  const navigate = useNavigate();
   
   console.log("postId:", postId);
   console.log("replyid:", id);
@@ -35,6 +33,7 @@ const ReplyDisplay = ({postId, id, email, date, description }) => {
       const response =await POST('api/discussionforum/delete-reply', payload);
       console.log(response);
       console.log('Reply deleted!');
+      onDelete(id);
       setShowSuccessModal(true);
     }
     catch (error) {
@@ -45,9 +44,6 @@ const ReplyDisplay = ({postId, id, email, date, description }) => {
 
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
-    setTimeout(() => {
-      navigate('/dalportfolios-discussions');
-    }, 1000);
   };
 
   const handleCloseFailureModal = () => {
@@ -57,7 +53,7 @@ const ReplyDisplay = ({postId, id, email, date, description }) => {
   return (
     <Grid container justifyContent="center" style={{ padding: '5px' }}>
       <Grid item xs={12} md={8} lg={6}>
-        <Card variant="outlined" style={{ background: '#DDDDDD', padding: '16px', width: '100%', position: 'relative' }}>
+        <Card variant="outlined" style={{ background: '#FCFBF7', padding: '16px', width: '100%', position: 'relative' }}>
           <CardContent>
             <Grid container alignItems="center" justifyContent="space-between">
               <Grid item>

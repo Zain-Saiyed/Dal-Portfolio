@@ -7,7 +7,7 @@ import { useState } from 'react';
 import StartDiscussion from './StartThreadForm';
 
 //To ask user if they wish to start a disucssion
-const DiscussionPrompt = () => {
+const DiscussionPrompt = ({getPosts}) => {
   const [isStartDiscussionOpen, setStartDiscussionOpen] = useState(false);
   
   const handleStartDiscussionClick = () => {
@@ -17,7 +17,7 @@ const DiscussionPrompt = () => {
 return (
       <>
       {!isStartDiscussionOpen && (
-        <Paper style={{ background: '#DDDDDD', padding: '16px', textAlign: 'center', minHeight: '212px', top: 200 }}>
+        <Paper style={{ background: '#FCFBF7', padding: '16px', textAlign: 'center', minHeight: '212px', top: 200 }}>
           <Typography variant="h5" style={{ marginTop: '20px', color: 'black', fontWeight: 500 }}>
             Do you have a question or an idea to share?
           </Typography>
@@ -30,7 +30,7 @@ return (
           </Button>
         </Paper>
       )}
-      {isStartDiscussionOpen && <StartDiscussion onClose={() => setStartDiscussionOpen(false)} />}
+      {isStartDiscussionOpen && <StartDiscussion getPosts={getPosts} onClose={() => setStartDiscussionOpen(false)} />}
     </>
 );
 };
