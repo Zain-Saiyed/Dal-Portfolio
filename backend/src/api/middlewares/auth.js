@@ -6,38 +6,34 @@ const { Types } = pkg;
 import jwt from "jsonwebtoken";
 const { verify } = jwt;
 
-export default async (req, res, next) => {
-  let token = req.header("Authorization");
-  if (!token) return res.status(401).json(errorHelper("00006", req));
+const authMiddleware = async (req, res, next) => {
+  let token = req.headers.authorization;
 
-  if (token.includes("Bearer"))
-    token = req.header("Authorization").replace("Bearer ", "");
+  if (!token) {
+      return res.status(401).json(errorHelper("00006", req, "Access denied. No token provided."));
+  }
+
+  token = token.replace('Bearer ', '');  
 
   try {
-    req.user = verify(token, jwtSecretKey);
-    if (!Types.ObjectId.isValid(req.user._id))
-      return res.status(400).json(errorHelper("00007", req));
+      const decoded = jwt.verify(token, jwtSecretKey);
+      req.user = decoded;  
 
-    const exists = await User.exists({
-      _id: req.user._id,
-      isVerified: true,
-    }).catch((err) => {
-      return res.status(500).json(errorHelper("00008", req, err.message));
-    });
+      const user = await User.findOne({ _id: decoded._id, isVerified: true });
+      if (!user) {
+          return res.status(404).json(errorHelper("00009", req, "User not found or not verified."));
+      }
 
-    if (!exists) return res.status(400).json(errorHelper("00009", req));
+      const tokenExists = await Token.findOne({ userId: decoded._id, refreshToken: { $ne: null } });
+      if (!tokenExists) {
+          return res.status(401).json(errorHelper("00011", req, "Session expired or invalid."));
+      }
 
-    const tokenExists = await Token.exists({
-      userId: req.user._id,
-      status: true,
-    }).catch((err) => {
-      return res.status(500).json(errorHelper("00010", req, err.message));
-    });
-
-    if (!tokenExists) return res.status(401).json(errorHelper("00011", req));
-
-    next();
-  } catch (err) {
-    return res.status(401).json(errorHelper("00012", req, err.message));
+      next();
+  } catch (error) {
+      console.error("Token validation error:", error);
+      return res.status(401).json(errorHelper("00012", req, "Invalid token or token expired."));
   }
 };
+
+export default authMiddleware;

@@ -42,6 +42,43 @@ const ProjectPage = React.lazy(() =>
   }))
 );
 
+const SearchPage = React.lazy(() =>
+  import(/* webpackChunkName: "Search" */ "pages/Home").then((module) => ({
+    default: module.SearchPage,
+  }))
+);
+
+const SignUpPage = React.lazy(() =>
+  import(/* webpackChunkName: "SignUp" */ "pages/Auth").then((module) => ({
+    default: module.SignUp,
+  }))
+);
+
+const LoginPage = React.lazy(() =>
+  import(/* webpackChunkName: "SignUp" */ "pages/Auth").then((module) => ({
+    default: module.Login,
+  }))
+);
+
+const ForgotPasswordPage = React.lazy(() =>
+  import(/* webpackChunkName: "SignUp" */ "pages/Auth").then((module) => ({
+    default: module.ForgotPassword,
+  }))
+);
+
+const ResetPasswordPage = React.lazy(() =>
+  import(/* webpackChunkName: "SignUp" */ "pages/Auth").then((module) => ({
+    default: module.ResetPassword,
+  }))
+);
+
+const EmailVerificationPage = React.lazy(() =>
+  import(/* webpackChunkName: "SignUp" */ "pages/Auth").then((module) => ({
+    default: module.EmailVerification,
+  }))
+);
+
+
 const NotFoundPage = React.lazy(() =>
   import(/* webpackChunkName: "NotFoundPage" */ "pages/NotFound").then(
     (module) => ({
@@ -58,4 +95,4 @@ const CreatePortfolioPage = React.lazy(() =>
   }))
 );
 
-export { HomePage, ContactUsPage, FAQPage, NotFoundPage, AboutUsPage, ProfilePage, PortfolioPage, ProjectPage, CreatePortfolioPage };
+export { HomePage, ContactUsPage, FAQPage, NotFoundPage, AboutUsPage, ProfilePage, PortfolioPage, ProjectPage, CreatePortfolioPage, SignUpPage, LoginPage, ForgotPasswordPage, SearchPage,  ResetPasswordPage, EmailVerificationPage };

@@ -5,6 +5,7 @@ import { ErrorMessage, FieldArray, Form, Formik } from "formik";
 import { snakeCase } from "lodash";
 import React, { Fragment, useEffect } from "react";
 import { isEmpty } from "utils/helpers";
+import dayjs from "dayjs";
 
 type Props = {
   sectionId: string;
@@ -12,6 +13,8 @@ type Props = {
   saveValues: Function;
   next: Function;
   prev: Function;
+  handleSubmit: Function;
+  isEdit: boolean;
 };
 
 const formConfig = {
@@ -29,6 +32,8 @@ const CertificationSection = ({
   saveValues,
   next,
   prev,
+  handleSubmit,
+  isEdit
 }: Props) => {
   const handleValidation = (values: any) => {
     let errors: any = {};
@@ -39,10 +44,10 @@ const CertificationSection = ({
       if (!item?.issuer) {
         errors[`certifications.${index}.issuer`] = "Required";
       }
-      if (isEmpty(item?.issue_date?.value)) {
+      if (isEmpty(item?.issue_date)) {
         errors[`certifications.${index}.issue_date`] = "Required";
       }
-      if (!!item?.issue_date?.context?.validationError) {
+      if (!dayjs(item?.issue_date)?.isValid()) {
         errors[`certifications.${index}.issue_date`] = "Invalid Date";
       }
       if (!item?.verification_link) {
@@ -167,14 +172,15 @@ const CertificationSection = ({
                                         error: !!errors?.[rest?.name],
                                       },
                                     },
-                                    value: rest?.value?.value || null,
+                                    value: dayjs(rest?.value),
                                     onChange: (value: any, context: any) =>
                                       replace(index, {
                                         ...ins,
-                                        [snakeCase(rest?.label)]: {
-                                          value: value,
-                                          context: context,
-                                        },
+                                        [snakeCase(rest?.label)]: value,
+                                        // [snakeCase(rest?.label)]: {
+                                        //   value: value,
+                                        //   context: context,
+                                        // },
                                       }),
                                   })}
                                 />
@@ -233,11 +239,10 @@ const CertificationSection = ({
                 onClick={async () => {
                   saveValues(values?.[sectionId]);
                   const _errors = await validateForm();
-                  isEmpty(_errors) && next();
+                  isEmpty(_errors) && handleSubmit();
                 }}
-                disabled={!next}
               >
-                Next
+                {isEdit ? "Update" : "Create"}
               </Button>
             </Box>
           </Box>

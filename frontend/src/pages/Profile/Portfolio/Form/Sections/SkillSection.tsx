@@ -181,7 +181,6 @@ const SkillSection = ({ sectionValues, saveValues, next, prev }: Props) => {
                 onClick={async () => {
                   saveValues(values?.[sectionId]);
                   const _errors = await validateForm();
-                  console.log("_errors", _errors);
                   isEmpty(_errors) && next();
                 }}
                 disabled={!next}

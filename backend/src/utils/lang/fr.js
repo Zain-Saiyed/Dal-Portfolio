@@ -1,3 +1,4 @@
+//Author: Sushank Saini, Hatim Patrawala
 export default {
   verificationCodeTitle: "Code de vérification - DalPortfolio",
   verificationCodeBody: "Voici votre code de confirmation :",
@@ -26,6 +27,7 @@ export default {
     "Veuillez fournir un nom qui soit plus long que 3 lettres et plus court que 30 lettres.",
   "00029": "Veuillez fournir un email valide !",
   "00032": "Un compte avec cette adresse de nom d'utilisateur existe déjà.",
+  "00033": "Un compte avec cette adresse e-mail existe déjà.",
   "00035": "Vous vous êtes inscrit avec succès.",
   "00036": "Aucun compte trouvé avec cette adresse email.",
   "00038": "Veuillez fournir tous les champs requis !",
@@ -76,4 +78,18 @@ export default {
   "00092": "Votre compte a été supprimé avec succès.",
   "00093": "User information has updated successfully.",
   "00094": "Portfolio created successfully.",
+  "00095": "Portfolio updated successfully.",
+  "00096": "Portfolio deleted successfully.",
+  "00701": "Votre publication a été soumise avec succès.",
+  "00702": "Votre publication n'a pas pu être soumise avec succès.",
+  "00703": "Tous les messages de discussion ont été récupérés avec succès.",
+  "00704": "Erreur lors de la récupération des messages de discussion.",
+  "00705": "Le message de discussion n'a pas pu être trouvé",
+  "00706": "La réponse a été ajoutée avec succès.",
+  "00707": "La réponse a été ajoutée avec succès.",
+  "00708": "L'identifiant du message est requis dans le corps de la requête",
+  "00709": "Le message de discussion a été supprimé avec succès.",
+  "00710": "Erreur lors de la suppression du message de discussion.",
+  "00711": "La réponse a été supprimée avec succès.",
+  "00712": "Erreur lors de la suppression de la réponse."
 };

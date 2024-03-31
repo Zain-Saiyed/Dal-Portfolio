@@ -5,10 +5,13 @@ import {
   useContext,
   createContext,
   PropsWithChildren,
+  useEffect,
 } from "react";
 
 import AppReducer from "store/AppReducer";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { GET } from "utils/axios";
+import { fetchSession } from "utils/session";
 
 export interface AppStoreState {
   darkMode: boolean;
@@ -28,14 +31,27 @@ const AppContext = createContext<AppContextReturningType>([
 
 const AppStoreProvider: FC<PropsWithChildren> = ({ children }) => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  // const tokenExists = Boolean(getToken());
-
-  const initialState: AppStoreState = {
+  let initialState: AppStoreState = {
     ...INITIAL_APP_STATE,
     darkMode: prefersDarkMode,
-    // isAuthenticated: tokenExists,
   };
+
+  useEffect(() => {
+    fetchSessionAPI();
+  }, [])
+
+  const fetchSessionAPI = async () => {
+    GET("/api/user/session")?.then((response) => {
+      initialState = {
+        ...INITIAL_APP_STATE,
+        darkMode: prefersDarkMode,
+        isAuthenticated: response?.data?.isAuthenticated,
+        currentUser: response?.data?.user,
+      };
+    })
+  }
   const value: AppContextReturningType = useReducer(AppReducer, initialState);
+
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

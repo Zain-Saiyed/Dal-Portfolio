@@ -1,3 +1,4 @@
+//Author: Sushank Saini
 import React from 'react';
 import { Modal, Box, Typography, Button } from '@mui/material';
 
@@ -27,10 +28,10 @@ const DeleteConfirmationModal = ({ open, onClose, onConfirm }) => {
           Are you sure you want to delete this post?
         </Typography>
         <Box sx={{ mt: 2 }}>
-          <Button onClick={onConfirm} variant="contained" sx={{ mr: 2,color: 'white', backgroundColor: 'black' }}>
+          <Button onClick={onConfirm} variant="contained" sx={{ mr: 2,color: 'black', backgroundColor: '#FCD405' }}>
             Yes
           </Button>
-          <Button onClick={onClose} variant="outlined" sx={{ mr: 2,color: 'black',borderColor: 'black' }}>
+          <Button onClick={onClose} variant="outlined" sx={{ mr: 2,color: 'black',borderColor: '#FCD405' }}>
             No
           </Button>
         </Box>

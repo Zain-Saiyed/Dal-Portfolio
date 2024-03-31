@@ -1,3 +1,4 @@
+//Author: Sushank Saini, Hatim Patrawala
 export default {
   verificationCodeTitle: "Verification Code - DalPortfolio",
   verificationCodeBody: "Here is your confirm code:",
@@ -25,7 +26,8 @@ export default {
     "Please provide a name that is longer than 3 letters and shorter than 30 letters.",
   "00029": "Please provide a valid email!",
   "00032": "An account with this username address already exists.",
-  "00035": "You registered successfully.",
+  "00033": "An account with this email address already exists.",
+  "00035": "You registered successfully, Verification mail sent.",
   "00036": "An account with this email address was not found.",
   "00038": "Please provide all the required fields!",
   "00039": "Please provide a valid email!",
@@ -72,4 +74,18 @@ export default {
   "00092": "Your account was deleted successfully.",
   "00093": "User information has updated successfully.",
   "00094": "Portfolio created successfully.",
+  "00095": "Portfolio updated successfully.",
+  "00096": "Portfolio deleted successfully.",
+  "00701": "Your post was submitted sucessfully. ",
+  "00702": "Your post could not be submitted sucessfully. ",
+  "00703": "All discussion posts fetched successfully",
+  "00704": "Error fetching discussion posts:",
+  "00705": "Discussion post could not be found",
+  "00706": "Reply added successfully.",
+  "00707": "Reply could not be added.",
+  "00708": "PostId is required in the request body.",
+  "00709": "Discussion post deleted successfully.",
+  "00710": "Error deleting discussion post.",
+  "00711": "Reply deleted successfully.",
+  "00712": "Error deleting reply."
 };
