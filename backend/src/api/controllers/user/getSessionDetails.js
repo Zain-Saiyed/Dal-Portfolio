@@ -1,3 +1,5 @@
+//Author: Mohammed Noor ul Hasan Kothaliya
+
 import { User } from "../../../models/index.js";
 import jwt from "jsonwebtoken";
 import { jwtSecretKey } from "../../../config/index.js";

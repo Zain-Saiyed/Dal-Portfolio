@@ -1,3 +1,5 @@
+//Author: Mohammed Noor ul Hasan Kothaliya
+
 import Footer from "pages/Home/Footer";
 import React from "react";
 import {

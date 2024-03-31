@@ -1,3 +1,5 @@
+//Author: Mohammed Noor ul Hasan Kothaliya
+
 import React, { useState } from 'react';
 import {
     useTheme, useMediaQuery,
@@ -96,7 +98,6 @@ const LoginForm = () => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        // Include your login logic here
         console.log(formData);
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/;
@@ -106,16 +107,7 @@ const LoginForm = () => {
             return;
         } 
 
-        //If the user enters an incorrect email or password, System displays an error message and  suggests visiting the 'Forgot Password' 
-        //If the user enters correct email and password:
-        //If the user's account is not verified, System displays a message prompting account verification
-
-        // If the login credentials are correct and the account is verified, the system grants access 
-
-        // Dummy error handling
-        // if (formData.email !== 'user@example.com' || formData.password !== 'password') {
-        //     setErrors({ auth: 'Incorrect email or password.' });
-        // }
+     
         try {
             const response = await POST('/api/user/login', {
                 email: formData.email,
@@ -124,11 +116,10 @@ const LoginForm = () => {
 
             const { accessToken, refreshToken } = response.data;
 
-            // Store the access token in memory and refresh token in cookies
             sessionStorage.setItem('accessToken', accessToken);
-            Cookies.set('refreshToken', refreshToken, { expires: 7 });  // 7 days expiration
+            Cookies.set('refreshToken', refreshToken, { expires: 7 });  
 
-            navigate('/');  // Assuming you have a dashboard route for logged-in users
+            navigate('/');  
         } catch (error: any) {
             const errorMessage = error.response?.data?.message || 'Login failed!';
             setErrors({ auth: errorMessage });

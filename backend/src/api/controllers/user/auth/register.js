@@ -1,3 +1,5 @@
+//Author: Mohammed Noor ul Hasan Kothaliya
+
 import { User } from "../../../../models/index.js";
 
 import { validateRegister } from "../../../validators/user.validator.js";

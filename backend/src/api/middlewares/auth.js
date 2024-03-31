@@ -1,3 +1,5 @@
+//Author: Mohammed Noor ul Hasan Kothaliya
+
 import { User, Token } from "../../models/index.js";
 import { errorHelper } from "../../utils/index.js";
 import { jwtSecretKey } from "../../config/index.js";
