@@ -83,8 +83,8 @@ function MyProjects() {
     POST("/api/collaboration/send_request", {
       receiver_user_id: "bon",
       sender_user_id: "voyage",
-      project_ids: selectedProjectCheckboxes,
-      research_ids: selectedResearchCheckboxes,
+      projects: selectedProjectCheckboxes,
+      researchs: selectedResearchCheckboxes,
       status: "PENDING",
     })
       .then((response) => {
