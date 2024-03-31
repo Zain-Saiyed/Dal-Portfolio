@@ -55,4 +55,3 @@ const DELETE = (url: string, options?: AxiosRequestConfig) => {
 };
 
 export { GET, POST, PUT, DELETE, PATCH };
-

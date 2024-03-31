@@ -2,7 +2,7 @@ import Footer from 'pages/Home/Footer'
 import React from "react";
 import { Box, Container, Typography, Link, Divider, Paper } from '@mui/material';
 import { Button } from "components";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import EmailIcon from "@mui/icons-material/Email";
 
 type Props = {}

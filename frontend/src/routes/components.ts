@@ -24,6 +24,24 @@ const FAQPage = React.lazy(() =>
   }))
 );
 
+const ProfilePage = React.lazy(() =>
+  import(/* webpackChunkName: "Profile" */ "pages/Profile").then((module) => ({
+    default: module.default,
+  }))
+);
+
+const PortfolioPage = React.lazy(() =>
+  import(/* webpackChunkName: "Portfolio" */ "pages/Portfolio/").then((module) => ({
+    default: module.Portfolio,
+  }))
+);
+
+const ProjectPage = React.lazy(() =>
+  import(/* webpackChunkName: "Project" */ "pages/Portfolio/").then((module) => ({
+    default: module.Project,
+  }))
+);
+
 const NotFoundPage = React.lazy(() =>
   import(/* webpackChunkName: "NotFoundPage" */ "pages/NotFound").then(
     (module) => ({
@@ -32,4 +50,12 @@ const NotFoundPage = React.lazy(() =>
   )
 );
 
-export { HomePage, ContactUsPage, FAQPage, NotFoundPage, AboutUsPage };
+const CreatePortfolioPage = React.lazy(() =>
+  import(
+    /* webpackChunkName: "CreatePortfolioPage" */ "pages/Profile/Portfolio/Form"
+  ).then((module) => ({
+    default: module.default,
+  }))
+);
+
+export { HomePage, ContactUsPage, FAQPage, NotFoundPage, AboutUsPage, ProfilePage, PortfolioPage, ProjectPage, CreatePortfolioPage };
