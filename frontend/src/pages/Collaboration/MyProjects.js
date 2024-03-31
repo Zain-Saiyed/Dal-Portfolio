@@ -81,8 +81,8 @@ function MyProjects() {
     console.log("research: ", selectedResearchCheckboxes);
 
     POST("/api/collaboration/send_request", {
-      receiver_user_id: "bon",
-      sender_user_id: "voyage",
+      receiver_user_id: "6608aa6ead4a6a2f19709a24",
+      sender_user_id: "6608aa6ead4a6a2f19709a24",
       projects: selectedProjectCheckboxes,
       researchs: selectedResearchCheckboxes,
       status: "PENDING",

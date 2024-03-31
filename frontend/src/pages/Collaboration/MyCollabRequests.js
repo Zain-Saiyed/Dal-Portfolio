@@ -9,7 +9,9 @@ function Request() {
   const [projects, setProjects] = useState([]);
 
   const fetchCollabRequests = async () => {
-    GET(`/api/collaboration/fetch_collab_requests?user_id=bon`)
+    GET(
+      `/api/collaboration/fetch_collab_requests?user_id=6608aa6ead4a6a2f19709a24`
+    )
       .then((response) => {
         setProjects(response.data);
         console.log(response.data);
