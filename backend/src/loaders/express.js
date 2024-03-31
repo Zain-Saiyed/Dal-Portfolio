@@ -26,6 +26,7 @@ export default (app) => {
   }
 
   app.enable("trust proxy");
+  // app.use(cors());
   app.use(
     cors({
       credentials: true,

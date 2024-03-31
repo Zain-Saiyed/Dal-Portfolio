@@ -27,6 +27,7 @@ export default {
     "Veuillez fournir un nom qui soit plus long que 3 lettres et plus court que 30 lettres.",
   "00029": "Veuillez fournir un email valide !",
   "00032": "Un compte avec cette adresse de nom d'utilisateur existe déjà.",
+  "00033": "Un compte avec cette adresse e-mail existe déjà.",
   "00035": "Vous vous êtes inscrit avec succès.",
   "00036": "Aucun compte trouvé avec cette adresse email.",
   "00038": "Veuillez fournir tous les champs requis !",
