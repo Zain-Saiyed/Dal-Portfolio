@@ -11,7 +11,8 @@ const AppReducer: React.Reducer<AppStoreState, any> = (state, action) => {
     case "LOG_IN":
       return {
         ...state,
-        isAuthenticated: true,
+        isAuthenticated: action?.payload?.isAuthenticated || false,
+        currentUser: action?.payload?.currentUser,
       };
     case "LOG_OUT":
       return {
