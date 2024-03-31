@@ -6,20 +6,26 @@ import { ToastProvider } from "hooks";
 import Toast from "components/Toast";
 import { Suspense } from "react";
 import { Loader } from "components";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import 'dayjs/locale/en-gb';
 
 function App() {
   return (
     <Suspense fallback={<Loader />}>
-      <ErrorBoundary name="App">
-        <ToastProvider>
-          <AppStore>
-            <AppThemeProvider>
-              <Toast />
-              <Routes />
-            </AppThemeProvider>
-          </AppStore>
-        </ToastProvider>
-      </ErrorBoundary>
+      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
+        <ErrorBoundary name="App">
+          <ToastProvider>
+            <AppStore>
+              <AppThemeProvider>
+                <Toast />
+                <Routes />
+              </AppThemeProvider>
+            </AppStore>
+          </ToastProvider>
+        </ErrorBoundary>
+      </LocalizationProvider>
     </Suspense>
   );
 }

@@ -1,5 +1,7 @@
 import { User } from "../../../../models/index.js";
+
 import { validateRegister } from "../../../validators/user.validator.js";
+
 import {
   logger,
   getText,
