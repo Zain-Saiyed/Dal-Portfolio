@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import {POST} from 'utils/axios'
 
-const DiscussionPost = ({ id, email, date, title, description, replyCount,replies }) => {
+const DiscussionPost = ({ id, email, date, title, description, replyCount,replies,getPosts }) => {
   const [reply, setReply] = useState('');
   const [replyError, setReplyError] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -47,6 +47,7 @@ const DiscussionPost = ({ id, email, date, title, description, replyCount,replie
             }),
           };
         const response =await POST('api/discussionforum/add-reply', payload);
+        getPosts();
         console.log('Response:',response);
         console.log('Reply submitted:', reply);
         setShowSuccessModal(true);
