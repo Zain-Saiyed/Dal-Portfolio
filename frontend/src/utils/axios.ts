@@ -55,27 +55,26 @@ instance.interceptors.response.use(
       return instance(originalRequest);
     }
     return Promise.reject(error);
-  }
-);
+});
 
 const GET = (url: string, options?: AxiosRequestConfig) => {
-  return instance.get(url, options);
+    return instance.get(url, options);
 };
 
 const POST = (url: string, data?: any, options?: AxiosRequestConfig) => {
-  return instance.post(url, data, options);
+    return instance.post(url, data, options);
 };
 
 const PUT = (url: string, data?: any, options?: AxiosRequestConfig) => {
-  return instance.put(url, data, options);
+    return instance.put(url, data, options);
 };
 
 const PATCH = (url: string, data?: any, options?: AxiosRequestConfig) => {
-  return instance.patch(url, data, options);
+    return instance.patch(url, data, options);
 };
 
 const DELETE = (url: string, options?: AxiosRequestConfig) => {
-  return instance.delete(url, options);
+    return instance.delete(url, options);
 };
 
 export { GET, POST, PUT, DELETE, PATCH };
