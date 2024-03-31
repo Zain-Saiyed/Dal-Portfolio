@@ -120,10 +120,10 @@ const StartDiscussion = ({ onClose }) => {
             {errorMessage}
           </div>
         )}
-        <Button variant="contained" onClick={handleSubmit} style={{ marginRight: '8px', color: 'white', backgroundColor: 'black' }}>
+        <Button variant="contained" onClick={handleSubmit} style={{ marginRight: '8px', color: 'black', backgroundColor: '#FCD405' }}>
           Post
         </Button>
-        <Button variant="contained" style={{ color: 'white', backgroundColor: 'black' }} onClick={handleCancel}>
+        <Button variant="contained" style={{ color: 'black', backgroundColor: '#FCD405' }} onClick={handleCancel}>
           Cancel
         </Button>
         <Dialog open={showSuccessModal} onClose={() => setShowSuccessModal(false)}>

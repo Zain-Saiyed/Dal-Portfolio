@@ -9,7 +9,7 @@ const Banner = () => {
   return (
     <Grid justifyContent="center">
       <Grid item xs={12} sm={10} md={8} lg={6}>
-        <Paper style={{ background: '#FFC300', padding: '30px', textAlign: 'center', maxWidth: '100%', margin: 0 }}>
+        <Paper style={{ background: '#FCD405', padding: '30px', textAlign: 'center', maxWidth: '100%', margin: 0 }}>
         <Grid justifyContent="center">
         <Grid item xs={12} sm={10} md={8} lg={6}>
           <Typography variant="h4" style={{ color: 'black', fontWeight: 'bold', fontFamily: 'Public Sans', display: 'inline' }}>
