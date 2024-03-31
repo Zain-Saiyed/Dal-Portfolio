@@ -53,7 +53,7 @@ const ReplyDisplay = ({postId, id, email, date, description, onDelete }) => {
   return (
     <Grid container justifyContent="center" style={{ padding: '5px' }}>
       <Grid item xs={12} md={8} lg={6}>
-        <Card variant="outlined" style={{ background: '#DDDDDD', padding: '16px', width: '100%', position: 'relative' }}>
+        <Card variant="outlined" style={{ background: '#FCFBF7', padding: '16px', width: '100%', position: 'relative' }}>
           <CardContent>
             <Grid container alignItems="center" justifyContent="space-between">
               <Grid item>
