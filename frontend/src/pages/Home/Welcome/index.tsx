@@ -6,6 +6,7 @@ import Footer from "../Footer";
 import Features from "./Features";
 import Testimonials from "./Testimonials";
 import { GET } from "utils/axios";
+import { useAppStore } from "store";
 
 type Props = {};
 

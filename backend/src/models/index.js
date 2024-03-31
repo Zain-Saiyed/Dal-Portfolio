@@ -10,3 +10,4 @@ export const Log = logModel;
 export const Portfolio = portfolioModel;
 
 export const DiscussionPost= discussionPostModel;
+export const Verification = verficationModel;

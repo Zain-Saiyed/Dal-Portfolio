@@ -44,6 +44,16 @@ const SIDE_BAR_ITEMS: Array<LinkToPage> = [
     path: "/about-us",
     icon: "info",
   },
+  {
+    title: "SignUp",
+    path: "/signup",
+    icon: "signup",
+  },
+  {
+    title: "Login",
+    path: "/login",
+    icon: "login",
+  },
 ];
 
 const NAVBAR_ITEMS: Array<LinkToPage> = SIDE_BAR_ITEMS.filter(

@@ -27,15 +27,15 @@ const userSchema = new Schema(
       required: true,
       unique: true,
       lowercase: true,
-      match: /^[a-zA-Z0-9]+$/,
+      // match: /^[a-zA-Z0-9]+$/,
     },
     email: {
       type: String,
       required: true,
       unique: true,
       lowercase: true,
-      match:
-        /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+      // match:
+      //   /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
     },
     password: {
       type: String,
@@ -47,7 +47,7 @@ const userSchema = new Schema(
     },
     type: {
       type: String,
-      enum: ["admin", "user", "recruiter", "creator"],
+      enum: ["admin", "user", "recruiter", "creator", "student", "alumni", "staff", "faculty"],
       default: "user",
     },
     photoUrl: {
