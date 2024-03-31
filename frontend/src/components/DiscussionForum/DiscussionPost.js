@@ -1,15 +1,18 @@
+//Author: Sushank Saini
 import React from 'react';
 import { Card, CardContent, Typography,TextField, IconButton } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import { useState } from 'react';
-import SendIcon from '@mui/icons-material/Send';
+import ReplyIcon from '@mui/icons-material/Reply';
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import {POST} from 'utils/axios'
 
 const DiscussionPost = ({ id, email, date, title, description, replyCount,replies }) => {
   const [reply, setReply] = useState('');
   const [replyError, setReplyError] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailureModal, setShowFailureModal] = useState(false);
   const navigate = useNavigate();
   
   const handleTitleClick = () => {
@@ -23,17 +26,40 @@ const DiscussionPost = ({ id, email, date, title, description, replyCount,replie
     setReplyError('');
   };
 
-  const handleReplySubmit = () => {
+  const handleReplySubmit = async () => {
       // Reply should not be empty
       if (reply.trim() !== '') {
-        console.log(reply);
-        setShowSuccessModal(true);
-         // TO DO: Insert record in the database for the list of replies for that particular post
+        try {
+          console.log(reply);
+          const payload = {
+            //TODO: fetch user name from localstorage 
+            postId: id,
+            userName: 'sush007',
+            description:reply,
+            date: new Date().toLocaleString('en-US', { 
+              year: 'numeric', 
+              month: '2-digit', 
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              hour12: false // To use 24-hour format
+            }),
+          };
+        const response =await POST('api/discussionforum/add-reply', payload);
+        console.log('Response:',response);
         console.log('Reply submitted:', reply);
+        setShowSuccessModal(true);
         setReply('');
+        } 
+        catch (error) {
+          setShowFailureModal(true);
+          console.error('Error posting discussion:', error);
+        }
+  
       } 
       else {
-          // Display an error message or handle empty reply input case
+          // Display an error message or handle empty reply input edge case
           setReplyError('Reply cannot be empty.');
           console.error('Reply cannot be empty.');
       }
@@ -44,6 +70,11 @@ const DiscussionPost = ({ id, email, date, title, description, replyCount,replie
     setTimeout(() => {
       navigate('/dalportfolios-discussions');
   }, 500);
+  }
+
+  const handleCloseFailureModal =() =>{
+    setShowFailureModal(false);
+    navigate('/dalportfolios-discussions');
   }
 
     return (
@@ -76,7 +107,7 @@ const DiscussionPost = ({ id, email, date, title, description, replyCount,replie
                               endAdornment: (
                                   <InputAdornment position="end">
                                       <IconButton onClick={handleReplySubmit} sx={{'&:hover': {color: '#FFFFFF'}}}>
-                                          <SendIcon style={{ color: 'black' }}/>
+                                          <ReplyIcon style={{ color: 'black' }}/>
                                       </IconButton>
                                   </InputAdornment>
                               ),
@@ -99,6 +130,15 @@ const DiscussionPost = ({ id, email, date, title, description, replyCount,replie
                    <Button style={{ color: 'black'}} onClick={handleCloseSuccessModal}>Close</Button>
                 </DialogActions>
                 </Dialog>
+                <Dialog open={showFailureModal} onClose={() => setShowFailureModal(false)}>
+                   <DialogTitle>Failure</DialogTitle>
+                     <DialogContent>
+                      <Typography>There was an error. Please try again.</Typography>
+                     </DialogContent>
+                <DialogActions>
+                   <Button style={{ color: 'black'}} onClick={handleCloseFailureModal}>Close</Button>
+                </DialogActions>
+          </Dialog>
             </>
     );
 };
