@@ -12,6 +12,9 @@ import { Button, ErrorBoundary, IconButton } from "components";
 import DalPortfolioDark from "assets/images/dal_portfolio_black_bg.png";
 import DalPortfolioLight from "assets/images/dal_portfolio_white_bg.png";
 import { TOP_BAR_DESKTOP_HEIGHT, TOP_BAR_MOBILE_HEIGHT } from "layout/config";
+import { POST } from "utils/axios";
+import tokenService from "utils/token-service";
+import useLogout from "hooks/useLogout";
 
 const SIDE_BAR_ITEMS: Array<LinkToPage> = [
   {
@@ -19,16 +22,7 @@ const SIDE_BAR_ITEMS: Array<LinkToPage> = [
     path: "/",
     icon: "home",
   },
-  // {
-  //   title: "Log In",
-  //   path: "/auth/login",
-  //   icon: "login",
-  // },
-  // {
-  //   title: "Sign Up",
-  //   path: "/auth/sign-up",
-  //   icon: "signup",
-  // },
+
   {
     title: "FAQs",
     path: "/faq",
@@ -45,6 +39,21 @@ const SIDE_BAR_ITEMS: Array<LinkToPage> = [
     icon: "info",
   },
   {
+    title: "SignUp",
+    path: "/signup",
+    icon: "signup",
+  },
+  {
+    title: "Login",
+    path: "/login",
+    icon: "login",
+  },
+  {
+    title: "Logout",
+    path: "/logout", 
+    icon: "logout",
+  },
+  {
     title: "Search",
     path: "/search-page",
     icon: "search",
@@ -56,11 +65,12 @@ const NAVBAR_ITEMS: Array<LinkToPage> = SIDE_BAR_ITEMS.filter(
 );
 
 const PublicLayout: FC<PropsWithChildren> = () => {
+  const logout = useLogout();
   const onMobile = useOnMobile();
   const navigate = useNavigate();
   const switchMode = useSwitchMode();
   const [sideBarVisible, setSideBarVisible] = useState(false);
-  const [state] = useAppStore();
+  const [state, dispatch] = useAppStore();
 
   const sidebarOpen = sideBarVisible;
   const sidebarVariant = "temporary";
@@ -121,7 +131,13 @@ const PublicLayout: FC<PropsWithChildren> = () => {
                         color: state?.darkMode ? "white" : "black",
                         backgroundColor: "none",
                       }}
-                      onClick={() => navigate(item?.path)}
+                      onClick={async () => {
+                        if (item?.path === "/logout") {
+                          logout();
+                        } else {
+                          navigate(item?.path);
+                        }
+                      }}
                       key={`navbar-item-${index}`}
                       label={item?.title}
                     />

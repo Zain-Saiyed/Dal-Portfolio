@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import history from "./history";
+import tokenService from "./token-service";
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -7,12 +8,18 @@ const instance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  // timeout: 10000,
 });
 
-// Request interceptor
 instance.interceptors.request.use(
   (config) => {
+    const accessToken = tokenService.getAccessToken();
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+
+    if (config.url === "/api/user/logout") {
+      config.data = { refreshToken: tokenService.getRefreshToken() };
+    }
     return config;
   },
   (error) => {
@@ -20,15 +27,29 @@ instance.interceptors.request.use(
   }
 );
 
-// Response interceptor
 instance.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      console.error("Unauthorized access - redirecting to login");
-      history.replace("/login");
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const data = await instance.post("/api/user/refresh-token", {
+          refreshToken: tokenService.getRefreshToken(),
+        });
+        const { accessToken, refreshToken } = data.data;
+        tokenService.setAccessToken(accessToken);
+        tokenService.setRefreshToken(refreshToken);
+        originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
+        return instance(originalRequest);
+      } catch (refreshError) {
+        console.error("Error refreshing token:", refreshError);
+        tokenService.clearTokens();
+        history.replace("/login");
+        return Promise.reject(refreshError);
+      }
     }
     return Promise.reject(error);
   }

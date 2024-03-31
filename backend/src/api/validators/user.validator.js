@@ -5,22 +5,22 @@ export function validateRegister(body) {
     username: Joi.string().alphanum().min(3).required(),
     email: Joi.string().email().min(3).required(),
     password: Joi.string()
-      .regex(
-        RegExp(
-          "^(?=[a-zA-Z0-9#@$?]{8,}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).*"
-        )
-      )
+      // .regex(
+      //   RegExp(
+      //     "^(?=[a-zA-Z0-9#@$?]{8,}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).*"
+      //   )
+      // )
       .min(8)
       .required(),
     profile: Joi.object({
       first_name: Joi.string().min(3).required(),
       last_name: Joi.string().min(3).required(),
-      gender: Joi.string().valid("male", "female", "other").required(),
-      pronouns: Joi.string(),
-      dob: Joi.date(),
+      gender: Joi.string().valid("male", "female", "other").default("other"),
+      pronouns: Joi.string().default(""), // he/him, she/her, they/them
+      dob: Joi.date().default(new Date(2000, 1, 1)),
     }).required(),
     type: Joi.string()
-      .valid("admin", "user", "recruiter", "creator")
+      .valid("admin", "user", "recruiter", "creator", "student", "alumni", "staff", "faculty", "researcher")
       .default("user"),
     photoUrl: Joi.string().default(""),
     isVerified: Joi.boolean().default(false),
