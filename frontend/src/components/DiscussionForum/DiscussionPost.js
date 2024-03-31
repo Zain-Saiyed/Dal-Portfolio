@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import {POST} from 'utils/axios'
 
-const DiscussionPost = ({ id, email, date, title, description, replyCount,replies }) => {
+const DiscussionPost = ({ id, email, date, title, description, replyCount,replies,getPosts }) => {
   const [reply, setReply] = useState('');
   const [replyError, setReplyError] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -47,6 +47,7 @@ const DiscussionPost = ({ id, email, date, title, description, replyCount,replie
             }),
           };
         const response =await POST('api/discussionforum/add-reply', payload);
+        getPosts();
         console.log('Response:',response);
         console.log('Reply submitted:', reply);
         setShowSuccessModal(true);
@@ -79,7 +80,7 @@ const DiscussionPost = ({ id, email, date, title, description, replyCount,replie
 
     return (
             <> 
-            <Card variant="outlined"  onClick={handleTitleClick} sx={{position:'relative',background: '#DDDDDD', padding: '16px', cursor:'pointer','&:hover': {background: '#ffc30080'}}} >
+            <Card variant="outlined"  onClick={handleTitleClick} sx={{position:'relative',background: '#FCFBF7', padding: '16px', cursor:'pointer','&:hover': {background: '#ffc30080'}}} >
                     <CardContent>
                             <Typography variant="h5" style={{ color: 'black', fontWeight: 250,borderBottom: '2px solid #FFC300',paddingBottom: '0.5px' }}>
                                 {title}

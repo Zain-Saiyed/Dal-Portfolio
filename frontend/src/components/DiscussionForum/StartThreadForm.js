@@ -8,7 +8,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material
 import {POST} from 'utils/axios';
 
 //to take user input once user decides to start a discussion 
-const StartDiscussion = ({ onClose }) => {
+const StartDiscussion = ({ onClose, getPosts }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [errorTitle, setErrorTitle] = useState(false);
@@ -58,6 +58,7 @@ const StartDiscussion = ({ onClose }) => {
           }),
         };
       const response =await POST('api/discussionforum/add-post', payload);
+      getPosts();
       console.log('Title:', title);
       console.log('Description:', description);
       console.log('Response:',response);

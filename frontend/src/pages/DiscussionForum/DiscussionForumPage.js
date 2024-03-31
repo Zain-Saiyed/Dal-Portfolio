@@ -9,23 +9,24 @@ const DiscussionForumPage = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-
-        const response = await GET('api/discussionforum/get-all-posts');
-        if (response.data && response.data.listOfPosts && Array.isArray(response.data.listOfPosts)) {
-          setPosts(response.data.listOfPosts);
-        } 
-        else {
-          console.error('Invalid data format:', response.data);
-        }
-      } 
-      catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
     fetchData();
   },[]);
+
+  const fetchData = async () => {
+    try {
+
+      const response = await GET('api/discussionforum/get-all-posts');
+      if (response.data && response.data.listOfPosts && Array.isArray(response.data.listOfPosts)) {
+        setPosts(response.data.listOfPosts);
+      } 
+      else {
+        console.error('Invalid data format:', response.data);
+      }
+    } 
+    catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   return (
     <div>
@@ -33,12 +34,12 @@ const DiscussionForumPage = () => {
       <Container>
       <Grid container spacing={2} marginTop='10px'>
         <Grid item xs={12} sm={5} md={5} lg={5} justifyContent={"center"}>
-          <DiscussionPrompt />
+          <DiscussionPrompt getPosts={fetchData} />
         </Grid>
         <Grid item xs={12} sm={7} md={7} lg={7}>
           {posts.map((post) => (
             <div key={post.id} style={{ marginBottom: '20px' }}>
-              <DiscussionPost
+              <DiscussionPost getPosts={fetchData}
                 id={post._id}
                 email={post.userName}
                 date={post.date}
