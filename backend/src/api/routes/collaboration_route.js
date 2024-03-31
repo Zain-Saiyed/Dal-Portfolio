@@ -6,6 +6,7 @@ import {
   fetchResearchByid,
   sendRequest,
   fetchCollabRequestsById,
+  sendUpdate,
 } from "../controllers/collaboration/index.js";
 
 const router = Router();
@@ -18,5 +19,7 @@ router.get("/fetch_research_study", fetchResearchByid);
 router.post("/send_request", sendRequest);
 
 router.get("/fetch_collab_requests", fetchCollabRequestsById);
+
+router.post("/send_update", sendUpdate);
 
 export default router;

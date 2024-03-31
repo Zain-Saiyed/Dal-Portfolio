@@ -1,164 +1,18 @@
-import { GET } from "utils/axios";
+import { GET, POST } from "utils/axios";
 import { isEmpty } from "utils/helpers";
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState, useEffect } from "react";
 import { Typography } from "@mui/material";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
 function Request() {
-  // const [projects, setProjects] = useState([]);
-  // const [researches, setResearches] = useState([]);
-
-  var projects = [
-    {
-      receiver_user_id: "bon",
-      sender_user_id: "voyage",
-      project_titles: [
-        {
-          _id: "660515d15c1765026660cc89",
-          title: "Student Result Management System",
-          contributors: ["Boon", "Aaron", "Benjamin", "Benhur"],
-          user_id: "65f360189050f7fb6f800988",
-        },
-      ],
-      research_titles: [
-        {
-          _id: "6605172d5c1765026660cc8e",
-          title: "Beyond A Gaussian Denoiser: ",
-          contributors: ["Mohammed", "Hatim", "Jinay", "Zain"],
-          user_id: "65f360189050f7fb6f800988",
-        },
-        {
-          _id: "660516c05c1765026660cc8d",
-          title:
-            "Analysis of Russian students of the Web Development Market Operating Online on behance.com",
-          contributors: [
-            "Mohammed",
-            "Hatim",
-            "Boon",
-            "Zainuddin",
-            "Sushank",
-            "Jinay",
-            "Aaron",
-          ],
-          user_id: "65f360189050f7fb6f800988",
-        },
-      ],
-    },
-    {
-      receiver_user_id: "bon",
-      sender_user_id: "voyage",
-      project_titles: [
-        {
-          _id: "660515d15c1765026660cc89",
-          title: "Student Result Management System",
-          contributors: ["Boon", "Aaron", "Benjamin", "Benhur"],
-          user_id: "65f360189050f7fb6f800988",
-        },
-      ],
-      research_titles: [
-        {
-          _id: "6605172d5c1765026660cc8e",
-          title:
-            "Beyond A Gaussian Denoiser: Residual Learning Of Deep CNN For Image Denoising",
-          contributors: ["Mohammed", "Hatim", "Jinay", "Zain"],
-          user_id: "65f360189050f7fb6f800988",
-        },
-        {
-          _id: "660516c05c1765026660cc8d",
-          title:
-            "Analysis of Russian students of the Web Development Market Operating Online on behance.com",
-          contributors: [
-            "Mohammed",
-            "Hatim",
-            "Boon",
-            "Zainuddin",
-            "Sushank",
-            "Jinay",
-            "Aaron",
-          ],
-          user_id: "65f360189050f7fb6f800988",
-        },
-      ],
-    },
-    {
-      receiver_user_id: "bon",
-      sender_user_id: "voyage",
-      project_titles: [
-        {
-          _id: "660515d15c1765026660cc89",
-          title: "Student Result Management System",
-          contributors: ["Boon", "Aaron", "Benjamin", "Benhur"],
-          user_id: "65f360189050f7fb6f800988",
-        },
-      ],
-      research_titles: [],
-    },
-    {
-      receiver_user_id: "bon",
-      sender_user_id: "voyage",
-      project_titles: [
-        {
-          _id: "660515d15c1765026660cc89",
-          title: "Student Result Management System",
-          contributors: ["Boon", "Aaron", "Benjamin", "Benhur"],
-          user_id: "65f360189050f7fb6f800988",
-        },
-      ],
-      research_titles: [],
-    },
-    {
-      receiver_user_id: "bon",
-      sender_user_id: "voyage",
-      project_titles: [
-        {
-          _id: "660515d15c1765026660cc89",
-          title: "Student Result Management System",
-          contributors: ["Boon", "Aaron", "Benjamin", "Benhur"],
-          user_id: "65f360189050f7fb6f800988",
-        },
-      ],
-      research_titles: [
-        {
-          _id: "660516c05c1765026660cc8d",
-          title:
-            "Analysis of Russian students of the Web Development Market Operating Online on behance.com",
-          contributors: [
-            "Mohammed",
-            "Hatim",
-            "Boon",
-            "Zainuddin",
-            "Sushank",
-            "Jinay",
-            "Aaron",
-          ],
-          user_id: "65f360189050f7fb6f800988",
-        },
-      ],
-    },
-  ];
-  const researches = [];
+  const [projects, setProjects] = useState([]);
 
   const fetchCollabRequests = async () => {
-    GET(`/api/collaboration/fetch_collab_requests?user_id=bon`)
+    GET(`/api/collaboration/fetch_collab_requests?user_id=ben`)
       .then((response) => {
-        setWorks(response.data);
-
-        const projectsList = [];
-        const researchesList = [];
-
-        for (const element of response.data) {
-          projectsList.push(element.project_titles);
-          researchesList.push(element.research_titles);
-        }
-
-        // setProjects(projectsList);
-        projects = projectsList;
-        console.log(projects.length);
-        projects.map((project, index) => {
-          console.log(project + " " + index);
-        });
-        // setResearches(researchesList);
+        setProjects(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -182,6 +36,55 @@ function Request() {
     }
 
     setSelectedCheckboxes(updatedCheckboxes);
+  };
+
+  const handleAccept = (
+    project_title,
+    project_id,
+    sender_user_id,
+    receiver_user_id,
+    _id
+  ) => {
+    console.log(
+      project_title + " " + sender_user_id + " " + receiver_user_id + " " + _id
+    );
+    POST("/api/collaboration/send_update", {
+      _id: _id,
+      receiver_user_id: receiver_user_id,
+      sender_user_id: sender_user_id,
+      project: project_title,
+      project_id: project_id,
+      status: "ACCEPTED",
+    })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleReject = (
+    title,
+    project_id,
+    sender_user_id,
+    receiver_user_id,
+    _id
+  ) => {
+    POST("/api/collaboration/send_update", {
+      _id: _id,
+      receiver_user_id: receiver_user_id,
+      sender_user_id: sender_user_id,
+      project: title,
+      project_id: project_id,
+      status: "REJECTED",
+    })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -254,91 +157,134 @@ function Request() {
 
         <div className="container px-5 rcard">
           <div className="col">
-            {projects.map((project, index) => (
-              <div key={index}>
-                {/* <div>Receiver User ID: {project.receiver_user_id}</div> */}
-
-                {project.project_titles.map((project_obj, idx) => (
-                  <div className="row-md-4 mb-4" key={project.id}>
-                    <div className="card d-flex">
-                      <div className="card-body d-flex align-items-center">
-                        <div className="flex-grow-1">
-                          <Typography
-                            sx={{
-                              fontSize: "18px",
-                              lineHeight: "24px",
-                            }}
-                            className="card-title"
-                          >
-                            {project_obj.title}
-                          </Typography>
-                          <div className="card-tags">
-                            <button
-                              disabled
-                              className="btn btn-outline-primary btn-sm mr-2"
-                              key={project.id}
+            {projects?.length > 0 &&
+              projects.map((project, index) => (
+                <div key={index}>
+                  {project.projects.map((project_obj, idx) => (
+                    <div className="row-md-4 mb-4" key={project.id}>
+                      <div className="card d-flex">
+                        <div className="card-body d-flex align-items-center">
+                          <div className="flex-grow-1">
+                            <Typography
+                              sx={{
+                                fontSize: "18px",
+                                lineHeight: "24px",
+                              }}
+                              className="card-title"
                             >
-                              {"Project"}
+                              {project_obj.title}
+                            </Typography>
+                            <div className="card-tags">
+                              <button
+                                disabled
+                                className="btn btn-outline-primary btn-sm mr-2"
+                                key={project._id}
+                              >
+                                {"Project"}
+                              </button>
+                            </div>
+                          </div>
+                          <div
+                            className="card-buttons px-3"
+                            style={{ whiteSpace: "nowrap" }}
+                          >
+                            <button
+                              className="btn btn-success mx-1"
+                              onClick={() =>
+                                handleAccept(
+                                  project_obj.title,
+                                  project_obj._id,
+                                  project.sender_user_id,
+                                  project.receiver_user_id,
+                                  project._id
+                                )
+                              }
+                            >
+                              Accept
+                            </button>
+                            <button
+                              className="btn btn-danger mx-1"
+                              onClick={() =>
+                                handleReject(
+                                  project_obj.title,
+                                  project_obj._id,
+                                  project.sender_user_id,
+                                  project.receiver_user_id,
+                                  project._id
+                                )
+                              }
+                            >
+                              Reject
                             </button>
                           </div>
                         </div>
-                        <div
-                          className="card-buttons px-3"
-                          style={{ whiteSpace: "nowrap" }}
-                        >
-                          <button className="btn btn-success mx-1">
-                            Accept
-                          </button>
-                          <button className="btn btn-danger mx-1">
-                            Reject
-                          </button>
-                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
 
-                {project.research_titles.map((research_obj, idx) => (
-                  <div className="row-md-4 mb-4" key={project.id}>
-                    <div className="card d-flex">
-                      <div className="card-body d-flex align-items-center">
-                        <div className="flex-grow-1">
-                          <Typography
-                            sx={{
-                              fontSize: "18px",
-                              lineHeight: "24px",
-                            }}
-                            className="card-title"
-                          >
-                            {research_obj.title}
-                          </Typography>
-                          <div className="card-tags">
-                            <button
-                              disabled
-                              className="btn btn-outline-primary btn-sm mr-2"
-                              key={project.id}
+                  {project.researchs.map((research_obj, idx) => (
+                    <div className="row-md-4 mb-4" key={project.id}>
+                      <div className="card d-flex">
+                        <div className="card-body d-flex align-items-center">
+                          <div className="flex-grow-1">
+                            <Typography
+                              sx={{
+                                fontSize: "18px",
+                                lineHeight: "24px",
+                              }}
+                              className="card-title"
                             >
-                              {"Research Study"}
+                              {research_obj.title}
+                            </Typography>
+                            <div className="card-tags">
+                              <button
+                                disabled
+                                className="btn btn-outline-primary btn-sm mr-2"
+                                key={project._id}
+                              >
+                                {"Research Study"}
+                              </button>
+                            </div>
+                          </div>
+                          <div
+                            className="card-buttons px-3"
+                            style={{ whiteSpace: "nowrap" }}
+                          >
+                            <button
+                              className="btn btn-success mx-1"
+                              onClick={() =>
+                                handleAccept(
+                                  research_obj.title,
+                                  research_obj._id,
+                                  project.sender_user_id,
+                                  project.receiver_user_id,
+                                  project._id
+                                )
+                              }
+                            >
+                              Accept
+                            </button>
+                            <button
+                              className="btn btn-danger mx-1"
+                              onClick={() =>
+                                handleReject(
+                                  research_obj.title,
+                                  research_obj._id,
+                                  project.sender_user_id,
+                                  project.receiver_user_id,
+                                  project._id
+                                )
+                              }
+                            >
+                              Reject
                             </button>
                           </div>
                         </div>
-                        <div
-                          className="card-buttons px-3"
-                          style={{ whiteSpace: "nowrap" }}
-                        >
-                          <button className="btn btn-success mx-1">
-                            Accept
-                          </button>
-                          <button className="btn btn-danger mx-1">
-                            Reject
-                          </button>
-                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            ))}
+                  ))}
+                </div>
+              ))}
           </div>
         </div>
       </div>

@@ -1,6 +1,16 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
+const projectStatus = new Schema(
+  {
+    project_id: { type: String, required: true },
+    status: { type: String, required: true },
+  },
+  {
+    _id: false,
+  }
+);
+
 const collaborationRequest = new Schema({
   receiver_user_id: {
     type: String,
@@ -10,18 +20,8 @@ const collaborationRequest = new Schema({
     type: String,
     required: true,
   },
-  project_ids: {
-    type: [String],
-    required: true,
-  },
-  research_ids: {
-    type: [String],
-    required: true,
-  },
-  status: {
-    type: String,
-    required: true,
-  },
+  projects: [projectStatus],
+  researchs: [projectStatus],
 });
 
 const collabRequest = model("collab_requests", collaborationRequest);
