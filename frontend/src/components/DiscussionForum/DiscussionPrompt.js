@@ -23,7 +23,7 @@ return (
           </Typography>
           <Button
             variant="contained"
-            style={{ marginTop: '20px', color: 'white', backgroundColor: 'black' }}
+            style={{ marginTop: '20px', color: 'black', backgroundColor: '#FCD405' }}
             onClick={handleStartDiscussionClick}
           >
             Start a Discussion
