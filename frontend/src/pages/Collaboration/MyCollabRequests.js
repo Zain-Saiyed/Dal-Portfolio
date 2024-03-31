@@ -7,6 +7,12 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 function Request() {
   const [projects, setProjects] = useState([]);
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+  const [checkboxesStates, setCheckboxesStates] = useState([
+    false,
+    false,
+    false,
+  ]);
 
   const fetchCollabRequests = async () => {
     GET(
@@ -25,7 +31,7 @@ function Request() {
     isEmpty(projects) && fetchCollabRequests();
   }, []);
 
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+  useEffect(() => {}, [selectedCheckboxes]);
 
   const handleCheckboxChange = (id) => {
     const updatedCheckboxes = [...selectedCheckboxes];
@@ -38,6 +44,18 @@ function Request() {
     }
 
     setSelectedCheckboxes(updatedCheckboxes);
+
+    setCheckboxesStates((prevArray) => {
+      const newCheckboxesStates = [...prevArray];
+      if (id === "project") {
+        newCheckboxesStates[0] = !newCheckboxesStates[0];
+      } else if (id === "research") {
+        newCheckboxesStates[1] = !newCheckboxesStates[1];
+      } else if (id === "all") {
+        newCheckboxesStates[2] = !newCheckboxesStates[2];
+      }
+      return newCheckboxesStates;
+    });
   };
 
   const handleAccept = (
@@ -120,7 +138,8 @@ function Request() {
                           <input
                             type="checkbox"
                             value="checkbox1"
-                            onChange={() => handleCheckboxChange("checkbox1")}
+                            onChange={() => handleCheckboxChange("project")}
+                            checked={checkboxesStates[0]}
                           />
                         </label>
                         <div className="project-title m-0 px-2 ">Projects</div>
@@ -130,7 +149,8 @@ function Request() {
                           <input
                             type="checkbox"
                             value="checkbox2"
-                            onChange={() => handleCheckboxChange("checkbox2")}
+                            onChange={() => handleCheckboxChange("research")}
+                            checked={checkboxesStates[1]}
                           />
                         </label>
                         <div className="project-title m-0 px-2">
@@ -142,7 +162,8 @@ function Request() {
                           <input
                             type="checkbox"
                             value="checkbox3"
-                            onChange={() => handleCheckboxChange("checkbox3")}
+                            onChange={() => handleCheckboxChange("all")}
+                            checked={checkboxesStates[2]}
                           />
                         </label>
                         <div className="project-title m-0 px-2">All</div>
@@ -162,129 +183,143 @@ function Request() {
             {projects?.length > 0 &&
               projects.map((project, index) => (
                 <div key={index}>
-                  {project.projects.map((project_obj, idx) => (
-                    <div className="row-md-4 mb-4" key={project.id}>
-                      <div className="card d-flex">
-                        <div className="card-body d-flex align-items-center">
-                          <div className="flex-grow-1">
-                            <Typography
-                              sx={{
-                                fontSize: "18px",
-                                lineHeight: "24px",
-                              }}
-                              className="card-title"
-                            >
-                              {project_obj.title}
-                            </Typography>
-                            <div className="card-tags">
-                              <button
-                                disabled
-                                className="btn btn-outline-primary btn-sm mr-2"
-                                key={project._id}
+                  {selectedCheckboxes.includes("project") ||
+                  selectedCheckboxes.includes("all") ? (
+                    <div>
+                      {project.projects.map((project_obj, idx) => (
+                        <div className="row-md-4 mb-4" key={project.id}>
+                          <div className="card d-flex">
+                            <div className="card-body d-flex align-items-center">
+                              <div className="flex-grow-1">
+                                <Typography
+                                  sx={{
+                                    fontSize: "18px",
+                                    lineHeight: "24px",
+                                  }}
+                                  className="card-title"
+                                >
+                                  {project_obj.title}
+                                </Typography>
+                                <div className="card-tags">
+                                  <button
+                                    disabled
+                                    className="btn btn-outline-primary btn-sm mr-2"
+                                    key={project._id}
+                                  >
+                                    {"Project"}
+                                  </button>
+                                </div>
+                              </div>
+                              <div
+                                className="card-buttons px-3"
+                                style={{ whiteSpace: "nowrap" }}
                               >
-                                {"Project"}
-                              </button>
+                                <button
+                                  className="btn btn-success mx-1"
+                                  onClick={() =>
+                                    handleAccept(
+                                      project_obj.title,
+                                      project_obj._id,
+                                      project.sender_user_id,
+                                      project.receiver_user_id,
+                                      project._id
+                                    )
+                                  }
+                                >
+                                  Accept
+                                </button>
+                                <button
+                                  className="btn btn-danger mx-1"
+                                  onClick={() =>
+                                    handleReject(
+                                      project_obj.title,
+                                      project_obj._id,
+                                      project.sender_user_id,
+                                      project.receiver_user_id,
+                                      project._id
+                                    )
+                                  }
+                                >
+                                  Reject
+                                </button>
+                              </div>
                             </div>
                           </div>
-                          <div
-                            className="card-buttons px-3"
-                            style={{ whiteSpace: "nowrap" }}
-                          >
-                            <button
-                              className="btn btn-success mx-1"
-                              onClick={() =>
-                                handleAccept(
-                                  project_obj.title,
-                                  project_obj._id,
-                                  project.sender_user_id,
-                                  project.receiver_user_id,
-                                  project._id
-                                )
-                              }
-                            >
-                              Accept
-                            </button>
-                            <button
-                              className="btn btn-danger mx-1"
-                              onClick={() =>
-                                handleReject(
-                                  project_obj.title,
-                                  project_obj._id,
-                                  project.sender_user_id,
-                                  project.receiver_user_id,
-                                  project._id
-                                )
-                              }
-                            >
-                              Reject
-                            </button>
-                          </div>
                         </div>
-                      </div>
+                      ))}
                     </div>
-                  ))}
+                  ) : (
+                    <div></div>
+                  )}
 
-                  {project.researchs.map((research_obj, idx) => (
-                    <div className="row-md-4 mb-4" key={project.id}>
-                      <div className="card d-flex">
-                        <div className="card-body d-flex align-items-center">
-                          <div className="flex-grow-1">
-                            <Typography
-                              sx={{
-                                fontSize: "18px",
-                                lineHeight: "24px",
-                              }}
-                              className="card-title"
-                            >
-                              {research_obj.title}
-                            </Typography>
-                            <div className="card-tags">
-                              <button
-                                disabled
-                                className="btn btn-outline-primary btn-sm mr-2"
-                                key={project._id}
+                  {selectedCheckboxes.includes("research") ||
+                  selectedCheckboxes.includes("all") ? (
+                    <div>
+                      {project.researchs.map((research_obj, idx) => (
+                        <div className="row-md-4 mb-4" key={project.id}>
+                          <div className="card d-flex">
+                            <div className="card-body d-flex align-items-center">
+                              <div className="flex-grow-1">
+                                <Typography
+                                  sx={{
+                                    fontSize: "18px",
+                                    lineHeight: "24px",
+                                  }}
+                                  className="card-title"
+                                >
+                                  {research_obj.title}
+                                </Typography>
+                                <div className="card-tags">
+                                  <button
+                                    disabled
+                                    className="btn btn-outline-primary btn-sm mr-2"
+                                    key={project._id}
+                                  >
+                                    {"Research Study"}
+                                  </button>
+                                </div>
+                              </div>
+                              <div
+                                className="card-buttons px-3"
+                                style={{ whiteSpace: "nowrap" }}
                               >
-                                {"Research Study"}
-                              </button>
+                                <button
+                                  className="btn btn-success mx-1"
+                                  onClick={() =>
+                                    handleAccept(
+                                      research_obj.title,
+                                      research_obj._id,
+                                      project.sender_user_id,
+                                      project.receiver_user_id,
+                                      project._id
+                                    )
+                                  }
+                                >
+                                  Accept
+                                </button>
+                                <button
+                                  className="btn btn-danger mx-1"
+                                  onClick={() =>
+                                    handleReject(
+                                      research_obj.title,
+                                      research_obj._id,
+                                      project.sender_user_id,
+                                      project.receiver_user_id,
+                                      project._id
+                                    )
+                                  }
+                                >
+                                  Reject
+                                </button>
+                              </div>
                             </div>
                           </div>
-                          <div
-                            className="card-buttons px-3"
-                            style={{ whiteSpace: "nowrap" }}
-                          >
-                            <button
-                              className="btn btn-success mx-1"
-                              onClick={() =>
-                                handleAccept(
-                                  research_obj.title,
-                                  research_obj._id,
-                                  project.sender_user_id,
-                                  project.receiver_user_id,
-                                  project._id
-                                )
-                              }
-                            >
-                              Accept
-                            </button>
-                            <button
-                              className="btn btn-danger mx-1"
-                              onClick={() =>
-                                handleReject(
-                                  research_obj.title,
-                                  research_obj._id,
-                                  project.sender_user_id,
-                                  project.receiver_user_id,
-                                  project._id
-                                )
-                              }
-                            >
-                              Reject
-                            </button>
-                          </div>
                         </div>
-                      </div>
+                      ))}
                     </div>
-                  ))}
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
               ))}
           </div>
