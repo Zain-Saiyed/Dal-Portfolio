@@ -12,6 +12,8 @@ import { Button, ErrorBoundary, IconButton } from "components";
 import DalPortfolioDark from "assets/images/dal_portfolio_black_bg.png";
 import DalPortfolioLight from "assets/images/dal_portfolio_white_bg.png";
 import { TOP_BAR_DESKTOP_HEIGHT, TOP_BAR_MOBILE_HEIGHT } from "layout/config";
+import { POST } from "utils/axios";
+import tokenService from "utils/token-service";
 
 const SIDE_BAR_ITEMS: Array<LinkToPage> = [
   {
@@ -54,6 +56,11 @@ const SIDE_BAR_ITEMS: Array<LinkToPage> = [
     path: "/login",
     icon: "login",
   },
+  {
+    title: "Logout",
+    path: "/logout",
+    icon: "logout",
+  },
 ];
 
 const NAVBAR_ITEMS: Array<LinkToPage> = SIDE_BAR_ITEMS.filter(
@@ -65,7 +72,7 @@ const PublicLayout: FC<PropsWithChildren> = () => {
   const navigate = useNavigate();
   const switchMode = useSwitchMode();
   const [sideBarVisible, setSideBarVisible] = useState(false);
-  const [state] = useAppStore();
+  const [state, dispatch] = useAppStore();
 
   const sidebarOpen = sideBarVisible;
   const sidebarVariant = "temporary";
@@ -126,7 +133,16 @@ const PublicLayout: FC<PropsWithChildren> = () => {
                         color: state?.darkMode ? "white" : "black",
                         backgroundColor: "none",
                       }}
-                      onClick={() => navigate(item?.path)}
+                      onClick={async () => {
+                        if (item?.path === "/logout") {
+                          await POST(`/api/user/logout`);
+                          tokenService.clearTokens();
+                          dispatch({ type: "LOG_OUT" });
+                          navigate("/login");
+                        } else {
+                          navigate(item?.path);
+                        }
+                      }}
                       key={`navbar-item-${index}`}
                       label={item?.title}
                     />
