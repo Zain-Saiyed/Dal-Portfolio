@@ -3,7 +3,6 @@ import {
   Grid,
   Stack,
   Avatar,
-  Button,
   Dialog,
   Typography,
   DialogActions,
@@ -12,11 +11,13 @@ import {
 import { FC, useEffect, useState } from "react";
 
 // import { useToast } from "hooks";
-import { InputField, SelectField } from "components";
+import { Button, InputField, SelectField } from "components";
 import { isEmail, isEmpty } from "utils/helpers";
 import { DatePicker } from "@mui/x-date-pickers";
-import { useFormik } from "formik";
+import { Form, Formik } from "formik";
 import { POST } from "utils/axios";
+import dayjs from "dayjs";
+import { useToast } from "hooks";
 
 interface Props {
   user: any;
@@ -31,8 +32,21 @@ const UserEditModal: FC<Props> = ({
   onSave,
   user,
 }: Props) => {
-  // const { showSuccess } = useToast();
-  const [instance, setInstance] = useState<any>(null);
+  const { showSuccess } = useToast();
+  const [formValues, setFormValues] = useState<any>(null);
+
+  useEffect(() => {
+    if (!isEmpty(user)) {
+      setFormValues({
+        first_name: user?.profile?.first_name,
+        last_name: user?.profile?.last_name,
+        username: user?.username,
+        email: user?.email,
+        gender: user?.profile?.gender,
+        dob: user?.profile?.dob,
+      });
+    }
+  }, [user]);
 
   const handleValidation = (values: any) => {
     const errors: any = {};
@@ -50,56 +64,15 @@ const UserEditModal: FC<Props> = ({
     } else if (!isEmail(values.email)) {
       errors.email = "Invalid email address";
     }
-
     if (isEmpty(values.gender)) {
       errors.gender = "Required";
     }
-
-    if (values.dob?.context?.validationError) {
-      errors.dob = "Invalid Date of Birth";
+    if (!dayjs(values?.dob)?.isValid()) {
+      errors.dob = "Invalid Date";
     }
 
     return errors;
   };
-
-  const formik = useFormik({
-    initialValues: {
-      first_name: "",
-      last_name: "",
-      username: "",
-      email: "",
-      gender: "",
-      dob: "",
-    },
-    validate: handleValidation,
-    onSubmit: (values) => {
-      handleSave(values);
-    },
-  });
-
-  useEffect(() => {
-    setInstance(user);
-    formik.setValues({
-      first_name: instance?.profile?.first_name,
-      last_name: instance?.profile?.last_name,
-      username: instance?.username,
-      email: instance?.email,
-      gender: instance?.profile?.gender,
-      dob: instance?.profile?.dob || "",
-    });
-
-  }, [user, formik, instance]);
-
-  // const prepareInitialValues = () => {
-  //   formik.setValues({
-  //     first_name: instance?.profile?.first_name,
-  //     last_name: instance?.profile?.last_name,
-  //     username: instance?.username,
-  //     email: instance?.email,
-  //     gender: instance?.profile?.gender,
-  //     dob: instance?.profile?.dob || "",
-  //   });
-  // };
 
   const handleSave = (values: any) => {
     const payload: any = {
@@ -109,12 +82,12 @@ const UserEditModal: FC<Props> = ({
         first_name: values.first_name,
         last_name: values.last_name,
         gender: values.gender,
-        dob: values?.dob?.value,
+        dob: values?.dob,
       },
     };
-    POST(`/api/profile/user/${instance?._id}/update`, payload)
+    POST(`/api/profile/user/${user?._id}/update`, payload)
       .then((res) => {
-        console.log(res);
+        showSuccess(res?.data?.resultMessage?.en);
       })
       .finally(() => {
         onSave();
@@ -123,129 +96,160 @@ const UserEditModal: FC<Props> = ({
   };
 
   return (
-    <Dialog open={isOpen} onClose={handleClose} fullWidth={true} scroll="paper">
-      <form onSubmit={formik.handleSubmit}>
-        <DialogContent>
-          <Stack direction={"row"} justifyContent={"space-between"}>
-            <Typography component={"h1"} variant="h6">
-              Edit Profile
-            </Typography>
-            <Avatar
+    <Formik
+      initialValues={formValues}
+      validate={handleValidation}
+      enableReinitialize
+      onSubmit={(values) => {
+        handleSave(values);
+      }}
+    >
+      {({
+        values,
+        setValues,
+        errors,
+        getFieldProps,
+        handleSubmit,
+        validateForm,
+      }) => (
+        <Dialog
+          open={isOpen}
+          onClose={handleClose}
+          fullWidth={true}
+          scroll="paper"
+        >
+          <DialogContent>
+            <Stack direction={"row"} justifyContent={"space-between"}>
+              <Typography component={"h1"} variant="h6">
+                Edit Profile
+              </Typography>
+              <Avatar
+                sx={{
+                  width: "70px",
+                  height: "70px",
+                }}
+              />
+            </Stack>
+            <Box
               sx={{
-                width: "70px",
-                height: "70px",
+                width: "100%",
+                marginTop: 3,
               }}
-            />
-          </Stack>
-          <Box
-            sx={{
-              width: "100%",
-              marginTop: 3,
-            }}
-          >
-            <Grid
-              container
-              columns={{ xs: 1, sm: 2, md: 2, xl: 2 }}
-              columnSpacing={{ xs: 1, sm: 2, md: 2, xl: 2 }}
-              rowSpacing={{ xs: 3, sm: 2, md: 3, xl: 3 }}
             >
-              {[
-                {
-                  label: "First Name",
-                  id: "user-first-name",
-                  name: "first_name",
-                  type: "text",
-                  required: true,
-                  value: formik?.values?.first_name,
-                },
-                {
-                  label: "Last Name",
-                  id: "user-last-name",
-                  name: "last_name",
-                  type: "text",
-                  required: true,
-                  value: formik?.values?.last_name,
-                },
-                {
-                  label: "Username",
-                  id: "user-username",
-                  name: "username",
-                  type: "text",
-                  required: true,
-                  value: formik?.values?.username,
-                },
-                {
-                  label: "Email",
-                  id: "user-email",
-                  name: "email",
-                  type: "email",
-                  required: true,
-                  value: formik?.values?.email,
-                },
-              ].map((input: any, index: number) => {
-                const error: any =
-                  formik?.errors?.[input?.name as keyof typeof formik.errors] ||
-                  "";
-                return (
-                  <Grid item xs={1} md={1} key={`input-item-${index}`}>
-                    <InputField
-                      {...input}
-                      errorText={error}
-                      isError={!!error}
-                      {...formik?.getFieldProps(input?.name)}
-                    />
-                  </Grid>
-                );
-              })}
-
-              <Grid item xs={1} md={1}>
-                <SelectField
-                  variant="filled"
-                  id="user-gender"
-                  label="Gender"
-                  name="gender"
-                  options={[
-                    { value: "male", label: "Male" },
-                    { value: "female", label: "Female" },
-                    { value: "other", label: "Other" },
-                  ]}
-                  value={formik?.values?.gender}
-                  onChange={formik.handleChange}
-                />
+              <Grid
+                container
+                columns={{ xs: 1, sm: 2, md: 2, xl: 2 }}
+                columnSpacing={{ xs: 1, sm: 2, md: 2, xl: 2 }}
+                rowSpacing={{ xs: 3, sm: 2, md: 3, xl: 3 }}
+              >
+                {[
+                  {
+                    label: "First Name",
+                    id: "user-first-name",
+                    name: "first_name",
+                    type: "text",
+                    required: true,
+                    value: values?.first_name,
+                    component: InputField,
+                  },
+                  {
+                    label: "Last Name",
+                    id: "user-last-name",
+                    name: "last_name",
+                    type: "text",
+                    required: true,
+                    value: values?.last_name,
+                    component: InputField,
+                  },
+                  {
+                    label: "Username",
+                    id: "user-username",
+                    name: "username",
+                    type: "text",
+                    required: true,
+                    value: values?.username,
+                    component: InputField,
+                  },
+                  {
+                    label: "Email",
+                    id: "user-email",
+                    name: "email",
+                    type: "email",
+                    required: true,
+                    value: values?.email,
+                    component: InputField,
+                  },
+                  {
+                    id: `user-gender`,
+                    name: `gender`,
+                    label: "Gender",
+                    type: "text",
+                    options: [
+                      { value: "male", label: "Male" },
+                      { value: "female", label: "Female" },
+                      { value: "other", label: "Other" },
+                    ],
+                    required: true,
+                    value: values?.gender,
+                    component: SelectField,
+                  },
+                  {
+                    id: `user-date-of-birth`,
+                    name: `dob`,
+                    label: "Date of Birth",
+                    required: true,
+                    value: values?.dob,
+                    component: DatePicker,
+                    sx: { width: "100%" },
+                  },
+                ].map((input: any, index: number) => {
+                  const { component: Component, ...rest } = input;
+                  return (
+                    <Grid item xs={1} md={1} key={`input-item-${index}`}>
+                      <Component
+                        {...rest}
+                        errorText={errors?.[rest?.name]}
+                        isError={!!errors?.[rest?.name]}
+                        fullWidth
+                        {...getFieldProps(rest?.name)}
+                        {...(rest?.name?.includes("dob") && {
+                          slotProps: {
+                            textField: {
+                              helperText: errors?.[rest?.name],
+                              required: rest?.required,
+                              error: !!errors?.[rest?.name],
+                            },
+                          },
+                          value: dayjs(rest.value),
+                          onChange: (value: any, context: any) =>
+                            setValues({
+                              ...values,
+                              [rest?.name]: value,
+                            }),
+                        })}
+                      />
+                    </Grid>
+                  );
+                })}
               </Grid>
-              <Grid item xs={1} md={1}>
-                <DatePicker
-                  disableFuture
-                  sx={{ width: "100%" }}
-                  label="Date of Birth"
-                  {...formik.getFieldProps("dob")}
-                  slotProps={{ textField: { helperText: formik?.errors?.dob } }}
-                  value={
-                    formik?.values?.dob?.[
-                      "value" as keyof typeof formik.values.dob
-                    ] || null
-                  }
-                  onChange={(value, context) => {
-                    formik.setValues((prevState: any) => ({
-                      ...prevState,
-                      dob: { value, context },
-                    }));
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </Box>
-        </DialogContent>
-        <DialogActions sx={{ padding: 3 }}>
-          <Button color="error" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button type="submit" color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </form>
-    </Dialog>
+            </Box>
+          </DialogContent>
+          <DialogActions sx={{ padding: 3 }}>
+            <Button color="error" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button
+              onClick={async () => {
+                const _errors = await validateForm();
+                isEmpty(_errors) && handleSave(values);
+              }}
+            >
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
+    </Formik>
   );
 };
 

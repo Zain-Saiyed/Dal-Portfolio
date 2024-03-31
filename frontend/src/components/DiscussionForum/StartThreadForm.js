@@ -1,9 +1,11 @@
+//Author: Sushank Saini
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import {POST} from 'utils/axios';
 
 //to take user input once user decides to start a discussion 
 const StartDiscussion = ({ onClose }) => {
@@ -13,6 +15,7 @@ const StartDiscussion = ({ onClose }) => {
   const [errorDescription, setErrorDescription] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailureModal, setShowFailureModal] = useState(false);
   const navigate = useNavigate();
 
   const maxTitleCharacters = 200;
@@ -36,13 +39,37 @@ const StartDiscussion = ({ onClose }) => {
     onClose();
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!errorTitle && !errorDescription && description.trim() !== '') {
-      setShowSuccessModal(true);
+      try {
+        const payload = {
+          //TODO: fetch user name from localstorage
+          username: 'sush007',
+          title,
+          description,
+          date: new Date().toLocaleString('en-US', { 
+            year: 'numeric', 
+            month: '2-digit', 
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false // To use 24-hour format
+          }),
+        };
+      const response =await POST('api/discussionforum/add-post', payload);
       console.log('Title:', title);
       console.log('Description:', description);
+      console.log('Response:',response);
+      setShowSuccessModal(true);
+      } 
+      catch (error) {
+        setShowFailureModal(true);
+        console.error('Error posting discussion:', error);
+        setErrorMessage('An error occurred while posting the discussion.');
       }
-      else {
+    }
+    else {
         console.error('Description is required.');
         setErrorMessage('*Description can not be empty.')
       }
@@ -50,6 +77,12 @@ const StartDiscussion = ({ onClose }) => {
   
   const handleCloseSuccessModal =() =>{
     setShowSuccessModal(false);
+    onClose();
+    navigate('/dalportfolios-discussions');
+  }
+
+  const handleCloseFailureModal =() =>{
+    setShowFailureModal(false);
     onClose();
     navigate('/dalportfolios-discussions');
   }
@@ -87,10 +120,10 @@ const StartDiscussion = ({ onClose }) => {
             {errorMessage}
           </div>
         )}
-        <Button variant="contained" onClick={handleSubmit} style={{ marginRight: '8px', color: 'white', backgroundColor: 'black' }}>
+        <Button variant="contained" onClick={handleSubmit} style={{ marginRight: '8px', color: 'black', backgroundColor: '#FCD405' }}>
           Post
         </Button>
-        <Button variant="contained" style={{ color: 'white', backgroundColor: 'black' }} onClick={handleCancel}>
+        <Button variant="contained" style={{ color: 'black', backgroundColor: '#FCD405' }} onClick={handleCancel}>
           Cancel
         </Button>
         <Dialog open={showSuccessModal} onClose={() => setShowSuccessModal(false)}>
@@ -101,7 +134,16 @@ const StartDiscussion = ({ onClose }) => {
                 <DialogActions>
                    <Button style={{ color: 'black'}} onClick={handleCloseSuccessModal}>Close</Button>
                 </DialogActions>
-                </Dialog>
+          </Dialog>
+          <Dialog open={showFailureModal} onClose={() => setShowFailureModal(false)}>
+                   <DialogTitle>Failure</DialogTitle>
+                     <DialogContent>
+                      <Typography>There was an error. Please try again.</Typography>
+                     </DialogContent>
+                <DialogActions>
+                   <Button style={{ color: 'black'}} onClick={handleCloseFailureModal}>Close</Button>
+                </DialogActions>
+          </Dialog>
       </Grid>
     </Grid>
   );

@@ -33,20 +33,19 @@ export function validateUpdateUser(body) {
   const schema = Joi.object({
     username: Joi.string().alphanum().min(3).required(),
     email: Joi.string().email().min(3).required(),
-    password: Joi.string().required(),
     profile: Joi.object({
       first_name: Joi.string().min(3).required(),
       last_name: Joi.string().min(3).required(),
       gender: Joi.string().valid("male", "female", "other").required(),
-      pronouns: Joi.string(),
+      pronouns: Joi.string().default("").allow(null, ""),
       dob: Joi.date(),
     }).required(),
     type: Joi.string()
       .valid("admin", "user", "recruiter", "creator")
       .default("user"),
-    photoUrl: Joi.string().default(""),
+    photoUrl: Joi.string().default("").allow(null, ""),
     isVerified: Joi.boolean().default(false),
-    deletedAt: Joi.date().default(null),
+    deletedAt: Joi.date().default(null).allow(null, ""),
   });
   return schema.validate(body);    
 }

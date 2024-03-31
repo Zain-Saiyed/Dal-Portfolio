@@ -1,14 +1,17 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
-import { Button, Icon, IconButton, Loader } from "components";
 import moment from "moment";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { GET } from "utils/axios";
+import { Box, Container, Stack, Typography } from "@mui/material";
+
+import { DELETE, GET } from "utils/axios";
+import { Button, IconButton, Loader } from "components";
+import { useToast } from "hooks";
 
 type Props = {};
 
 const Portfolio = (props: Props) => {
   const navigate = useNavigate();
+  const { showError, showSuccess } = useToast();
 
   const [portfolios, setPortfolios] = React.useState<any>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -28,6 +31,19 @@ const Portfolio = (props: Props) => {
       })
       .finally(() => {
         setLoading(false);
+      });
+  };
+
+  const handleDelete = (portfolioId: string) => () => {
+    DELETE(`/api/profile/portfolio/${portfolioId}/delete`)
+      ?.then((res) => {
+        showSuccess(res?.data?.resultMessage?.en);
+      })
+      ?.catch((err) => {
+        showError("Failed to delete portfolio");
+      })
+      ?.finally(() => {
+        fetchPortfolioList();
       });
   };
 
@@ -68,8 +84,18 @@ const Portfolio = (props: Props) => {
             </Box>
             <Box>
               <Stack direction="row" justifyContent="flex-end">
-                <IconButton icon="edit" />
-                <IconButton icon="delete" />
+                <IconButton
+                  icon="edit"
+                  onClick={() =>
+                    navigate(`/profile/portfolio/${item?._id}/edit`, {
+                      state: { portfolio: item },
+                    })
+                  }
+                />
+                <IconButton
+                  icon="delete"
+                  onClick={handleDelete(item?._id)}
+                />
               </Stack>
             </Box>
           </Stack>

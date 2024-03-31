@@ -32,6 +32,10 @@ const PublicRoutes = () => {
           path="/profile/portfolio/create"
           element={<CreatePortfolioPage />}
         />
+        <Route
+          path="/profile/portfolio/:portfolioId/edit"
+          element={<CreatePortfolioPage />}
+        />
         <Route path="/portfolio/:user_name" element={<PortfolioPage />} />
         <Route path="/portfolio/:user_name/project/:project_id" element={<ProjectPage />} />
       </Route>

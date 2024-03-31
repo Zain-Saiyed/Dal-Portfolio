@@ -177,7 +177,6 @@ const ConfigurationSection = ({
                   onClick={async () => {
                     saveValues(values);
                     const _errors = await validateForm();
-                    console.log("_errors", _errors);
                     isEmpty(_errors) && next();
                   }}
                   disabled={!next}

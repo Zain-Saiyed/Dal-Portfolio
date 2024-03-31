@@ -27,7 +27,6 @@ const fetchUserDetails = async (req, res) => {
 const updateUserDetails = async (req, res) => {
   const user_id = req.params.id;
   const { error, value, warning } = validateUpdateUser(req.body);
-
   if (error) {
 		return res
 			.status(400)

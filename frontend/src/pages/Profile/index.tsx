@@ -17,7 +17,7 @@ const Profile = (props: Props) => {
 
   const [user, setUser] = React.useState<any>({});
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     isEmpty(user) && fetchUser();
   }, []);
 
