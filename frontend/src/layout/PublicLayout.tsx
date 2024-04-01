@@ -55,6 +55,11 @@ const SIDE_BAR_ITEMS: Array<LinkToPage> = [
     path: "/logout", 
     icon: "logout",
   },
+  {
+    title: "Search",
+    path: "/search-page",
+    icon: "search",
+  },
 ];
 
 const NAVBAR_ITEMS: Array<LinkToPage> = SIDE_BAR_ITEMS.filter(

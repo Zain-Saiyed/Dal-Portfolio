@@ -1,3 +1,4 @@
+//This file is created by "JINAY SHAH (B00928737)"
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardActions, Grid } from '@mui/material';
@@ -31,7 +32,8 @@ const SearchPage = () => {
   
 
   const handleCollaborateClick = (result: string) => {
-    console.log(`Collaboration request sent for result: ${result}`);
+    console.log(`Collaboration request sent for result: ${JSON.stringify(result)}`);
+    navigate(`/${result}`)
   };
   
   useEffect(() => {
@@ -53,14 +55,68 @@ const SearchPage = () => {
     fetchInitialData();
   }, []);
 
+  const calculateDurationInYears = (startDate: string, endDate: string) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    return (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 365);
+  };
+
+  const calculateTotalExperience = (experiences: any[]) => {
+    return experiences.reduce((total, exp) => {
+      const duration = calculateDurationInYears(exp.start_date, exp.end_date);
+      return total + duration;
+    }, 0);
+  };
+
+  const hasMasterDegree = (educations: any[]) => {
+    return educations.some(education => education.degree.toLowerCase().includes('master'));
+  };
+  
+  
   const handleSearchClick = async () => {
     setSearchPerformed(true);
     try {
       const response = await POST('api/search/portfolio', { search: searchQuery.trim() });
       if (response && response.data && typeof(response.data) === 'object') {
-        setFilteredResults(response.data.listOfDocuments);
-        console.log(response.data.listOfDocuments);
+        let filteredDocuments = response.data.listOfDocuments;
+        console.log(filteredDocuments);
+        if (filters.department) {
+          const departmentLower = filters.department.toLowerCase();
+          filteredDocuments = filteredDocuments.filter((document: { education: any[]; }) => 
+            document.education.some(education => 
+              education.field_of_study.toLowerCase().includes(departmentLower)
+            ));
+          }
         
+          if (filters.experience) {
+            filteredDocuments = filteredDocuments.filter((document: { experience: any[]; }) => {
+              const totalExperience = calculateTotalExperience(document.experience);
+              switch (filters.experience) {
+                case 'lessThanSixMonths':
+                  return totalExperience < 0.5;
+                case 'lessThanOneYear':
+                  return totalExperience < 1;
+                case 'lessThanTwoYears':
+                  return totalExperience < 2;
+                case 'twoToFiveYears':
+                  return totalExperience >= 2 && totalExperience <= 5;
+                case 'moreThanFiveYears':
+                  return totalExperience > 5;
+                default:
+                  return false;
+              }
+            });
+          }
+          
+          if (filters.academicLevel) {
+            filteredDocuments = filteredDocuments.filter((document: { education: any[]; }) => {
+              const isGraduate = hasMasterDegree(document.education);
+              return (filters.academicLevel === 'graduate' && isGraduate) ||
+                     (filters.academicLevel === 'undergraduate' && !isGraduate);
+            });
+          }
+          
+        setFilteredResults(filteredDocuments);
       } else {
         console.error('Invalid data format:', response);
         setFilteredResults([]);
@@ -71,8 +127,6 @@ const SearchPage = () => {
     }
   };
   
-  
-
   const handleResetClick = () => {
     setSearchQuery('');
     setFilters({
@@ -120,11 +174,11 @@ const SearchPage = () => {
                   label="Department"
                 >
                   <MenuItem value=""><em>None</em></MenuItem>
-                  <MenuItem value="computerScience">Computer Science</MenuItem>
-                  <MenuItem value="healthSciences">Health Sciences</MenuItem>
-                  <MenuItem value="law">Law</MenuItem>
-                  <MenuItem value="business&economics">Business & Economics</MenuItem>
-                  <MenuItem value="naturalScience">Natural Sciences</MenuItem>
+                  <MenuItem value="Computer Science">Computer Science</MenuItem>
+                  <MenuItem value="Health Sciences">Health Sciences</MenuItem>
+                  <MenuItem value="Law">Law</MenuItem>
+                  <MenuItem value="Business & Economics">Business & Economics</MenuItem>
+                  <MenuItem value="Natural Science">Natural Sciences</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -207,7 +261,7 @@ const SearchPage = () => {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={() => handleCollaborateClick(document)}>Collaborate</Button>
+                    <Button size="small" onClick={() => handleCollaborateClick(document.username)}>Collaborate</Button>
                   </CardActions>
                 </Card>
               ))}
