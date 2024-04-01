@@ -33,7 +33,7 @@ const SearchPage = () => {
 
   const handleCollaborateClick = (result: string) => {
     console.log(`Collaboration request sent for result: ${JSON.stringify(result)}`);
-    navigate(`  /${result}`)
+    navigate(`/${result}`)
   };
   
   useEffect(() => {
