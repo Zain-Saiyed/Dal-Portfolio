@@ -15,6 +15,8 @@ import Footer from "pages/Home/Footer";
 import { POST } from '../../utils/axios';  
 import Cookies from 'js-cookie';
 import { Link, useNavigate } from 'react-router-dom';
+import { fetchSessionAPI } from 'utils/session';
+import { useAppStore } from 'store';
 
 const useStyles = makeStyles((theme) => ({
     mainBox: {
@@ -64,6 +66,7 @@ const LoginForm = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down("md"));
     const classes = useStyles();
     const navigate = useNavigate();
+    const [state, dispatch] = useAppStore();
 
     const [formData, setFormData] = useState({
         email: '',
@@ -117,7 +120,9 @@ const LoginForm = () => {
             const { accessToken, refreshToken } = response.data;
 
             sessionStorage.setItem('accessToken', accessToken);
-            Cookies.set('refreshToken', refreshToken, { expires: 7 });  
+            Cookies.set('refreshToken', refreshToken, { expires: 7 });
+            
+            fetchSessionAPI(dispatch)
 
             navigate('/');  
         } catch (error: any) {

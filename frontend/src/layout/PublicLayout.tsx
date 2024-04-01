@@ -17,11 +17,7 @@ import tokenService from "utils/token-service";
 import useLogout from "hooks/useLogout";
 
 const SIDE_BAR_ITEMS: Array<LinkToPage> = [
-  {
-    title: "Home",
-    path: "/",
-    icon: "home",
-  },
+
 
   {
     title: "FAQs",
@@ -47,6 +43,12 @@ const SIDE_BAR_ITEMS: Array<LinkToPage> = [
     title: "Login",
     path: "/login",
     icon: "login",
+  },
+ 
+  {
+    title: "Profile",
+    path: "/profile",
+    icon: "profile",
   },
   {
     title: "Logout",

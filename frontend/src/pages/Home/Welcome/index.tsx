@@ -11,15 +11,7 @@ import { useAppStore } from "store";
 type Props = {};
 
 const Welcome = (props: Props) => {
-  useEffect(() => {
-    ping();
-  }, []);
-
-  const ping = () => {
-    GET(`/`).then((res) => {
-      console.log(res);
-    });
-  };
+  
 
   return (
     <Fragment>
