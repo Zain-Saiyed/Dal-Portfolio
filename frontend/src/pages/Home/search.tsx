@@ -1,3 +1,4 @@
+//This file is created by "JINAY SHAH (B00928737)"
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardActions, Grid } from '@mui/material';
@@ -31,7 +32,8 @@ const SearchPage = () => {
   
 
   const handleCollaborateClick = (result: string) => {
-    console.log(`Collaboration request sent for result: ${result}`);
+    console.log(`Collaboration request sent for result: ${JSON.stringify(result)}`);
+    navigate(`  /${result}`)
   };
   
   useEffect(() => {
@@ -259,7 +261,7 @@ const SearchPage = () => {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={() => handleCollaborateClick(document)}>Collaborate</Button>
+                    <Button size="small" onClick={() => handleCollaborateClick(document.username)}>Collaborate</Button>
                   </CardActions>
                 </Card>
               ))}

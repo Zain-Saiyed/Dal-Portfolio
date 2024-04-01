@@ -1,4 +1,5 @@
-import { Portfolio } from "../../../../models/index.js";
+//This file is created by "JINAY SHAH (B00928737)"
+import { Portfolio, User } from "../../../../models/index.js";
 import { errorHelper } from "../../../../utils/index.js";
 
 export default async (req, res) => {
@@ -28,7 +29,16 @@ export default async (req, res) => {
         ] };
 
         const result = await Portfolio.find(query);
-
+        for (let i = 0; i < result.length; i++) {
+            const portfolio = result[i];
+            const user = await User.findOne({ _id: portfolio.user_id });
+            if (user) {
+                result[i] = {
+                    ...portfolio.toObject(),
+                    username: user.username
+                };
+            }
+        }
         res.status(200).json({
             resultMessage: { en: "Fetched documents successfully", fr: "Documents récupérés avec succès" },
             resultCode: "00703",
