@@ -17,6 +17,7 @@ const StartDiscussion = ({ onClose, getPosts }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailureModal, setShowFailureModal] = useState(false);
   const navigate = useNavigate();
+  const [state, dispatch] = useAppStore();
 
   const maxTitleCharacters = 200;
   const maxDescriptionCharacters = 6000;
@@ -40,40 +41,49 @@ const StartDiscussion = ({ onClose, getPosts }) => {
   };
 
   const handleSubmit = async () => {
-    if (!errorTitle && !errorDescription && description.trim() !== '') {
-      try {
-        const payload = {
-          //TODO: fetch user name from localstorage
-          username: 'sush007',
-          title,
-          description,
-          date: new Date().toLocaleString('en-US', { 
-            year: 'numeric', 
-            month: '2-digit', 
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false // To use 24-hour format
-          }),
-        };
-      const response =await POST('api/discussionforum/add-post', payload);
-      getPosts();
-      console.log('Title:', title);
-      console.log('Description:', description);
-      console.log('Response:',response);
-      setShowSuccessModal(true);
-      } 
-      catch (error) {
-        setShowFailureModal(true);
-        console.error('Error posting discussion:', error);
-        setErrorMessage('An error occurred while posting the discussion.');
+    if(state?.isAuthenticated==true){
+       let currentUser= state?.currentUser;
+       if (!errorTitle && !errorDescription && description.trim() !== '') {
+        try {
+          const payload = {
+            //TODO: fetch user name from localstorage
+            username: 'sush007',
+            title,
+            description,
+            date: new Date().toLocaleString('en-US', { 
+              year: 'numeric', 
+              month: '2-digit', 
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              hour12: false // To use 24-hour format
+            }),
+          };
+        const response =await POST('api/discussionforum/add-post', payload);
+        getPosts();
+        console.log('Title:', title);
+        console.log('Description:', description);
+        console.log('Response:',response);
+        setShowSuccessModal(true);
+        } 
+        catch (error) {
+          setShowFailureModal(true);
+          console.error('Error posting discussion:', error);
+          setErrorMessage('An error occurred while posting the discussion.');
+        }
       }
+      else {
+          console.error('Description is required.');
+          setErrorMessage('*Description can not be empty.')
+        }
     }
     else {
-        console.error('Description is required.');
-        setErrorMessage('*Description can not be empty.')
-      }
+      //TODO: Show error login message to user.
+      console.log("You are not logged in. Please login and try again. User:" , currentUser);
+      navigate('/login');
+    }
+   
   };
   
   const handleCloseSuccessModal =() =>{
