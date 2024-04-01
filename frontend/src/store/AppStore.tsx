@@ -11,6 +11,7 @@ import {
 import AppReducer from "store/AppReducer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { GET } from "utils/axios";
+import { fetchSessionAPI } from "utils/session";
 
 export interface AppStoreState {
   darkMode: boolean;
@@ -36,21 +37,8 @@ const AppStoreProvider: FC<PropsWithChildren> = ({ children }) => {
   });
 
   useEffect(() => {
-    fetchSessionAPI();
+    fetchSessionAPI(dispatch);
   }, []);
-
-  const fetchSessionAPI = async () => {
-    const response = await GET("/api/user/session");
-    if (response?.data) {
-      dispatch({
-        type: "LOG_IN",
-        payload: {
-          isAuthenticated: response?.data?.isAuthenticated,
-          currentUser: response?.data?.user,
-        },
-      });
-    }
-  };
 
   return (
     <AppContext.Provider value={[state, dispatch]}>

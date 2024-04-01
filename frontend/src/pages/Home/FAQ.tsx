@@ -20,6 +20,8 @@ import {
   InputLabel,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useAppStore } from "store";
+import { isEmpty } from "utils/helpers";
 
 const faqData = [
   {
@@ -174,6 +176,14 @@ const faqData = [
 type Props = {};
 
 const FAQ = (props: Props) => {
+  const [state, dispatch] = useAppStore();
+   if (!isEmpty(state?.currentUser)) {
+    console.log("User is logged in", state?.currentUser);
+   }
+   else{
+    console.log("User is not logged in");
+   }
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [selectedSection, setSelectedSection] = useState(faqData[0].section);

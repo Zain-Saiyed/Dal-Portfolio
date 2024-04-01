@@ -19,7 +19,7 @@ export const sendResetPasswordEmail = async (email, ResetLink) => {
         address: process.env.EMAIL
     } ,
     to: email,
-    subject: 'Rest Password Link',
+    subject: 'Reset Password Link',
     html: `
       <p>Please click on the following link to reset your password:</p>
       <a href="${ResetLink}">${ResetLink}</a>
