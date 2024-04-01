@@ -18,6 +18,7 @@ const StartDiscussion = ({ onClose, getPosts }) => {
   const [showFailureModal, setShowFailureModal] = useState(false);
   const navigate = useNavigate();
   const [state, dispatch] = useAppStore();
+  let currentUser= state?.currentUser;
 
   const maxTitleCharacters = 200;
   const maxDescriptionCharacters = 6000;
@@ -42,7 +43,6 @@ const StartDiscussion = ({ onClose, getPosts }) => {
 
   const handleSubmit = async () => {
     if(state?.isAuthenticated==true){
-       let currentUser= state?.currentUser;
        if (!errorTitle && !errorDescription && description.trim() !== '') {
         try {
           const payload = {
