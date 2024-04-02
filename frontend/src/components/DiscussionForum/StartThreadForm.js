@@ -6,6 +6,8 @@ import { Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import {POST} from 'utils/axios';
+import { useAppStore } from "store";
+import LoginFailureDialog from './loginFailureDialog';
 
 //to take user input once user decides to start a discussion 
 const StartDiscussion = ({ onClose, getPosts }) => {
@@ -16,7 +18,10 @@ const StartDiscussion = ({ onClose, getPosts }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailureModal, setShowFailureModal] = useState(false);
+  const [showLoginFailureModal, setShowLoginFailureModal] = useState(false);
   const navigate = useNavigate();
+  const [state, dispatch] = useAppStore();
+  const currentUser= state?.currentUser;
 
   const maxTitleCharacters = 200;
   const maxDescriptionCharacters = 6000;
@@ -40,40 +45,46 @@ const StartDiscussion = ({ onClose, getPosts }) => {
   };
 
   const handleSubmit = async () => {
-    if (!errorTitle && !errorDescription && description.trim() !== '') {
-      try {
-        const payload = {
-          //TODO: fetch user name from localstorage
-          username: 'sush007',
-          title,
-          description,
-          date: new Date().toLocaleString('en-US', { 
-            year: 'numeric', 
-            month: '2-digit', 
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false // To use 24-hour format
-          }),
-        };
-      const response =await POST('api/discussionforum/add-post', payload);
-      getPosts();
-      console.log('Title:', title);
-      console.log('Description:', description);
-      console.log('Response:',response);
-      setShowSuccessModal(true);
-      } 
-      catch (error) {
-        setShowFailureModal(true);
-        console.error('Error posting discussion:', error);
-        setErrorMessage('An error occurred while posting the discussion.');
+    if(state?.isAuthenticated==true) {  //user is logged in
+       if (!errorTitle && !errorDescription && description.trim() !== '') {
+        try {
+          const payload = {
+            username: currentUser.username,
+            title,
+            description,
+            date: new Date().toLocaleString('en-US', { 
+              year: 'numeric', 
+              month: '2-digit', 
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              hour12: false // To use 24-hour format
+            }),
+          };
+        const response =await POST('api/discussionforum/add-post', payload);
+        getPosts();
+        console.log('Title:', title);
+        console.log('Description:', description);
+        console.log('Response:',response);
+        setShowSuccessModal(true);
+        } 
+        catch (error) {
+          setShowFailureModal(true);
+          console.error('Error posting discussion:', error);
+          setErrorMessage('An error occurred while posting the discussion.');
+        }
       }
+      else {
+          console.error('Description is required.');
+          setErrorMessage('*Description can not be empty.')
+        }
     }
     else {
-        console.error('Description is required.');
-        setErrorMessage('*Description can not be empty.')
-      }
+      console.log("You are not logged in. Please login and try again. User:" , currentUser);
+      setShowLoginFailureModal(true);
+    }
+   
   };
   
   const handleCloseSuccessModal =() =>{
@@ -86,6 +97,11 @@ const StartDiscussion = ({ onClose, getPosts }) => {
     setShowFailureModal(false);
     onClose();
     navigate('/dalportfolios-discussions');
+  }
+
+  const handleCloseLoginFailureModal = () => {
+    setShowLoginFailureModal(false);
+    navigate('/login');
   }
   return (
     <Grid container justifyContent="center">
@@ -145,6 +161,11 @@ const StartDiscussion = ({ onClose, getPosts }) => {
                    <Button style={{ color: 'black'}} onClick={handleCloseFailureModal}>Close</Button>
                 </DialogActions>
           </Dialog>
+          <LoginFailureDialog
+          open={showLoginFailureModal}
+          onClose={() => setShowLoginFailureModal(false)}
+          handleCloseLoginFailureModal={handleCloseLoginFailureModal}
+        />
       </Grid>
     </Grid>
   );
