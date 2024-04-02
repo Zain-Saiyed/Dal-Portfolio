@@ -35,21 +35,24 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      try {
-        const data = await instance.post("/api/user/refresh-token", {
+      instance
+        .post("/api/user/refresh-token", {
           refreshToken: tokenService.getRefreshToken(),
+        })
+        ?.then((res) => {
+          const { accessToken, refreshToken } = res.data;
+          tokenService.setAccessToken(accessToken);
+          tokenService.setRefreshToken(refreshToken);
+          originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
+        })
+        ?.catch((err) => {
+          console.error("Error refreshing token:", err);
+          tokenService.clearTokens();
+          history.replace("/login");
+          return Promise.reject(err);
         });
-        const { accessToken, refreshToken } = data.data;
-        tokenService.setAccessToken(accessToken);
-        tokenService.setRefreshToken(refreshToken);
-        originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
-        return instance(originalRequest);
-      } catch (refreshError) {
-        console.error("Error refreshing token:", refreshError);
-        tokenService.clearTokens();
-        history.replace("/login");
-        return Promise.reject(refreshError);
-      }
+
+      return instance(originalRequest);
     }
     return Promise.reject(error);
   }

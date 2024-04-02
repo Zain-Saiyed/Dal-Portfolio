@@ -1,3 +1,5 @@
+//Author: Hatim Patrawala
+
 import { Grid, Stack, Typography } from "@mui/material";
 
 import { useOnMobile } from "hooks";
