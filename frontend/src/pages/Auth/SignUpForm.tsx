@@ -1,3 +1,5 @@
+//Author: Mohammed Noor ul Hasan Kothaliya
+
 import Footer from "pages/Home/Footer";
 import React, { useState } from 'react';
 import {
@@ -173,9 +175,7 @@ const SignUpForm = () => {
     };
 
 
-    // const handleChange = (e: any) => {
-    //     setFormData({ ...formData, [e.target.name]: e.target.value });
-    // };
+  
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -212,7 +212,7 @@ const SignUpForm = () => {
                 first_name: formData.firstName,
                 last_name: formData.lastName
             },
-            type: formData.userType.toLowerCase()
+            type: "user" //formData.userType.toLowerCase()
         };
     
         setLoading(true);
@@ -370,7 +370,7 @@ const SignUpForm = () => {
                         </FormControl>
 
 
-                        <FormControl fullWidth margin="normal" required>
+                        {/* <FormControl fullWidth margin="normal" required>
                             <InputLabel htmlFor="userType">User Type</InputLabel>
                             <Select
                                 id="userType"
@@ -383,7 +383,7 @@ const SignUpForm = () => {
                                     <MenuItem key={type} value={type}>{type}</MenuItem>
                                 ))}
                             </Select>
-                        </FormControl>
+                        </FormControl> */}
 
 
                         <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>

@@ -11,27 +11,27 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-export const sendVerificationEmail = async (email, verificationLink) => {
-    console.log('Sending verification email...');
+export const sendResetPasswordEmail = async (email, ResetLink) => {
+    console.log('Sending reset password email...');
   const mailOptions = {
     from:{
         name: 'Dal Portfolio',
         address: process.env.EMAIL
     } ,
     to: email,
-    subject: 'Verify your email address',
+    subject: 'Reset Password Link',
     html: `
-      <p>Please click on the following link to verify your email address:</p>
-      <a href="${verificationLink}">${verificationLink}</a>
-      <p>This link will expire in 24 hours.</p>
+      <p>Please click on the following link to reset your password:</p>
+      <a href="${ResetLink}">${ResetLink}</a>
+      <p>This link will expire in 1 hour.</p>
     `
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log('Verification email sent successfully.');
+    console.log('Reset password email sent successfully.');
   } catch (error) {
-    console.error('Failed to send verification email:', error);
+    console.error('Failed to send reset password email:', error);
     throw error; 
   }
 };

@@ -29,11 +29,9 @@ const Routes = () => {
 
   return (
     <BrowserRouter>
-      {isAuthenticated ? (
-        <PrivateRoutes key={refresh} />
-      ) : (
+      
         <PublicRoutes key={refresh} />
-      )}
+  
     </BrowserRouter>
   );
 };

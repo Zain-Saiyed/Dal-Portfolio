@@ -1,3 +1,5 @@
+//Author: Mohammed Noor ul Hasan Kothaliya
+
 import { Router } from "express";
 import { register } from "../controllers/user/index.js";
 import verifyEmail from '../controllers/user/verifyEmail.js';
@@ -6,6 +8,8 @@ import authMiddleware from '../middlewares/auth.js';
 import refreshTokenController from '../controllers/user/auth/refreshTokenController.js';
 import logout from '../controllers/user/auth/logout.js';
 import getSessionDetails from '../controllers/user/getSessionDetails.js';
+import forgotPassword from "../controllers/user/auth/forgotPassword.js";
+import resetPassword from "../controllers/user/auth/resetPassword.js";
 
 
 const router = Router();
@@ -17,6 +21,8 @@ router.post('/refresh-token', refreshTokenController);
 
 router.get('/session', getSessionDetails);
 
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
 
 router.post('/logout', logout);
  

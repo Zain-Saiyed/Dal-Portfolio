@@ -1,3 +1,5 @@
+//Author: Mohammed Noor ul Hasan Kothaliya
+
 import React from 'react'
 import { Box, Typography, Avatar, useMediaQuery, useTheme } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';

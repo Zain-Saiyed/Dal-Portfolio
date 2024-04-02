@@ -1,9 +1,11 @@
+//Author: Mohammed Noor ul Hasan Kothaliya
+
 import bcrypt from 'bcryptjs';
 import { User, Token } from "../../../../models/index.js";
 import { signAccessToken, signRefreshToken } from "../../../../utils/index.js";
 
 const logout = async (req, res) => {
-    const { refreshToken } = req.body;  // Assuming the refresh token is sent in the request body
+    const { refreshToken } = req.body;  
 
     if (!refreshToken) {
         return res.status(400).json({ message: "Refresh token is required" });
@@ -15,8 +17,8 @@ const logout = async (req, res) => {
             return res.status(400).json({ message: "Invalid refresh token" });
         }
 
-        // Invalidate the token by deleting it or marking as inactive
-        await Token.findByIdAndRemove(token._id);  // Deleting the token record
+        
+        await Token.findByIdAndRemove(token._id);  
 
         res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {

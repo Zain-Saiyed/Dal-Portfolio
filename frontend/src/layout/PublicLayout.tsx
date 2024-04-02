@@ -14,23 +14,11 @@ import DalPortfolioLight from "assets/images/dal_portfolio_white_bg.png";
 import { TOP_BAR_DESKTOP_HEIGHT, TOP_BAR_MOBILE_HEIGHT } from "layout/config";
 import { POST } from "utils/axios";
 import tokenService from "utils/token-service";
+import useLogout from "hooks/useLogout";
 
 const SIDE_BAR_ITEMS: Array<LinkToPage> = [
-  {
-    title: "Home",
-    path: "/",
-    icon: "home",
-  },
-  // {
-  //   title: "Log In",
-  //   path: "/auth/login",
-  //   icon: "login",
-  // },
-  // {
-  //   title: "Sign Up",
-  //   path: "/auth/sign-up",
-  //   icon: "signup",
-  // },
+
+
   {
     title: "FAQs",
     path: "/faq",
@@ -56,10 +44,21 @@ const SIDE_BAR_ITEMS: Array<LinkToPage> = [
     path: "/login",
     icon: "login",
   },
+ 
+  {
+    title: "Profile",
+    path: "/profile",
+    icon: "profile",
+  },
   {
     title: "Logout",
-    path: "/logout",
+    path: "/logout", 
     icon: "logout",
+  },
+  {
+    title: "Search",
+    path: "/search-page",
+    icon: "search",
   },
 ];
 
@@ -68,6 +67,7 @@ const NAVBAR_ITEMS: Array<LinkToPage> = SIDE_BAR_ITEMS.filter(
 );
 
 const PublicLayout: FC<PropsWithChildren> = () => {
+  const logout = useLogout();
   const onMobile = useOnMobile();
   const navigate = useNavigate();
   const switchMode = useSwitchMode();
@@ -135,10 +135,7 @@ const PublicLayout: FC<PropsWithChildren> = () => {
                       }}
                       onClick={async () => {
                         if (item?.path === "/logout") {
-                          await POST(`/api/user/logout`);
-                          tokenService.clearTokens();
-                          dispatch({ type: "LOG_OUT" });
-                          navigate("/login");
+                          logout();
                         } else {
                           navigate(item?.path);
                         }

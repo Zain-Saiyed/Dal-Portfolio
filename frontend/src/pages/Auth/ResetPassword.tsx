@@ -1,3 +1,5 @@
+//Author: Mohammed Noor ul Hasan Kothaliya
+
 import React, { useState } from 'react';
 import {
     Box, Button, Container, FormControl, FormHelperText, InputLabel, OutlinedInput,
@@ -9,8 +11,10 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Grid from '@mui/material/Grid';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Footer from "pages/Home/Footer";
+import { POST } from 'utils/axios';
+import tokenService from 'utils/token-service';
 
 const useStyles = makeStyles((theme) => ({
     mainBox: {
@@ -24,10 +28,11 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '100vh',
+        flexGrow: 1,
     },
     paper: {
         marginTop: '2px',
+        marginBottom: '16px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -40,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
         '@media (max-width: 600px)': {
             padding: '15px',
             marginTop: '0',
+            marginBottom: '16px',
             maxWidth: '90%',
             boxShadow: '0 2px 4px 1px rgba(0, 0, 0, 0.2)',
         },
@@ -70,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ResetPassword = () => {
+    const { username, resetToken } = useParams();
     const classes = useStyles();
     const navigate = useNavigate();
     const [password, setPassword] = useState('');
@@ -95,7 +102,7 @@ const ResetPassword = () => {
         return passwordRegex.test(password);
     };
 
-    const handleResetPassword = (e: any) => {
+    const handleResetPassword = async (e: any) => {
         e.preventDefault();
 
         if (!validatePassword(password)) {
@@ -108,10 +115,20 @@ const ResetPassword = () => {
             return;
         }
 
-        // Proceed with password reset logic, typically involving an API call
-        console.log('Password reset successful:', password);
-        // After successful reset, redirect to the login page with a success message
-        navigate('/login', { state: { message: 'Password reset successful. Please log in.' } });
+        try {
+            const response = await POST('/api/user/reset-password', {
+                username,
+                resetToken,
+                newPassword: password
+            });
+            console.log('Password reset response:', response.data);
+            tokenService.clearTokens();
+            navigate('/login', { state: { message: 'Password reset successful. Please log in.' } });
+        } catch (error: any) {
+            console.error('Error resetting password:', error);
+            setErrors({...errors, password: error.response?.data?.message || error.message});
+    
+        }
     };
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);

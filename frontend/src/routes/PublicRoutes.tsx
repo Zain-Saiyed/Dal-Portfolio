@@ -80,11 +80,18 @@ const PublicRoutes = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+<<<<<<< HEAD
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route
           path="/verify-email/:username/:verificationCode"
           element={<EmailVerificationPage />}
         />
+=======
+        <Route path="/reset-password/:username/:resetToken" element={<ResetPasswordPage />} />
+        <Route path="/verify-email/:username/:verificationCode" element={<EmailVerificationPage />} />
+
+    
+>>>>>>> 7e16ca819849ad83e74cacf38d03464c77fcfe56
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
