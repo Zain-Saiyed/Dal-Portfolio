@@ -5,6 +5,7 @@ import { validateCreatePortfolio } from "../../../validators/portfolio.validator
 export default async (req, res) => {
   const user_id = req.params.user_id;
   const { error, value, warning } = validateCreatePortfolio(req.body);
+  console.log("error", error);
   if (error) {
     return res
       .status(400)
