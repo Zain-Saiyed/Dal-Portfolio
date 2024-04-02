@@ -21,12 +21,21 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import InstagramIcon from "@mui/icons-material/Instagram";
+import GitHubIcon from '@mui/icons-material/GitHub';
 import DayNightIcon from "@mui/icons-material/Brightness4";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import NotificationsIcon from "@mui/icons-material/NotificationsOutlined";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import PendingIcon from '@mui/icons-material/Pending';
+import LinkIcon from '@mui/icons-material/Link';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import VerifiedIcon from '@mui/icons-material/Verified';
+import DownloadIcon from '@mui/icons-material/Download';
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 
 import ContactMailIcon from '@mui/icons-material/ContactMail';
@@ -36,6 +45,7 @@ import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import BoltIcon from '@mui/icons-material/Bolt';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 import { APP_ICON_SIZE } from "components/config";
 
@@ -61,6 +71,7 @@ export const ICONS: Record<string, ComponentType> = {
   contactus: ContactPageIcon,
   facebook: FacebookIcon,
   instagram: InstagramIcon,
+  github: GitHubIcon,
   linkedin: LinkedInIcon,
   youtube: YouTubeIcon,
   twitter: XIcon,
@@ -73,8 +84,17 @@ export const ICONS: Record<string, ComponentType> = {
   work: WorkOutlineIcon,
   project: TrackChangesIcon,
   certification: MilitaryTechIcon,
+  city:LocationCityIcon,
   skill: BoltIcon,
-  error: ErrorOutlineIcon
+  newtab: OpenInNewIcon,
+  doneall: DoneAllIcon,
+  pending: PendingIcon,
+  link: LinkIcon,
+  workspace: WorkspacePremiumIcon,
+  verified: VerifiedIcon,
+  download: DownloadIcon,
+  error: ErrorOutlineIcon,
+  resume: AssignmentIcon,
 };
 
 const Icon: FC<SvgIconProps> = ({
