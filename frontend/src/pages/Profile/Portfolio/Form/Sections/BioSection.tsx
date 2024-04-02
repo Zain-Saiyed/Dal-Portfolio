@@ -27,6 +27,7 @@ const formConfig: any = {
   facebook: "",
   instagram: "",
   youtube: "",
+  gscholar: "",
   other_url: "",
   photo_url: "",
 };
@@ -210,6 +211,15 @@ const BioSection = ({ sectionValues, saveValues, next, prev }: Props) => {
                   type: "text",
                   required: false,
                   value: values?.youtube,
+                  component: InputField,
+                },
+                {
+                  id: "bio-gscholar",
+                  label: "Google Scholar Url",
+                  name: "gscholar",
+                  type: "text",
+                  required: false,
+                  value: values?.gscholar,
                   component: InputField,
                 },
                 {

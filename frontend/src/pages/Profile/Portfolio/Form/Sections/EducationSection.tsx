@@ -21,6 +21,8 @@ const formConfig = {
   university: "",
   start_date: "",
   end_date: "",
+  grade_obtained: "",
+  max_grade: "",
   description: "",
 };
 
@@ -148,6 +150,22 @@ const EducationSection = ({ sectionValues, saveValues, next, prev }: Props) => {
                               value: ins?.end_date || "",
                               component: DatePicker,
                               sx: { width: "100%" },
+                            },
+                            {
+                              id: `education-grade-obtained-${index}`,
+                              name: `education.${index}.grade_obtained`,
+                              label: "Grade Obtained",
+                              type: "text",
+                              value: ins?.grade_obtained,
+                              component: InputField,
+                            },
+                            {
+                              id: `education-max-grade-${index}`,
+                              name: `education.${index}.max_grade`,
+                              label: "Max Grade",
+                              type: "text",
+                              value: ins?.max_grade,
+                              component: InputField,
                             },
                             {
                               id: `education-description-${index}`,

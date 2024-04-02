@@ -45,6 +45,7 @@ import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import BoltIcon from '@mui/icons-material/Bolt';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 import { APP_ICON_SIZE } from "components/config";
 
@@ -92,7 +93,8 @@ export const ICONS: Record<string, ComponentType> = {
   workspace: WorkspacePremiumIcon,
   verified: VerifiedIcon,
   download: DownloadIcon,
-  error: ErrorOutlineIcon
+  error: ErrorOutlineIcon,
+  resume: AssignmentIcon,
 };
 
 const Icon: FC<SvgIconProps> = ({

@@ -1,13 +1,15 @@
 import {
   Box,
+  createTheme,
   CssBaseline,
   List,
   ListItem,
   Skeleton,
   Stack,
+  ThemeProvider,
   Typography,
 } from "@mui/material";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import useTextColor from "hooks/textColor";
 import React, { useEffect } from "react";
 import Bio from "./Sections/Bio";
@@ -19,9 +21,10 @@ import Certifications from "./Sections/Certifications";
 import Resume from "./Sections/Resume";
 import { GET } from "utils/axios";
 
-import { CircularProgress, Alert } from '@mui/material';
+import { CircularProgress, Alert } from "@mui/material";
 
 import UserDefault from "assets/images/user_default.png";
+import { isEmpty } from "utils/helpers";
 
 type Props = {};
 
@@ -64,31 +67,30 @@ const PortfolioLinks = [
 ];
 
 const Portfolio = (props: Props) => {
-  const { user_name } = useParams();
+  const { portfolio_id } = useParams();
 
   const [bgColor, setBgColor] = React.useState<string>("#fff");
   const [portfolio, setPortfolio] = React.useState<any>({});
   const [selectedLink, setSelectedLink] = React.useState<string>("About");
-  const [ loading, set_loading ] = React.useState(true);
-  const [ flag_failed, set_flag_failed ] = React.useState(false);
+  const [loading, set_loading] = React.useState(false);
 
   useEffect(() => {
-    fetchPortfolioList();
+    fetchPortfolio();
   }, []);
 
   const textColor = useTextColor(bgColor);
 
-  const fetchPortfolioList = async () => {
-    try {
-      const res = await GET(`/api/profile/user/65f360189050f7fb6f800988/portfolios`);
-      console.log(res.data);
-      setPortfolio(res.data.portfolios?.[0]);
-      setBgColor(res.data.portfolios?.[0]?.configuration?.color);
-      set_loading(false);
-    } catch (err) {
-      set_flag_failed(true);
-      console.log(err);
-    }
+  const fetchPortfolio = async () => {
+    set_loading(true);
+    GET(`/api/portfolio/${portfolio_id}`)
+      ?.then((res) => {
+        console.log(res.data);
+        setPortfolio(res?.data?.portfolio);
+        setBgColor(res?.data?.portfolio?.configuration?.color);
+      })
+      ?.finally(() => {
+        set_loading(false);
+      });
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -102,11 +104,22 @@ const Portfolio = (props: Props) => {
     }
   };
 
-  if (loading && !flag_failed) {
-    return <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <Typography style={{marginRight: "2rem"}}>Loading Portfolio details...</Typography>
-      <CircularProgress color="warning" size={60} />
-    </Box>;
+  if (!!loading || isEmpty(portfolio)) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Typography style={{ marginRight: "2rem" }}>
+          Loading Portfolio details...
+        </Typography>
+        <CircularProgress color="warning" size={60} />
+      </Box>
+    );
   }
 
   return (
@@ -138,7 +151,7 @@ const Portfolio = (props: Props) => {
                 height: "40%",
                 alignContent: "flex-end",
                 padding: 1,
-                mx: "auto"
+                mx: "auto",
               }}
             >
               <img
@@ -148,7 +161,7 @@ const Portfolio = (props: Props) => {
                   borderRadius: "50%",
                   border: ".5rem solid rgba(255,255,255,.2)",
                 }}
-                src={portfolio.photo_url ? portfolio.photo_url : UserDefault}
+                src={portfolio?.photo_url ? portfolio?.photo_url : UserDefault}
                 alt="user"
               />
               {/* <Skeleton
@@ -210,9 +223,7 @@ const Portfolio = (props: Props) => {
         >
           {PortfolioLinks?.map(({ name, component: Component, id }: any) => (
             <Component id={id} portfolio={portfolio} />
-            ))}
-
-
+          ))}
         </Box>
       </Box>
     </Box>
