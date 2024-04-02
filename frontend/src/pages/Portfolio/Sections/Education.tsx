@@ -11,7 +11,7 @@ const Education = ({ id, portfolio }: Props) => {
   const onTablets = useOnTablets();
 
   return (
-    <section id={id} style={{ minHeight: "100vh", padding: "3rem" }}>
+    <section id={id} style={{ minHeight: "70vh", padding: "3rem" }}>
       <Box sx={{ my: "auto" }}>
         <Box
           sx={{
@@ -37,7 +37,7 @@ const Education = ({ id, portfolio }: Props) => {
           <Typography
             sx={{
               textTransform: "uppercase",
-              fontSize: "4rem",
+              fontSize: onMobile? "3rem": "4rem",
               lineHeight: "5.5rem",
               fontWeight: 700,
             }}
@@ -51,7 +51,6 @@ const Education = ({ id, portfolio }: Props) => {
               elevation={3}
               style={{ padding: "1.5rem", marginBottom: "2rem" }}
             >
-              {" "}
               {/* , backgroundColor: index === 0 ? '#ffffe0' : '#fff' */}
               <Box
                 style={{
@@ -62,7 +61,7 @@ const Education = ({ id, portfolio }: Props) => {
               >
                 <Typography
                   style={{
-                    fontSize: "1.75rem",
+                    fontSize: onMobile? "1.4rem": "1.75rem",
                     fontWeight: "bold",
                     marginBottom: "0.5rem",
                   }}
@@ -74,8 +73,8 @@ const Education = ({ id, portfolio }: Props) => {
                     {new Date(item.start_date).toLocaleDateString("en-US", {
                       month: "long",
                       year: "numeric",
-                    })}{" "}
-                    -{" "}
+                    })}
+                    {" "}-{" "}
                     {new Date(item.end_date).toLocaleDateString("en-US", {
                       month: "long",
                       year: "numeric",
@@ -84,16 +83,15 @@ const Education = ({ id, portfolio }: Props) => {
                 )}
               </Box>
               <Typography style={{ fontWeight: "bold" }}>
-                {" "}
-                {item.degree}{" "}
+                {item.degree}
               </Typography>
               {onMobile && (
                 <Typography>
                   {new Date(item.start_date).toLocaleDateString("en-US", {
                     month: "long",
                     year: "numeric",
-                  })}{" "}
-                  -{" "}
+                  })}
+                  {" "}-{" "}
                   {new Date(item.end_date).toLocaleDateString("en-US", {
                     month: "long",
                     year: "numeric",
@@ -102,11 +100,11 @@ const Education = ({ id, portfolio }: Props) => {
               )}
               <Typography>{item.field_of_study}</Typography>
               <Typography>
-                {" "}
                 CGPA : {item.grade_obtained}/{item.max_grade}
               </Typography>
+              
               <Typography style={{ marginTop: "1.5rem", fontWeight: "bold" }}>
-                Summary:{" "}
+                Summary:
               </Typography>
               <Typography style={{ fontStyle: "italic" }}>
                 {item.description}

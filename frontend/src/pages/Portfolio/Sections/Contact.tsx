@@ -2,17 +2,18 @@ import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useOnMobile, useOnTablets } from "hooks";
 import { Icon } from "components";
+import { useNavigate } from "react-router-dom";
+
 
 type Props = {
   id: string;
   portfolio: any;
 };
 
-const Resume = ({ id, portfolio }: Props) => {
+const Contact = ({ id, portfolio }: Props) => {
   const onMobile = useOnMobile();
   const onTablets = useOnTablets();
-
-  if (portfolio.resume) {
+  const navigate = useNavigate();
 
     return (
       <section id={id} style={{ minHeight: "50vh", padding: "3rem" }}>
@@ -47,26 +48,36 @@ const Resume = ({ id, portfolio }: Props) => {
                   fontWeight: 700,
                 }}
               >
-                RESUME
+                CONTACT ME
               </Typography>
 
               <Typography sx={{ mb: "1rem" }}>
-                Learn more about my skills and experience, Download my resume:
+                Let's Connect and Collaborate! Say Hello and Start the Conversation.
               </Typography>
-              <Button
-                variant="contained"
-                href={portfolio.resume}
-                startIcon={<Icon name="download" />}
-                download
-              >
-                Download Resume
-              </Button>
+
+              <Box>
+                <Button variant="contained" href={`mailto:${portfolio.bio.email}`} startIcon={<Icon name="email" style={{ verticalAlign: "middle", marginRight: "5px", color:'black'}} />}>
+                Inbox Me
+                </Button>
+                {onMobile ? (
+                  <>
+                    <br />
+                    <Button variant="contained" onClick={() => navigate("/collaborate")} startIcon={<Icon name="groups"/>} style={{marginTop: "1rem", background: "blue", color: "white"}}> 
+                      Collaborate
+                    </Button>
+                  </>
+                ) : (
+                    <Button variant="contained" onClick={() => navigate("/collaborate")} startIcon={<Icon name="groups"/>} style={{marginLeft: "1rem", background: "blue", color: "white"}}> 
+                      Collaborate
+                    </Button>
+                )}
+              </Box>
+              
             </Box>
           </Box>
         </Box>
       </section>
     );
-  }
 };
 
-export default Resume;
+export default Contact;

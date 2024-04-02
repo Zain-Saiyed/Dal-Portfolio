@@ -7,12 +7,13 @@ type Props = {
   portfolio: any;
 };
 
+// Helper function to get color of bar line depending on teh skill rating 
 const getProgressBarColor = (rating: any) => {
-  if (rating >= 8) {
+  if (rating >= 4) {
     return "#4867D5";
-  } else if (rating >= 6 && rating < 8) {
+  } else if (rating >= 3 && rating < 4) {
     return "#27A562";
-  } else if (rating >= 4 && rating < 6) {
+  } else if (rating >= 2 && rating < 3) {
     return "#FFC107";
   } else {
     return "#F44336";
@@ -52,7 +53,7 @@ const Skills = ({ id, portfolio }: Props) => {
             <Typography
               sx={{
                 textTransform: "uppercase",
-                fontSize: "4rem",
+                fontSize: onMobile? "3rem": "4rem",
                 lineHeight: "5.5rem",
                 fontWeight: 700,
               }}
@@ -84,7 +85,7 @@ const Skills = ({ id, portfolio }: Props) => {
                     </Typography>
                     <LinearProgress
                       variant="determinate"
-                      value={skill.rating * 10}
+                      value={skill.rating * 20}
                       sx={{
                         height: "10px",
                         "& .MuiLinearProgress-bar": {
@@ -93,7 +94,7 @@ const Skills = ({ id, portfolio }: Props) => {
                       }}
                     />
                     <Typography style={{ fontSize: "1.15rem" }}>
-                      {skill.rating}/10
+                      {skill.rating}/5
                     </Typography>
                   </Paper>
                 </Grid>
