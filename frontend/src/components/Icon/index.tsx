@@ -35,6 +35,8 @@ import LinkIcon from '@mui/icons-material/Link';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import VerifiedIcon from '@mui/icons-material/Verified';
+import EmailIcon from "@mui/icons-material/Email";
+import GroupsIcon from '@mui/icons-material/Groups';
 import DownloadIcon from '@mui/icons-material/Download';
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 
@@ -94,6 +96,8 @@ export const ICONS: Record<string, ComponentType> = {
   verified: VerifiedIcon,
   download: DownloadIcon,
   error: ErrorOutlineIcon,
+  email: EmailIcon,
+  groups: GroupsIcon,
   resume: AssignmentIcon,
 };
 

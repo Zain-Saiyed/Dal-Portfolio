@@ -13,7 +13,7 @@ const WorkExperience = ({ id, portfolio }: Props) => {
   const onTablets = useOnTablets();
 
   return (
-    <section id={id} style={{ minHeight: "100vh", padding: "3rem" }}>
+    <section id={id} style={{ minHeight: "70vh", padding: "3rem" }}>
       <Box sx={{ p: onMobile ? "100px 0" : "160px 0px 0px 0px" }}>
         <Box sx={{ my: "auto" }}>
           <Box
@@ -40,9 +40,10 @@ const WorkExperience = ({ id, portfolio }: Props) => {
             <Typography
               sx={{
                 textTransform: "uppercase",
-                fontSize: "4rem",
-                lineHeight: "5.5rem",
+                fontSize: onMobile? "3rem":"4rem",
+                lineHeight: onMobile? "3.5rem": "5.5rem",
                 fontWeight: 700,
+                marginBottom: onMobile? "1rem":""
               }}
             >
               WORK EXPERIENCE
@@ -54,7 +55,6 @@ const WorkExperience = ({ id, portfolio }: Props) => {
                 elevation={3}
                 style={{ padding: "20px", marginBottom: "2rem" }}
               >
-                {" "}
                 {/* , backgroundColor: index === 0 ? '#ffffe0' : '#fff' */}
                 <div
                   style={{
@@ -64,7 +64,7 @@ const WorkExperience = ({ id, portfolio }: Props) => {
                   }}
                 >
                   <Typography
-                    style={{ fontSize: "1.75rem", fontWeight: "bold" }}
+                    style={{ fontSize: onMobile? "1.4rem": "1.75rem", fontWeight: "bold" }}
                   >
                     {item.company_name}
                   </Typography>
@@ -99,18 +99,20 @@ const WorkExperience = ({ id, portfolio }: Props) => {
                   </Typography>
                 )}
                 <Typography>{item.location}</Typography>
-                <Typography style={{ marginTop: "1.5rem", fontWeight: "bold" }}>
-                  Summary:{" "}
-                </Typography>
-                <Typography style={{ fontStyle: "italic" }}>
-                  {item.description}
-                </Typography>
-                <Typography
-                  style={{ marginTop: "1.5rem", alignItems: "middle" }}
-                >
-                  <Icon name="city" sx={{ fontSize: "30px" }} />
+                {item.description && (
+                  <>
+                    <Typography style={{ marginTop: "1.5rem", fontWeight: "bold" }}>
+                      Summary:
+                    </Typography>
+                    <Typography style={{ fontStyle: "italic" }}>
+                      {item.description}
+                    </Typography>
+                  </>
+                )}
+                <Typography style={{ marginTop: "1.5rem", alignItems: "center", display: "flex" }}>
+                  <Icon name="city" sx={{ fontSize: "30px", marginRight: "0.5rem" }} />
                   <Link
-                    href={item.company_link}
+                    href={item.company_url}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
