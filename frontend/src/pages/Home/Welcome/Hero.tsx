@@ -1,3 +1,5 @@
+//Author: Hatim Patrawala
+
 import { Box, Typography } from "@mui/material";
 import { Button } from "components";
 import { useOnMobile, useOnTablets } from "hooks";

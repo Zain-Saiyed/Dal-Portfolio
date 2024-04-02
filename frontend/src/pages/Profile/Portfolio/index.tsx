@@ -1,3 +1,5 @@
+//Author: Hatim Patrawala
+
 import moment from "moment";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,9 +17,6 @@ const Portfolio = (props: Props) => {
   const [state, dispatch] = useAppStore();
   const { currentUser = {} } = state || {};
   const { showError, showSuccess } = useToast();
-
-  console.log("currentUser", currentUser);
-
   const [portfolios, setPortfolios] = React.useState<any>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
 
