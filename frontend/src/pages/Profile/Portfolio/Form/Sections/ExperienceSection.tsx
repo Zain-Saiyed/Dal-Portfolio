@@ -21,6 +21,7 @@ const formConfig = {
   location: "",
   start_date: "",
   end_date: "",
+  company_url: "",
   description: "",
 };
 
@@ -151,6 +152,14 @@ const ExperienceSection = ({
                               value: ins?.end_date || "",
                               component: DatePicker,
                               sx: { width: "100%" },
+                            },
+                            {
+                              id: `${sectionId}-company-url-${index}`,
+                              name: `${sectionId}.${index}.company_url`,
+                              label: "Company URL",
+                              type: "text",
+                              value: ins?.company_url,
+                              component: InputField,
                             },
                             {
                               id: `${sectionId}-description-${index}`,

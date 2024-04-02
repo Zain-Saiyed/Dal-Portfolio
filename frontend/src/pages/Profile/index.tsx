@@ -7,11 +7,14 @@ import Settings from "pages/Profile/Settings";
 import { useOnMobile, useOnTablets } from "hooks";
 import { GET } from "utils/axios";
 import { isEmpty } from "utils/helpers";
+import { useAppStore } from "store";
 
 type Props = {};
 
 const Profile = (props: Props) => {
   const [activeTab, setActiveTab] = React.useState<Number>(0);
+  const [state, dispatch] = useAppStore();
+  const { currentUser = {} }: any = state || {};
   const onMobile = useOnMobile();
   const onTablet = useOnTablets();
 
@@ -22,7 +25,7 @@ const Profile = (props: Props) => {
   }, []);
 
   const fetchUser = async () => {
-    GET(`/api/profile/user/65f360189050f7fb6f800988`).then((res) => {
+    GET(`/api/profile/user/${currentUser?._id}`).then((res) => {
       setUser(res.data.user);
     });
   };

@@ -6,12 +6,17 @@ import { Box, Container, Stack, Typography } from "@mui/material";
 import { DELETE, GET } from "utils/axios";
 import { Button, IconButton, Loader } from "components";
 import { useToast } from "hooks";
+import { useAppStore } from "store";
 
 type Props = {};
 
 const Portfolio = (props: Props) => {
   const navigate = useNavigate();
+  const [state, dispatch] = useAppStore();
+  const { currentUser = {} } = state || {};
   const { showError, showSuccess } = useToast();
+
+  console.log("currentUser", currentUser);
 
   const [portfolios, setPortfolios] = React.useState<any>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -22,9 +27,9 @@ const Portfolio = (props: Props) => {
 
   const fetchPortfolioList = () => {
     setLoading(true);
-    GET(`/api/profile/user/65f360189050f7fb6f800988/portfolios`)
+    GET(`/api/profile/user/${(currentUser as any)?._id}/portfolios`)
       .then((res) => {
-        setPortfolios(res.data.portfolios);
+        setPortfolios(res?.data?.portfolios);
       })
       .catch((err) => {
         console.log(err);
@@ -88,7 +93,7 @@ const Portfolio = (props: Props) => {
                   icon="edit"
                   onClick={() =>
                     navigate(`/profile/portfolio/${item?._id}/edit`, {
-                      state: { portfolio: item },
+                      state: { portfolio: item, user: currentUser },
                     })
                   }
                 />

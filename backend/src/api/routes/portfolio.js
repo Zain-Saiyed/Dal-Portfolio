@@ -3,7 +3,7 @@ import { portfolio, project } from "../controllers/portfolio/index.js";
 
 const router = Router();
 
-router.post("/", portfolio);
-router.post("/project", project);
+router.get("/:portfolio_id", portfolio);
+router.get("/:portfolio_id/project", project);
 
 export default router;

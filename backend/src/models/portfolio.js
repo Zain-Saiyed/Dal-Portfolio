@@ -27,6 +27,7 @@ const bioSchema = new Schema(
     facebook: { type: String },
     instagram: { type: String },
     youtube: { type: String },
+    gscholar: { type: String },
     other_url: { type: String },
     photo_url: { type: String },
   },
@@ -42,6 +43,8 @@ const educationSchema = new Schema(
     university: { type: String, required: true },
     start_date: { type: Date, required: true },
     end_date: { type: Date, required: true },
+    grade_obtained: { type: String },
+    max_grade: { type: String },
     description: { type: String },
   },
   {
@@ -56,6 +59,7 @@ const experienceSchema = new Schema(
     location: { type: String, required: true },
     start_date: { type: Date, required: true },
     end_date: { type: Date, required: true },
+    company_url: { type: String },
     description: { type: String },
   },
   {
@@ -133,6 +137,9 @@ const portfolioSchema = new Schema(
     certifications: {
       type: [certificationSchema],
       required: true,
+    },
+    resume: {
+      type: String,
     },
     is_default: { type: Boolean, default: false },
     user_id: { type: Schema.Types.ObjectId, required: true },

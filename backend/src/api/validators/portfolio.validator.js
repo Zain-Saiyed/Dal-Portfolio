@@ -21,6 +21,7 @@ export const validateCreatePortfolio = (body) => {
       facebook: Joi.string().default("").allow(null, ""),
       instagram: Joi.string().default("").allow(null, ""),
       youtube: Joi.string().default("").allow(null, ""),
+      gscholar: Joi.string().default("").allow(null, ""),
       other_url: Joi.string().default("").allow(null, ""),
       photo_url: Joi.string().default("").allow(null, ""),
     }),
@@ -31,6 +32,8 @@ export const validateCreatePortfolio = (body) => {
         university: Joi.string().required(),
         start_date: Joi.date().required(),
         end_date: Joi.date().required(),
+        grade_obtained: Joi.string().default("").allow(null, ""),
+        max_grade: Joi.string().default("").allow(null, ""),
         description: Joi.string().default("").allow(null, ""),
       })
     ),
@@ -41,6 +44,7 @@ export const validateCreatePortfolio = (body) => {
         location: Joi.string().required(),
         start_date: Joi.date().required(),
         end_date: Joi.date().required(),
+        company_url: Joi.string().default("").allow(null, ""),
         description: Joi.string().default("").allow(null, ""),
       })
     ),
@@ -69,6 +73,7 @@ export const validateCreatePortfolio = (body) => {
         verification_link: Joi.string().required(),
       })
     ),
+    resume: Joi.string().default("").allow(null, ""),
 		is_default: Joi.boolean().default(false),
   });
   return schema.validate(body);

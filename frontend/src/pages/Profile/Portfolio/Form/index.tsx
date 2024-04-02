@@ -23,6 +23,7 @@ import { isEmpty } from "utils/helpers";
 import { POST, PUT } from "utils/axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
+import ResumeSection from "./Sections/ResumeSection";
 
 type Props = {};
 
@@ -70,6 +71,13 @@ const sectionOrder = [
     icon: "skill",
     key: "skills",
     component: SkillSection,
+  },
+  {
+    label: "Resume",
+    value: "Resume",
+    icon: "resume",
+    key: "resume",
+    component: ResumeSection,
   },
   {
     label: "Certifications",
@@ -351,10 +359,11 @@ const PortfolioForm = (props: Props) => {
       projects: formValues.projects,
       skills: formValues.skills,
       certifications: formValues.certifications,
+      resume: formValues?.resume?.resume || "",
     };
     const url = isEdit
       ? `/api/profile/portfolio/${portfolioId}/edit`
-      : `/api/profile/portfolio/65f360189050f7fb6f800988/create`;
+      : `/api/profile/portfolio/${location?.state?.currentUser?._id}/create`;
     const method = isEdit ? PUT : POST;
     method(url, payload)
       ?.then((res) => {

@@ -41,8 +41,6 @@ const PublicRoutes = () => {
           path="/profile/portfolio/:portfolioId/edit"
           element={<CreatePortfolioPage />}
         />
-        <Route path="/portfolio/:user_name" element={<PortfolioPage />} />
-        <Route path="/portfolio/:user_name/project/:project_id" element={<ProjectPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
@@ -51,6 +49,8 @@ const PublicRoutes = () => {
 
     
       </Route>
+      <Route path="/portfolio/:portfolio_id" element={<PortfolioPage />} />
+      <Route path="/portfolio/:portfolio_id/project/:project_id" element={<ProjectPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
