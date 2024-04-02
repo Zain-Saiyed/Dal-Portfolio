@@ -6,14 +6,19 @@ import { useState } from 'react';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
-import {POST} from 'utils/axios'
+import {POST} from 'utils/axios';
+import { useAppStore } from "store";
+import LoginFailureDialog from './loginFailureDialog';
 
 const DiscussionPost = ({ id, email, date, title, description, replyCount,replies,getPosts }) => {
   const [reply, setReply] = useState('');
   const [replyError, setReplyError] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailureModal, setShowFailureModal] = useState(false);
+  const [showLoginFailureModal, setShowLoginFailureModal] = useState(false);
   const navigate = useNavigate();
+  const [state, dispatch] = useAppStore();
+  const currentUser= state?.currentUser;
   
   const handleTitleClick = () => {
     // If title is clicked then navigate to threads page of that discussion post
@@ -27,14 +32,14 @@ const DiscussionPost = ({ id, email, date, title, description, replyCount,replie
   };
 
   const handleReplySubmit = async () => {
-      // Reply should not be empty
-      if (reply.trim() !== '') {
+    if(state?.isAuthenticated==true) { //user is logged in 
+       // Reply should not be empty
+       if (reply.trim() !== '') {
         try {
           console.log(reply);
           const payload = {
-            //TODO: fetch user name from localstorage 
             postId: id,
-            userName: 'sush007',
+            userName: currentUser.username,
             description:reply,
             date: new Date().toLocaleString('en-US', { 
               year: 'numeric', 
@@ -64,6 +69,13 @@ const DiscussionPost = ({ id, email, date, title, description, replyCount,replie
           setReplyError('Reply cannot be empty.');
           console.error('Reply cannot be empty.');
       }
+
+    }
+    else {
+      console.log("You are not logged in. Please login and try again. User:" , currentUser);
+      setShowLoginFailureModal(true);
+    }
+     
   };
 
   const handleCloseSuccessModal =() =>{
@@ -76,6 +88,10 @@ const DiscussionPost = ({ id, email, date, title, description, replyCount,replie
   const handleCloseFailureModal =() =>{
     setShowFailureModal(false);
     navigate('/dalportfolios-discussions');
+  }
+  const handleCloseLoginFailureModal = () => {
+    setShowLoginFailureModal(false);
+    navigate('/login');
   }
 
     return (
@@ -140,7 +156,11 @@ const DiscussionPost = ({ id, email, date, title, description, replyCount,replie
                    <Button style={{ color: 'black'}} onClick={handleCloseFailureModal}>Close</Button>
                 </DialogActions>
           </Dialog>
-            </>
+          <LoginFailureDialog
+          open={showLoginFailureModal}
+          onClose={() => setShowLoginFailureModal(false)}
+          handleCloseLoginFailureModal={handleCloseLoginFailureModal}></LoginFailureDialog>
+       </>
     );
 };
 
