@@ -6,6 +6,7 @@ import { Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import {POST} from 'utils/axios';
+import { useAppStore } from "store";
 
 //to take user input once user decides to start a discussion 
 const StartDiscussion = ({ onClose, getPosts }) => {
