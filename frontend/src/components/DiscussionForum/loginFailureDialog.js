@@ -1,3 +1,4 @@
+//Author: Sushank Saini
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
 
 const LoginFailureDialog = ({ open, onClose, handleCloseLoginFailureModal }) => {

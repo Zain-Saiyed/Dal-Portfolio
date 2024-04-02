@@ -8,13 +8,23 @@ import DeleteConfirmationModal from './DeleteConfirmation';
 import { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { POST } from 'utils/axios';
+import { useAppStore } from "store";
+import LoginFailureDialog from './loginFailureDialog';
+import AuthorizationFailureDialog from './authorizationFailureDialog';
+
+
 
 const MainPost = ({ id, email, date, title, description }) => {
   console.log("postid:", id);
+  console.log("username:",email);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailureModal, setShowFailureModal] = useState(false);
+  const [showLoginFailureModal, setShowLoginFailureModal] = useState(false);
+  const [showAuthFailureModal, setShowAuthFailureModal] = useState(false);
+  const [state, dispatch] = useAppStore();
+  const currentUser= state?.currentUser;
 
   const handleBackClick = () => {
     navigate(-1);
@@ -29,20 +39,36 @@ const MainPost = ({ id, email, date, title, description }) => {
   };
 
   const handleConfirmDelete = async () => {
-    setIsModalOpen(false);
-    try {
-      const payload = {
-        postId: id,
-      };
-      const response = await POST('api/discussionforum/delete-post', payload);
-      console.log(response);
-      console.log('Post deleted!');
-      setShowSuccessModal(true);
-    } 
-    catch (error) {
-      setShowFailureModal(true);
-      console.error('Error deleting post:', error);
+    if(state?.isAuthenticated==true) { //user is logged in
+      if(currentUser.username==email) //user matches with the user who posted this
+      {
+        console.log("User authorized to delete. Username:", currentUser.username);
+        setIsModalOpen(false);
+        try {
+          const payload = {
+            postId: id,
+          };
+          const response = await POST('api/discussionforum/delete-post', payload);
+          console.log(response);
+          console.log('Post deleted!');
+          setShowSuccessModal(true);
+        } 
+        catch (error) {
+          setShowFailureModal(true);
+          console.error('Error deleting post:', error);
+        }
+      }
+      else{
+        console.log("You are not authorized to delete this. User:" , currentUser);
+        setShowAuthFailureModal(true);
+        setIsModalOpen(false);
+      }
     }
+    else{
+      console.log("You are not logged in. Please login and try again. User:" , currentUser);
+      setShowLoginFailureModal(true);
+    } 
+   
   };
 
   const handleCloseSuccessModal = () => {
@@ -55,6 +81,15 @@ const MainPost = ({ id, email, date, title, description }) => {
   const handleCloseFailureModal = () => {
     setShowFailureModal(false);
   };
+
+  const handleCloseLoginFailureModal = () => {
+    setShowLoginFailureModal(false);
+    navigate('/login');
+  }
+
+  const handleCloseAuthFailureModal = () => {
+    setShowAuthFailureModal(false);
+  }
 
   return (
     <Grid container justifyContent="center" style={{ padding: '5px' }}>
@@ -104,6 +139,16 @@ const MainPost = ({ id, email, date, title, description }) => {
           <Button style={{ color: 'black' }} onClick={handleCloseFailureModal}>Close</Button>
         </DialogActions>
       </Dialog>
+      <LoginFailureDialog
+          open={showLoginFailureModal}
+          onClose={() => setShowLoginFailureModal(false)}
+          handleCloseLoginFailureModal={handleCloseLoginFailureModal}
+        />
+      <AuthorizationFailureDialog
+          open={showAuthFailureModal}
+          onClose={() => setShowAuthFailureModal(false)}
+          handleCloseAuthorizationFailureModal={handleCloseAuthFailureModal}
+        />
     </Grid>
   );
 }
