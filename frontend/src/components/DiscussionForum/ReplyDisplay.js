@@ -6,14 +6,24 @@ import DeleteConfirmationModal from './DeleteConfirmation';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { useState } from 'react';
 import {POST} from 'utils/axios';
+import { useAppStore } from "store";
+import LoginFailureDialog from './loginFailureDialog';
+import AuthorizationFailureDialog from './authorizationFailureDialog';
+import { useNavigate } from 'react-router-dom';
+
 
 const ReplyDisplay = ({postId, id, email, date, description, onDelete }) => {
+  console.log("postId:", postId);
+  console.log("replyid:", id);
+  console.log("username:",email);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailureModal, setShowFailureModal] = useState(false);
-  
-  console.log("postId:", postId);
-  console.log("replyid:", id);
+  const [showLoginFailureModal, setShowLoginFailureModal] = useState(false);
+  const [showAuthFailureModal, setShowAuthFailureModal] = useState(false);
+  const [state, dispatch] = useAppStore();
+  const currentUser= state?.currentUser;
+  const navigate = useNavigate();
 
   const handleDeleteReply = () => {
     setIsModalOpen(true);
@@ -24,31 +34,53 @@ const ReplyDisplay = ({postId, id, email, date, description, onDelete }) => {
   };
 
   const handleConfirmDelete = async () => {
-    setIsModalOpen(false);
+    if(state?.isAuthenticated==true) {
+      if(currentUser.username==email){
+        setIsModalOpen(false);
     try {
       const payload = {
         postId:postId,
         replyId: id,
       };
       const response =await POST('api/discussionforum/delete-reply', payload);
+      setShowSuccessModal(true);
       console.log(response);
       console.log('Reply deleted!');
-      onDelete(id);
-      setShowSuccessModal(true);
     }
     catch (error) {
       setShowFailureModal(true);
       console.error('Error deleting reply:', error);
     }
+      }
+      else{
+        console.log("You are not authorized to delete this. User:" , currentUser);
+        setShowAuthFailureModal(true);
+        setIsModalOpen(false);
+      }
+    }
+    else{
+      console.log("You are not logged in. Please login and try again. User:" , currentUser);
+      setShowLoginFailureModal(true);
+    } 
   };
 
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
+    onDelete(id);
   };
 
   const handleCloseFailureModal = () => {
     setShowFailureModal(false);
   };
+
+  const handleCloseLoginFailureModal = () => {
+    setShowLoginFailureModal(false);
+    navigate('/login');
+  }
+
+  const handleCloseAuthFailureModal = () => {
+    setShowAuthFailureModal(false);
+  }
 
   return (
     <Grid container justifyContent="center" style={{ padding: '5px' }}>
@@ -90,6 +122,16 @@ const ReplyDisplay = ({postId, id, email, date, description, onDelete }) => {
           <Button style={{ color: 'black' }} onClick={handleCloseFailureModal}>Close</Button>
         </DialogActions>
       </Dialog>
+      <LoginFailureDialog
+          open={showLoginFailureModal}
+          onClose={() => setShowLoginFailureModal(false)}
+          handleCloseLoginFailureModal={handleCloseLoginFailureModal}
+        />
+      <AuthorizationFailureDialog
+          open={showAuthFailureModal}
+          onClose={() => setShowAuthFailureModal(false)}
+          handleCloseAuthorizationFailureModal={handleCloseAuthFailureModal}
+        />
     </Grid>
   );
 }
