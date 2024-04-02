@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import {POST} from 'utils/axios';
 import { useAppStore } from "store";
+import LoginFailureDialog from './loginFailureDialog';
 
 //to take user input once user decides to start a discussion 
 const StartDiscussion = ({ onClose, getPosts }) => {
@@ -17,9 +18,10 @@ const StartDiscussion = ({ onClose, getPosts }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailureModal, setShowFailureModal] = useState(false);
+  const [showLoginFailureModal, setShowLoginFailureModal] = useState(false);
   const navigate = useNavigate();
   const [state, dispatch] = useAppStore();
-  let currentUser= state?.currentUser;
+  const currentUser= state?.currentUser;
 
   const maxTitleCharacters = 200;
   const maxDescriptionCharacters = 6000;
@@ -43,12 +45,11 @@ const StartDiscussion = ({ onClose, getPosts }) => {
   };
 
   const handleSubmit = async () => {
-    if(state?.isAuthenticated==true){
+    if(state?.isAuthenticated==true) {  //user is logged in
        if (!errorTitle && !errorDescription && description.trim() !== '') {
         try {
           const payload = {
-            //TODO: fetch user name from localstorage
-            username: 'sush007',
+            username: currentUser.username,
             title,
             description,
             date: new Date().toLocaleString('en-US', { 
@@ -80,9 +81,8 @@ const StartDiscussion = ({ onClose, getPosts }) => {
         }
     }
     else {
-      //TODO: Show error login message to user.
       console.log("You are not logged in. Please login and try again. User:" , currentUser);
-      navigate('/login');
+      setShowLoginFailureModal(true);
     }
    
   };
@@ -97,6 +97,11 @@ const StartDiscussion = ({ onClose, getPosts }) => {
     setShowFailureModal(false);
     onClose();
     navigate('/dalportfolios-discussions');
+  }
+
+  const handleCloseLoginFailureModal = () => {
+    setShowLoginFailureModal(false);
+    navigate('/login');
   }
   return (
     <Grid container justifyContent="center">
@@ -156,6 +161,11 @@ const StartDiscussion = ({ onClose, getPosts }) => {
                    <Button style={{ color: 'black'}} onClick={handleCloseFailureModal}>Close</Button>
                 </DialogActions>
           </Dialog>
+          <LoginFailureDialog
+          open={showLoginFailureModal}
+          onClose={() => setShowLoginFailureModal(false)}
+          handleCloseLoginFailureModal={handleCloseLoginFailureModal}
+        />
       </Grid>
     </Grid>
   );
