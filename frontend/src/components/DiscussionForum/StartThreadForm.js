@@ -174,10 +174,7 @@ const StartDiscussion = ({ onClose, getPosts }) => {
         >
           Post
         </Button>
-        <Button
-          variant="contained"
-          onClick={handleCancel}
-        >
+        <Button variant="contained" onClick={handleCancel}>
           Cancel
         </Button>
         <Dialog
