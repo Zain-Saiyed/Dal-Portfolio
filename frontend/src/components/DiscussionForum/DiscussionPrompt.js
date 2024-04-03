@@ -19,7 +19,6 @@ const DiscussionPrompt = ({ getPosts }) => {
       {!isStartDiscussionOpen && (
         <Paper
           style={{
-            background: "#FCFBF7",
             padding: "16px",
             textAlign: "center",
             minHeight: "212px",
@@ -28,7 +27,7 @@ const DiscussionPrompt = ({ getPosts }) => {
         >
           <Typography
             variant="h5"
-            style={{ marginTop: "20px", color: "black", fontWeight: 500 }}
+            style={{ marginTop: "20px", fontWeight: 500 }}
           >
             Do you have a question or an idea to share?
           </Typography>
@@ -36,8 +35,6 @@ const DiscussionPrompt = ({ getPosts }) => {
             variant="contained"
             style={{
               marginTop: "20px",
-              color: "black",
-              backgroundColor: "#FCD405",
             }}
             onClick={handleStartDiscussionClick}
           >

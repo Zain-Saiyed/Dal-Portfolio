@@ -170,17 +170,11 @@ const StartDiscussion = ({ onClose, getPosts }) => {
           onClick={handleSubmit}
           style={{
             marginRight: "8px",
-            color: "black",
-            backgroundColor: "#FCD405",
           }}
         >
           Post
         </Button>
-        <Button
-          variant="contained"
-          style={{ color: "black", backgroundColor: "#FCD405" }}
-          onClick={handleCancel}
-        >
+        <Button variant="contained" onClick={handleCancel}>
           Cancel
         </Button>
         <Dialog

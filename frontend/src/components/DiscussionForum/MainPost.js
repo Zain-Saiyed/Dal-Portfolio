@@ -107,10 +107,7 @@ const MainPost = ({ id, email, date, title, description }) => {
   return (
     <Grid container justifyContent="center" style={{ padding: "5px" }}>
       <Grid item xs={12} md={8} lg={6}>
-        <Card
-          variant="outlined"
-          style={{ background: "#F6F5F1", padding: "16px", width: "100%" }}
-        >
+        <Card variant="outlined" style={{ padding: "16px", width: "100%" }}>
           <CardContent>
             <Grid container alignItems="center" justifyContent="space-between">
               <Grid item>
@@ -127,7 +124,6 @@ const MainPost = ({ id, email, date, title, description }) => {
             <Typography
               variant="h5"
               style={{
-                color: "black",
                 fontWeight: 250,
                 borderBottom: "2px solid #FFC300",
                 paddingBottom: "0.5px",
