@@ -6,7 +6,6 @@ import { useLayoutEffect, useState } from "react";
 import { isEmpty } from "utils/helpers";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import "../../css/MyProjects.css";
 import { Button } from "components";
 import { useAppStore } from "store";
 import { useNavigate, useParams } from "react-router-dom";
@@ -152,7 +151,11 @@ function MyProjects() {
                 <form>
                   <div className="project">
                     {projects.map((project) => (
-                      <div key={project.title} className="project-item p-3">
+                      <div
+                        key={project.title}
+                        className="project-item p-3 d-flex align-items-center"
+                        style={{ maxWidth: "500px", margin: "auto" }}
+                      >
                         <label className="d-flex">
                           <input
                             type="checkbox"
@@ -175,11 +178,7 @@ function MyProjects() {
                         <div
                           className="d-flex px-5 py-3"
                           style={{ whiteSpace: "nowrap" }}
-                        >
-                          <div className="align-self-center px-2 mx-2">
-                            Contributor's list:{" "}
-                          </div>
-                        </div>
+                        ></div>
                       </div>
                     ))}
                   </div>
