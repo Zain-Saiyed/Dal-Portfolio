@@ -98,7 +98,7 @@ const LoginForm = () => {
         if (name === 'email') {
             validateEmail(value);
         }
-        // Include validation logic here if needed
+        
     };
 
     const handleSubmit = async (e: any) => {
