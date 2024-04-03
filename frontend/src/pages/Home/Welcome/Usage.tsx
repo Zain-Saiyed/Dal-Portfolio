@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useOnMobile, useOnTablets } from "hooks";
+import React from "react";
 import StudentIcon from "assets/images/student_icon.png";
 import RecruiterIcon from "assets/images/recruiter_icon.png";
 import ProfessorIcon from "assets/images/researcher_icon.png";
@@ -30,7 +31,7 @@ const Usage = (props: Props) => {
   return (
     <Box
       sx={{
-        padding: "80px 0 160px",
+        padding: "100px 0 160px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
