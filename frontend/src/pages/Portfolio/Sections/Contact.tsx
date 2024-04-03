@@ -1,3 +1,5 @@
+// Author: Zainuddin Saiyed
+
 import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useOnMobile, useOnTablets } from "hooks";
@@ -62,12 +64,12 @@ const Contact = ({ id, portfolio }: Props) => {
                 {onMobile ? (
                   <>
                     <br />
-                    <Button variant="contained" onClick={() => navigate("/collaborate")} startIcon={<Icon name="groups"/>} style={{marginTop: "1rem", background: "blue", color: "white"}}> 
+                    <Button variant="contained" onClick={() => navigate("/my-projects/")} startIcon={<Icon name="groups"/>} style={{marginTop: "1rem", background: "blue", color: "white"}}> 
                       Collaborate
                     </Button>
                   </>
                 ) : (
-                    <Button variant="contained" onClick={() => navigate("/collaborate")} startIcon={<Icon name="groups"/>} style={{marginLeft: "1rem", background: "blue", color: "white"}}> 
+                    <Button variant="contained" onClick={() => navigate("/my-projects/")} startIcon={<Icon name="groups"/>} style={{marginLeft: "1rem", background: "blue", color: "white"}}> 
                       Collaborate
                     </Button>
                 )}

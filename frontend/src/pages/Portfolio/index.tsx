@@ -1,3 +1,5 @@
+// Author: Zainuddin Saiyed
+
 import {
   Box,
   CssBaseline,
@@ -67,7 +69,7 @@ const PortfolioLinks = [
     component: Resume,
   },
   {
-    name: "Contact",
+    name: "Collaborate",
     id: "template-section-contact",
     component: Contact,
   },
@@ -82,7 +84,7 @@ const Portfolio = (props: Props) => {
   const [bgColor, setBgColor] = React.useState<string>("#fff");
   const [portfolio, setPortfolio] = React.useState<any>({});
   const [selectedLink, setSelectedLink] = React.useState<string>("About");
-  const [loading, set_loading] = React.useState(false);
+  const [loading, set_loading] = React.useState(true);
   const [flag_failed, set_flag_failed] = React.useState(false);
 
   useEffect(() => {
@@ -97,18 +99,18 @@ const Portfolio = (props: Props) => {
 
   const fetchPortfolio = async () => {
     set_loading(true);
+    console.log(portfolio_id);
     GET(`/api/portfolio/${portfolio_id}`)
       ?.then((res) => {
         setPortfolio(res?.data?.portfolio);
         setBgColor(res?.data?.portfolio?.configuration?.color);
+        set_loading(false);
       })
       .catch((res) => {
         set_flag_failed(true);
         setPortfolio(null);
+        set_loading(true);
       })
-      ?.finally(() => {
-        set_loading(false);
-      });
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -122,7 +124,7 @@ const Portfolio = (props: Props) => {
     }
   };
 
-  if (!!loading && flag_failed) {
+  if (loading && !flag_failed) {
     return (
       <Box
         sx={{
@@ -140,7 +142,7 @@ const Portfolio = (props: Props) => {
     );
   }
 
-  if (!portfolio || isEmpty(portfolio)) {
+  if ((!portfolio || isEmpty(portfolio)) && loading) {
     return (
       <div>
         <Alert severity="warning" variant="filled">
@@ -248,7 +250,9 @@ const Portfolio = (props: Props) => {
                 }}
               >
                 <List>
-                  {PortfolioLinks?.map((ins: any) => (
+                  {PortfolioLinks
+                  ?.filter((ins: any) => ins.name !== "Resume" || portfolio.resume)
+                  .map((ins: any) => (
                     <ListItem
                       key = {ins.name}
                       sx={{ cursor: "pointer" }}

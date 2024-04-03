@@ -91,5 +91,9 @@ export default {
   "00709": "Le message de discussion a été supprimé avec succès.",
   "00710": "Erreur lors de la suppression du message de discussion.",
   "00711": "La réponse a été supprimée avec succès.",
-  "00712": "Erreur lors de la suppression de la réponse."
+  "00712": "Erreur lors de la suppression de la réponse.",
+  "00800": "Le portefeuille n'existe pas pour cet ID de portefeuille.",
+  "00801": "Portefeuille récupéré avec succès.",
+  "00802": "Projet récupéré avec succès.",
+  "00803": "Le projet n'existe pas pour cet ID utilisateur.",
 };

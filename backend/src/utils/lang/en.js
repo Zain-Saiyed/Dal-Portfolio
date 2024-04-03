@@ -40,7 +40,7 @@ export default {
   "00047": "You logged in successfully.",
   "00048": "The code is sent to your email successfully.",
   "00050": "Successfully logged out.",
-  "00052": "The user could not find.",
+  "00052": "The user could not be found.",
   "00053": "Please send a verification code.",
   "00054":
     "The code you enter does not match with the code we sent to your email. Please check again.",
@@ -88,5 +88,9 @@ export default {
   "00709": "Discussion post deleted successfully.",
   "00710": "Error deleting discussion post.",
   "00711": "Reply deleted successfully.",
-  "00712": "Error deleting reply."
+  "00712": "Error deleting reply.",
+  "00800": "Portfolio doesnot exist for this User.",
+  "00801": "Portfolio fetched successfully.",
+  "00802": "Project fetched successfully.",
+  "00803": "Project doesnot exist for this user ID.",
 };
