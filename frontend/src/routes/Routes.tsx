@@ -3,13 +3,11 @@ import { BrowserRouter } from "react-router-dom";
 
 import { Loader } from "components";
 import PublicRoutes from "routes/PublicRoutes";
-import PrivateRoutes from "routes/PrivateRoutes";
-import { useAuthWatchdog, useIsAuthenticated } from "hooks";
+import { useAuthWatchdog } from "hooks";
 
 const Routes = () => {
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(0);
-  const isAuthenticated = useIsAuthenticated();
 
   const afterLogin = useCallback(() => {
     setRefresh((old) => old + 1);
@@ -29,9 +27,7 @@ const Routes = () => {
 
   return (
     <BrowserRouter>
-      
-        <PublicRoutes key={refresh} />
-  
+      <PublicRoutes key={refresh} />
     </BrowserRouter>
   );
 };

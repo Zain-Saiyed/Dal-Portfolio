@@ -24,7 +24,7 @@ const refreshTokenController = async (req, res) => {
         const newAccessToken = signAccessToken(user._id);
         const newRefreshToken = signRefreshToken(user._id);
 
-        // Update the stored refresh token (optional)
+        
         tokenDoc.refreshToken = newRefreshToken;
         tokenDoc.expiresIn = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // set the expiration date to 7 days from now
         await tokenDoc.save();

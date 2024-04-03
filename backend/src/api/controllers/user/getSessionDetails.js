@@ -3,6 +3,7 @@
 import { User } from "../../../models/index.js";
 import jwt from "jsonwebtoken";
 import { jwtSecretKey } from "../../../config/index.js";
+import { isEmpty } from "../../../utils/index.js";
 
 const getSessionDetails = async (req, res) => {
     
@@ -17,8 +18,8 @@ const getSessionDetails = async (req, res) => {
         const decoded = jwt.verify(token, jwtSecretKey);
         const user = await User.findById(decoded._id, '-password'); 
 
-        if (!user) {
-            return res.status(404).json({ isAuthenticated: false, message: "User not found" });
+        if (isEmpty(user)) {
+            return res.status(401).json({ isAuthenticated: false, message: "User not found" });
         }
 
         

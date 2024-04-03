@@ -101,7 +101,6 @@ const Portfolio = (props: Props) => {
     set_loading(true);
     GET(`/api/portfolio/${portfolio_id}`)
       ?.then((res) => {
-        console.log(res.data);
         setPortfolio(res?.data?.portfolio);
         setBgColor(res?.data?.portfolio?.configuration?.color);
         set_loading(false);

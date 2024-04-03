@@ -1,3 +1,5 @@
+//Author: Hatim Patrawala
+
 import React, { useEffect, useLayoutEffect } from "react";
 import { Box, Container, Tab, Tabs } from "@mui/material";
 
@@ -20,11 +22,13 @@ const Profile = (props: Props) => {
 
   const [user, setUser] = React.useState<any>({});
 
+
   useEffect(() => {
     isEmpty(user) && fetchUser();
   }, []);
 
   const fetchUser = async () => {
+    if (isEmpty(currentUser)) return;
     GET(`/api/profile/user/${currentUser?._id}`).then((res) => {
       setUser(res.data.user);
     });

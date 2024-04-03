@@ -17,6 +17,7 @@ import Cookies from 'js-cookie';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchSessionAPI } from 'utils/session';
 import { useAppStore } from 'store';
+import { useToast } from "hooks";
 
 const useStyles = makeStyles((theme) => ({
     mainBox: {
@@ -67,6 +68,7 @@ const LoginForm = () => {
     const classes = useStyles();
     const navigate = useNavigate();
     const [state, dispatch] = useAppStore();
+    const { showSuccess } = useToast();
 
     const [formData, setFormData] = useState({
         email: '',
@@ -96,12 +98,11 @@ const LoginForm = () => {
         if (name === 'email') {
             validateEmail(value);
         }
-        // Include validation logic here if needed
+        
     };
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        console.log(formData);
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/;
 
@@ -115,14 +116,18 @@ const LoginForm = () => {
             const response = await POST('/api/user/login', {
                 email: formData.email,
                 password: formData.password
-            });
+            }).then((response) => {
+                const { accessToken, refreshToken, message } = response.data;
+                sessionStorage.setItem('accessToken', accessToken);
+                Cookies.set('refreshToken', refreshToken, { expires: 7 });
+                fetchSessionAPI(dispatch)
+                showSuccess(message);
+                
+              });
 
-            const { accessToken, refreshToken } = response.data;
 
-            sessionStorage.setItem('accessToken', accessToken);
-            Cookies.set('refreshToken', refreshToken, { expires: 7 });
             
-            fetchSessionAPI(dispatch)
+           
 
             navigate('/');  
         } catch (error: any) {
