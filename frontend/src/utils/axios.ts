@@ -1,3 +1,4 @@
+// Authors: Hatim Patrawala and Mohammed Noor ul Hasan Kothaliya
 import axios, { AxiosRequestConfig } from "axios";
 import history from "./history";
 import tokenService from "./token-service";
