@@ -72,7 +72,7 @@ const Portfolio = (props: Props) => {
           Create Portfolio
         </Button>
       </Box>
-      {!isEmpty(portfolios) ? (
+      {isEmpty(portfolios) ? (
         <Box sx={{ height: "100px", width: "100%", m: "auto", textAlign: "center" }}>
           <Typography variant="h6" component={"h6"}>
             No portfolios found
