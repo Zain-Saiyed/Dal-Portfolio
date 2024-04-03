@@ -122,7 +122,6 @@ const DiscussionPost = ({
         onClick={handleTitleClick}
         sx={{
           position: "relative",
-          background: "#FCFBF7",
           padding: "16px",
           cursor: "pointer",
           "&:hover": { background: "#ffc30080" },
@@ -132,7 +131,6 @@ const DiscussionPost = ({
           <Typography
             variant="h5"
             style={{
-              color: "black",
               fontWeight: 250,
               borderBottom: "2px solid #FFC300",
               paddingBottom: "0.5px",
@@ -158,7 +156,7 @@ const DiscussionPost = ({
             fullWidth
             variant="outlined"
             size="small"
-            style={{ marginTop: "20px", background: "#FFFFFF" }}
+            style={{ marginTop: "20px" }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -166,7 +164,7 @@ const DiscussionPost = ({
                     onClick={handleReplySubmit}
                     sx={{ "&:hover": { color: "#FFFFFF" } }}
                   >
-                    <ReplyIcon style={{ color: "black" }} />
+                    <ReplyIcon />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -176,17 +174,16 @@ const DiscussionPost = ({
             variant="subtitle2"
             color="textSecondary"
             gutterBottom
-            style={{ marginTop: "10px", color: "red" }}
+            style={{ marginTop: "10px" }}
           >
             {replyError}
           </Typography>
           <Typography
             variant="body1"
-            color="black"
             gutterBottom
             style={{ marginTop: "10px" }}
           >
-            This post has {replyCount} replies
+            This post has {replyCount} {replyCount === 1 ? "reply" : "replies"}
           </Typography>
         </CardContent>
       </Card>

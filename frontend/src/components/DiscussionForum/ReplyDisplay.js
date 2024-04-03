@@ -99,7 +99,6 @@ const ReplyDisplay = ({ postId, id, email, date, description, onDelete }) => {
         <Card
           variant="outlined"
           style={{
-            background: "#FCFBF7",
             padding: "16px",
             width: "100%",
             position: "relative",
