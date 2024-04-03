@@ -10,6 +10,7 @@ export default async (req, res) => {
         console.log("inside try");
         const regex = new RegExp(searchString, 'i');
         const query = { $or: [
+          {'configuration.name': {$regex: regex}}, 
           {'bio.first_name': { $regex: regex } },
           {'bio.last_name': { $regex: regex } },
           {'bio.email': { $regex: regex } },

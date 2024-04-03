@@ -1,7 +1,10 @@
 //This file is created by "JINAY SHAH (B00928737)"
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardActions, Grid } from '@mui/material';
+import { isEmpty } from "utils/helpers";
+import { GET } from "utils/axios";
+import { useAppStore } from "store";
 
 import {
   Container,
@@ -30,8 +33,28 @@ const SearchPage = () => {
   });
 
   
+  const [state] = useAppStore();
 
   const handleCollaborateClick = (result: string) => {
+    if (!isEmpty(state?.currentUser)) { 
+      console.log(`Navigate to user portfolio: ${JSON.stringify(result)}`);
+      navigate(`/my-projects/${result}`);
+    } else {
+      GET(`/api/collaboration/fetch_user?user_id=${result}`).then((response) => {
+        console.log(response.data);
+        const email = response.data.email;
+        console.log("email: ", email);
+  
+        const subject = encodeURIComponent("Opportunity: Interview Inquiry");
+         window.location.href = `mailto:${email}?subject=${subject}`;
+       }).catch((error) => {
+        console.log(error);
+        navigate('/login');
+      });
+    }
+  };
+
+  const handlePortfolioClick = (result: string) => {
     console.log(`Navigate to user portfolio: ${JSON.stringify(result)}`);
     navigate(`/portfolio/${result}`)
   };
@@ -261,7 +284,10 @@ const SearchPage = () => {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={() => handleCollaborateClick(document._id)}>Collaborate</Button>
+                    <Button size="small" onClick={() => handlePortfolioClick(document._id)}>Visit Portfolio</Button>
+                  </CardActions>
+                  <CardActions>
+                    <Button size="small" onClick={() => handleCollaborateClick(document.user_id)}>Collaborate</Button>
                   </CardActions>
                 </Card>
               ))}
