@@ -5,3 +5,4 @@ export { default as fetchResearchByid } from "./fetchResearchByid.js";
 export { default as sendRequest } from "./send_request.js";
 export { default as fetchCollabRequestsById } from "./fetchCollabRequestsById.js";
 export { default as sendUpdate } from "./send_update.js";
+export { default as fetchUserById} from "./fetchUserById.js";

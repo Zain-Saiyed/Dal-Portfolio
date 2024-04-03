@@ -6,8 +6,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "../../css/MyProjects.css";
 import { Button } from "components";
+import { useAppStore } from "store";
+
 
 function MyProjects() {
+  const [state, dispatch] = useAppStore();
+
   const [projects, setProjects] = useState([]);
   const [research, setResearch] = useState([]);
   const [selectedProjectCheckboxes, setSelectedProjectCheckboxes] = useState(
@@ -77,10 +81,10 @@ function MyProjects() {
     selectedResearchCheckboxes.length > 0;
 
   const handleSendRequest = () => {
-    console.log("projects: ", selectedProjectCheckboxes);
-    console.log("research: ", selectedResearchCheckboxes);
 
-    POST("/api/collaboration/send_request", {
+    if (!isEmpty(state?.currentUser)) {
+     console.log("User is logged in", state?.currentUser);
+POST("/api/collaboration/send_request", {
       receiver_user_id: "6608aa6ead4a6a2f19709a24",
       sender_user_id: "6608aa6ead4a6a2f19709a24",
       projects: selectedProjectCheckboxes,
@@ -93,6 +97,25 @@ function MyProjects() {
       .catch((error) => {
         console.log(error);
       });
+    }
+    else{
+     console.log("User is not logged in");
+     GET("/api/collaboration/fetch_user?user_id=660ad8968b4666dbfb9643fd").then((response) => {
+      console.log(response.data);
+      const email = response.data.email;
+      console.log("email: ", email);
+
+      const subject = encodeURIComponent("Opportunity: Interview Inquiry");
+       window.location.href = `mailto:${email}?subject=${subject}`;
+     }).catch((error) => {
+      console.log(error);
+    });
+    }
+
+    console.log("projects: ", selectedProjectCheckboxes);
+    console.log("research: ", selectedResearchCheckboxes);
+
+    
   };
 
   return (

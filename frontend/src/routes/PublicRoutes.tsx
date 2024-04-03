@@ -68,18 +68,6 @@ const PublicRoutes = () => {
           path="/profile/portfolio/:portfolioId/edit"
           element={<CreatePortfolioPage />}
         />
-<<<<<<< HEAD
-        <Route path="/portfolio/:user_name" element={<PortfolioPage />} />
-        <Route
-          path="/portfolio/:user_name/project/:project_id"
-          element={<ProjectPage />}
-        />
-        <Route
-          path="/portfolio/:user_name/project/:project_id"
-          element={<ProjectPage />}
-        />
-=======
->>>>>>> 9cb1521203953849b59ad8f99f2c550f39f9b154
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
