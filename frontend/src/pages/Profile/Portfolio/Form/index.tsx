@@ -95,6 +95,7 @@ const PortfolioForm = (props: Props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { showSuccess, showError } = useToast();
+  console.log("location", location);
   const [activeTab, setActiveTab] = React.useState<string>("Configuration");
   const [formValues, setFormValues] = React.useState<any>({
     configuration: {},
@@ -113,7 +114,7 @@ const PortfolioForm = (props: Props) => {
   const onMobile = useOnMobile();
 
   useEffect(() => {
-    if (!isEmpty(location?.state)) {
+    if (!isEmpty(location?.state?.portfolio)) {
       prepareFormValues(location?.state?.portfolio);
     }
   }, [location?.state]);
@@ -365,7 +366,7 @@ const PortfolioForm = (props: Props) => {
     };
     const url = isEdit
       ? `/api/profile/portfolio/${portfolioId}/edit`
-      : `/api/profile/portfolio/${location?.state?.currentUser?._id}/create`;
+      : `/api/profile/portfolio/${location?.state?.user?._id}/create`;
     const method = isEdit ? PUT : POST;
     method(url, payload)
       ?.then((res) => {

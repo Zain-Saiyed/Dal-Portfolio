@@ -17,7 +17,8 @@ import {
   LoginPage,
   ForgotPasswordPage,
   ResetPasswordPage,
-  EmailVerificationPage
+  EmailVerificationPage,
+  LogoutPage
 } from "routes/components";
 import { PublicLayout } from "layout";
 
@@ -47,6 +48,7 @@ const PublicRoutes = () => {
         <Route path="/portfolio/:user_name/project/:project_id" element={<ProjectPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/logout" element={<LogoutPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password/:username/:resetToken" element={<ResetPasswordPage />} />
         <Route path="/verify-email/:username/:verificationCode" element={<EmailVerificationPage />} />
