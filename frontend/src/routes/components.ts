@@ -60,6 +60,12 @@ const LoginPage = React.lazy(() =>
   }))
 );
 
+const LogoutPage = React.lazy(() =>
+  import(/* webpackChunkName: "SignUp" */ "pages/Auth").then((module) => ({
+    default: module.Logout,
+  }))
+);
+
 const ForgotPasswordPage = React.lazy(() =>
   import(/* webpackChunkName: "SignUp" */ "pages/Auth").then((module) => ({
     default: module.ForgotPassword,
@@ -95,4 +101,4 @@ const CreatePortfolioPage = React.lazy(() =>
   }))
 );
 
-export { HomePage, ContactUsPage, FAQPage, NotFoundPage, AboutUsPage, ProfilePage, PortfolioPage, ProjectPage, CreatePortfolioPage, SignUpPage, LoginPage, ForgotPasswordPage, SearchPage,  ResetPasswordPage, EmailVerificationPage };
+export { HomePage, ContactUsPage, FAQPage, NotFoundPage, AboutUsPage, ProfilePage, PortfolioPage, ProjectPage, CreatePortfolioPage, SignUpPage, LoginPage, ForgotPasswordPage, SearchPage,  ResetPasswordPage, EmailVerificationPage, LogoutPage };

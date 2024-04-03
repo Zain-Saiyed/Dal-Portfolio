@@ -1,12 +1,9 @@
 import {
   Box,
-  createTheme,
   CssBaseline,
   List,
   ListItem,
-  Skeleton,
   Stack,
-  ThemeProvider,
   Typography,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -19,12 +16,17 @@ import Projects from "./Sections/Projects";
 import Skills from "./Sections/Skills";
 import Certifications from "./Sections/Certifications";
 import Resume from "./Sections/Resume";
+import Contact from "./Sections/Contact";
 import { GET } from "utils/axios";
 
-import { CircularProgress, Alert } from "@mui/material";
+import { CircularProgress, Alert, Link } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import Collapse from "@mui/material/Collapse";
 
 import UserDefault from "assets/images/user_default.png";
 import { isEmpty } from "utils/helpers";
+import { useOnMobile, useOnTablets } from "hooks";
 
 type Props = {};
 
@@ -64,19 +66,32 @@ const PortfolioLinks = [
     id: "template-section-resume",
     component: Resume,
   },
+  {
+    name: "Contact",
+    id: "template-section-contact",
+    component: Contact,
+  },
 ];
 
 const Portfolio = (props: Props) => {
   const { portfolio_id } = useParams();
+  const onMobile = useOnMobile();
+  const onTablets = useOnTablets();
+  const [menuOpen, setMenuOpen] = React.useState(false);
 
   const [bgColor, setBgColor] = React.useState<string>("#fff");
   const [portfolio, setPortfolio] = React.useState<any>({});
   const [selectedLink, setSelectedLink] = React.useState<string>("About");
   const [loading, set_loading] = React.useState(false);
+  const [flag_failed, set_flag_failed] = React.useState(false);
 
   useEffect(() => {
     fetchPortfolio();
   }, []);
+
+  const MenuToggleOpen = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   const textColor = useTextColor(bgColor);
 
@@ -84,9 +99,12 @@ const Portfolio = (props: Props) => {
     set_loading(true);
     GET(`/api/portfolio/${portfolio_id}`)
       ?.then((res) => {
-        console.log(res.data);
         setPortfolio(res?.data?.portfolio);
         setBgColor(res?.data?.portfolio?.configuration?.color);
+      })
+      .catch((res) => {
+        set_flag_failed(true);
+        setPortfolio(null);
       })
       ?.finally(() => {
         set_loading(false);
@@ -104,7 +122,7 @@ const Portfolio = (props: Props) => {
     }
   };
 
-  if (!!loading || isEmpty(portfolio)) {
+  if (!!loading && flag_failed) {
     return (
       <Box
         sx={{
@@ -115,10 +133,24 @@ const Portfolio = (props: Props) => {
         }}
       >
         <Typography style={{ marginRight: "2rem" }}>
-          Loading Portfolio details...
+          Hang Tight! Loading Portfolio details...
         </Typography>
         <CircularProgress color="warning" size={60} />
       </Box>
+    );
+  }
+
+  if (!portfolio || isEmpty(portfolio)) {
+    return (
+      <div>
+        <Alert severity="warning" variant="filled">
+          OOPS! Portfolio not found for this user.
+        </Alert>
+        <Typography style={{ marginTop: "2rem" }}>
+          Try visiting the <Link href="/search-page">search page</Link> to find
+          the portfolio of your desired user.
+        </Typography>
+      </div>
     );
   }
 
@@ -128,65 +160,21 @@ const Portfolio = (props: Props) => {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between",
+          flexDirection: onMobile ? "column" : "row",
           height: "100vh",
         }}
       >
-        <Box
-          sx={{
-            width: "17rem",
-            height: "100%",
-            padding: 2,
-            background: bgColor,
-            color: textColor,
-          }}
-        >
-          <Stack
-            height={"100%"}
-            justifyContent={"space-between"}
-            textAlign={"center"}
-          >
-            <Box
-              sx={{
-                height: "40%",
-                alignContent: "flex-end",
-                padding: 1,
-                mx: "auto",
-              }}
-            >
-              <img
-                style={{
-                  height: "10rem",
-                  width: "10rem",
-                  borderRadius: "50%",
-                  border: ".5rem solid rgba(255,255,255,.2)",
-                }}
-                src={portfolio?.photo_url ? portfolio?.photo_url : UserDefault}
-                alt="user"
-              />
-              {/* <Skeleton
-                variant="rounded"
-                animation={false}
-                sx={{
-                  height: "10rem",
-                  width: "10rem",
-                  borderRadius: "50%",
-                  border: ".5rem solid rgba(255,255,255,.2)",
-                }}
-              /> */}
-            </Box>
-            <Box
-              sx={{
-                height: "60%",
-                alignContent: "flex-start",
-                padding: 1,
-                mx: "auto",
-              }}
-            >
+        {onMobile ? (
+          <div>
+            <IconButton onClick={MenuToggleOpen}>
+              <MenuIcon />
+            </IconButton>
+
+            <Collapse in={menuOpen}>
               <List>
                 {PortfolioLinks?.map((ins: any) => (
                   <ListItem
-                    sx={{ justifyContent: "center", cursor: "pointer" }}
+                    sx={{ cursor: "pointer" }}
                     onClick={() => {
                       setSelectedLink(ins?.name);
                       scrollToSection(ins?.id);
@@ -211,12 +199,90 @@ const Portfolio = (props: Props) => {
                   </ListItem>
                 ))}
               </List>
-            </Box>
-          </Stack>
-        </Box>
+            </Collapse>
+          </div>
+        ) : (
+          <Box
+            sx={{
+              width: "17rem",
+              height: "100%",
+              padding: 2,
+              background: bgColor,
+              color: textColor,
+            }}
+          >
+            <Stack
+              height={"100%"}
+              justifyContent={"space-between"}
+              textAlign={"center"}
+            >
+              <Box
+                sx={{
+                  height: "40%",
+                  alignContent: "flex-end",
+                  padding: 1,
+                  mx: "auto",
+                }}
+              >
+                <img
+                  style={{
+                    height: "10rem",
+                    width: "10rem",
+                    borderRadius: "50%",
+                    border: ".5rem solid rgba(255,255,255,.2)",
+                  }}
+                  src={
+                    portfolio?.bio?.photo_url
+                      ? portfolio?.bio?.photo_url
+                      : UserDefault
+                  }
+                  alt="user"
+                />
+              </Box>
+              <Box
+                sx={{
+                  height: "60%",
+                  alignContent: "flex-start",
+                  padding: 1,
+                  mx: "auto",
+                }}
+              >
+                <List>
+                  {PortfolioLinks?.map((ins: any) => (
+                    <ListItem
+                      key = {ins.name}
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => {
+                        setSelectedLink(ins?.name);
+                        scrollToSection(ins?.id);
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: "1rem",
+                          fontWeight: 600,
+                          color: textColor === "black" ? "grey" : "#ffffff80",
+                          textTransform: "uppercase",
+                          "&:hover": {
+                            color: textColor,
+                          },
+                          ...(ins?.name === selectedLink && {
+                            color: textColor,
+                          }),
+                        }}
+                      >
+                        {ins?.name}
+                      </Typography>
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
+            </Stack>
+          </Box>
+        )}
         <Box
           sx={{
-            width: "calc(100% - 17rem)",
+            width: "100%",
             height: "100%",
             overflowY: "scroll",
           }}

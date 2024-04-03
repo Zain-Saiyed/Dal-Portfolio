@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Paper, Typography, Link, LinearProgress } from "@mui/material";
+import { Box, Paper, Typography, Link } from "@mui/material";
 import { useOnMobile, useOnTablets } from "hooks";
 import { Icon } from "components";
 
@@ -13,7 +13,7 @@ const Certifications = ({ id, portfolio }: Props) => {
   const onTablets = useOnTablets();
 
   return (
-    <section id={id} style={{ minHeight: "100vh", padding: "3rem" }}>
+    <section id={id} style={{ minHeight: "70vh", padding: "3rem" }}>
       <Box sx={{ p: onMobile ? "100px 0" : "160px 0px 0px 0px" }}>
         <Box sx={{ my: "auto" }}>
           <Box
@@ -40,7 +40,7 @@ const Certifications = ({ id, portfolio }: Props) => {
             <Typography
               sx={{
                 textTransform: "uppercase",
-                fontSize: "4rem",
+                fontSize: onMobile? "2.5rem": "4rem",
                 lineHeight: "5.5rem",
                 fontWeight: 700,
               }}
@@ -64,7 +64,6 @@ const Certifications = ({ id, portfolio }: Props) => {
                     elevation={3}
                     style={{ marginBottom: "20px", breakInside: "avoid" }}
                   >
-                    {" "}
                     {/* , backgroundColor: index % 2 === 0 ? '#F0F2EF' : '#fff' */}
                     <div
                       style={{

@@ -32,8 +32,8 @@ const SearchPage = () => {
   
 
   const handleCollaborateClick = (result: string) => {
-    console.log(`Collaboration request sent for result: ${JSON.stringify(result)}`);
-    navigate(`/${result}`)
+    console.log(`Navigate to user portfolio: ${JSON.stringify(result)}`);
+    navigate(`/portfolio/${result}`)
   };
   
   useEffect(() => {
@@ -261,7 +261,7 @@ const SearchPage = () => {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={() => handleCollaborateClick(document.username)}>Collaborate</Button>
+                    <Button size="small" onClick={() => handleCollaborateClick(document._id)}>Collaborate</Button>
                   </CardActions>
                 </Card>
               ))}

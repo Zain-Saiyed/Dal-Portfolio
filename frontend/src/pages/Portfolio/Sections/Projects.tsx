@@ -9,6 +9,7 @@ type Props = {
   portfolio: any;
 };
 
+// Helper funciton to trim description upto 350 chacratersby default
 function trimDescriptionSummary(description: any, maxCharLength = 350) {
   if (description.length <= maxCharLength) {
     return description;
@@ -31,10 +32,10 @@ function trimDescriptionSummary(description: any, maxCharLength = 350) {
 const Projects = ({ id, portfolio }: Props) => {
   const onMobile = useOnMobile();
   const onTablets = useOnTablets();
-  const { user_name } = useParams();
+  const { portfolio_id } = useParams();
 
   return (
-    <section id={id} style={{ minHeight: "100vh", padding: "3rem" }}>
+    <section id={id} style={{ minHeight: "70vh", padding: "3rem" }}>
       <Box sx={{ p: onMobile ? "100px 0" : "160px 0px 0px 0px" }}>
         <Box sx={{ my: "auto" }}>
           <Box
@@ -61,7 +62,7 @@ const Projects = ({ id, portfolio }: Props) => {
             <Typography
               sx={{
                 textTransform: "uppercase",
-                fontSize: "4rem",
+                fontSize: onMobile? "3rem": "4rem",
                 lineHeight: "5.5rem",
                 fontWeight: 700,
               }}
@@ -98,7 +99,7 @@ const Projects = ({ id, portfolio }: Props) => {
                       >
                         <a
                           key={index}
-                          href={`/portfolio/${user_name}/project/${project.project_id}`}
+                          href={`/portfolio/${portfolio_id}/project/${project.project_id}`}
                           style={{ textDecoration: "none", color: "inherit" }}
                         >
                           <Typography
@@ -129,7 +130,7 @@ const Projects = ({ id, portfolio }: Props) => {
                       <Typography>
                         <a
                           key={index}
-                          href={`/portfolio/${user_name}/project/${project.project_id}`}
+                          href={`/portfolio/${portfolio_id}/project/${project.project_id}`}
                           style={{ textDecoration: "none", color: "inherit" }}
                         >
                           {trimDescriptionSummary(project.description)}
@@ -162,44 +163,49 @@ const Projects = ({ id, portfolio }: Props) => {
                             )}
                           </div>
                         )}
-                      <Box>
+                      <Box style={{marginTop:"1rem"}}>
                         <Button
                           variant="contained"
-                          href={project.github_link}
+                          href={project.project_url}
                           startIcon={<Icon name="github" />}
                         >
                           View on GitHub
                         </Button>
-                        {onMobile ? (
+                        {project.demo_link && (
                           <>
-                            <br />
-                            <Button
-                              variant="contained"
-                              href={project.demo_link}
-                              startIcon={<Icon name="link" />}
-                              style={{
-                                marginTop: "1rem",
-                                background: "purple",
-                                color: "white",
-                              }}
-                            >
-                              View demo
-                            </Button>
+                            {onMobile ? (
+                              <>
+                                <br />
+                                <Button
+                                  variant="contained"
+                                  href={project.demo_link}
+                                  startIcon={<Icon name="link" />}
+                                  style={{
+                                    marginTop: "1rem",
+                                    background: "purple",
+                                    color: "white",
+                                  }}
+                                >
+                                  View demo
+                                </Button>
+                              </>
+                            ) : (
+                              <Button
+                                variant="contained"
+                                href={project.demo_link}
+                                startIcon={<Icon name="link" />}
+                                style={{
+                                  marginLeft: "1rem",
+                                  background: "purple",
+                                  color: "white",
+                                }}
+                              >
+                                View demo
+                              </Button>
+                            )}
                           </>
-                        ) : (
-                          <Button
-                            variant="contained"
-                            href={project.demo_link}
-                            startIcon={<Icon name="link" />}
-                            style={{
-                              marginLeft: "1rem",
-                              background: "purple",
-                              color: "white",
-                            }}
-                          >
-                            View demo
-                          </Button>
                         )}
+
                       </Box>
                     </Box>
                   </div>

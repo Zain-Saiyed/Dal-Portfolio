@@ -35,44 +35,46 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      try {
-        const data = await instance.post("/api/user/refresh-token", {
+      instance
+        .post("/api/user/refresh-token", {
           refreshToken: tokenService.getRefreshToken(),
+        })
+        ?.then((res) => {
+          const { accessToken, refreshToken } = res.data;
+          tokenService.setAccessToken(accessToken);
+          tokenService.setRefreshToken(refreshToken);
+          originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
+        })
+        ?.catch((err) => {
+          console.error("Error refreshing token:", err);
+          tokenService.clearTokens();
+          history.replace("/login");
+          return Promise.reject(err);
         });
-        const { accessToken, refreshToken } = data.data;
-        tokenService.setAccessToken(accessToken);
-        tokenService.setRefreshToken(refreshToken);
-        originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
-        return instance(originalRequest);
-      } catch (refreshError) {
-        console.error("Error refreshing token:", refreshError);
-        tokenService.clearTokens();
-        history.replace("/login");
-        return Promise.reject(refreshError);
-      }
+
+      return instance(originalRequest);
     }
     return Promise.reject(error);
-  }
-);
+});
 
 const GET = (url: string, options?: AxiosRequestConfig) => {
-  return instance.get(url, options);
+    return instance.get(url, options);
 };
 
 const POST = (url: string, data?: any, options?: AxiosRequestConfig) => {
-  return instance.post(url, data, options);
+    return instance.post(url, data, options);
 };
 
 const PUT = (url: string, data?: any, options?: AxiosRequestConfig) => {
-  return instance.put(url, data, options);
+    return instance.put(url, data, options);
 };
 
 const PATCH = (url: string, data?: any, options?: AxiosRequestConfig) => {
-  return instance.patch(url, data, options);
+    return instance.patch(url, data, options);
 };
 
 const DELETE = (url: string, options?: AxiosRequestConfig) => {
-  return instance.delete(url, options);
+    return instance.delete(url, options);
 };
 
 export { GET, POST, PUT, DELETE, PATCH };

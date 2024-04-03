@@ -14,12 +14,12 @@ const login = async (req, res) => {
 
         const user = await User.findOne({ email, isVerified: true });
         if (!user) {
-            return res.status(401).json({ message: 'Invalid credentials or user not verified' });
+            return res.status(400).json({ message: 'Invalid credentials or user not verified' });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(401).json({ message: 'Invalid credentials' });
+            return res.status(400).json({ message: 'Invalid credentials' });
         }
 
         const accessToken = signAccessToken(user._id);
