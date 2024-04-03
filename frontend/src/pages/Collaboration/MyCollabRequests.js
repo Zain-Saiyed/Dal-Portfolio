@@ -7,6 +7,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import { useAppStore } from "store";
 
 function Request() {
+  const [state] = useAppStore();
   const [senderUserId, setSenderUserId] = useState("");
   const [receiverUserId, setReceiverUserId] = useState("");
 
@@ -17,8 +18,11 @@ function Request() {
   // const [checkboxesStates, setCheckboxesStates] = useState([true, true, true]);
 
   const fetchCollabRequests = async () => {
-    const [state] = useAppStore();
-    const logged_in_user_id = state?.currentUser._id
+    console.log(state?.currentUser?._id);
+    if (!state?.currentUser?._id) {
+      return;
+    }
+    const logged_in_user_id = state?.currentUser._id;
     GET(`/api/collaboration/fetch_collab_requests?user_id=${logged_in_user_id}`)
       .then((response) => {
         setProjects(response.data);
@@ -60,8 +64,21 @@ function Request() {
   //   });
   // };
 
-  const handleAccept = (project_title, sender_user_id, receiver_user_id, _id) => {
-    console.log(project_title, " : ", sender_user_id, " : ", receiver_user_id, " : ", _id);
+  const handleAccept = (
+    project_title,
+    sender_user_id,
+    receiver_user_id,
+    _id
+  ) => {
+    console.log(
+      project_title,
+      " : ",
+      sender_user_id,
+      " : ",
+      receiver_user_id,
+      " : ",
+      _id
+    );
     POST("/api/collaboration/send_update", {
       receiver_user_id: receiver_user_id,
       sender_user_id: sender_user_id,
@@ -77,7 +94,12 @@ function Request() {
       });
   };
 
-  const handleReject = (project_title, sender_user_id, receiver_user_id, _id) => {
+  const handleReject = (
+    project_title,
+    sender_user_id,
+    receiver_user_id,
+    _id
+  ) => {
     console.log(
       project_title,
       " : ",
@@ -122,19 +144,34 @@ function Request() {
       <div className="container box">
         <div className="row d-flex">
           <div className="container p-5">
-            <div className="text-center">
-              <Typography
-                variant="h2"
-                sx={{
-                  mb: "24px",
-                  fontSize: "38px",
-                  lineHeight: 1.1,
-                  fontWeight: 600,
-                }}
-              >
-                My Collaboration Requests
-              </Typography>
-            </div>
+            {collabRequests.length > 0 ? (
+              <div className="text-center">
+                <Typography
+                  variant="h2"
+                  sx={{
+                    mb: "24px",
+                    fontSize: "38px",
+                    lineHeight: 1.1,
+                    fontWeight: 600,
+                  }}
+                >
+                  My Collaboration Requests
+                </Typography>
+              </div>
+            ) : (
+              <div className="text-center">
+                <Typography
+                  sx={{
+                    mb: "24px",
+                    fontSize: "24px",
+                    lineHeight: 1.1,
+                    fontWeight: 600,
+                  }}
+                >
+                  No Collaboration Requests yet...
+                </Typography>
+              </div>
+            )}
           </div>
           <div>
             {collabRequests.map((collab_request) => (
