@@ -1,3 +1,5 @@
+// Author: Zainuddin Saiyed
+
 import {
   Box,
   CssBaseline,
@@ -102,14 +104,13 @@ const Portfolio = (props: Props) => {
         console.log(res.data);
         setPortfolio(res?.data?.portfolio);
         setBgColor(res?.data?.portfolio?.configuration?.color);
+        set_loading(false);
       })
       .catch((res) => {
         set_flag_failed(true);
         setPortfolio(null);
+        set_loading(true);
       })
-      ?.finally(() => {
-        set_loading(false);
-      });
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -141,7 +142,7 @@ const Portfolio = (props: Props) => {
     );
   }
 
-  if (!portfolio || isEmpty(portfolio)) {
+  if ((!portfolio || isEmpty(portfolio)) && loading) {
     return (
       <div>
         <Alert severity="warning" variant="filled">

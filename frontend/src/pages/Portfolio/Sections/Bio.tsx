@@ -1,3 +1,5 @@
+// Author: Zainuddin Saiyed
+
 import { Box, Link, Stack, Typography } from "@mui/material";
 import { Icon } from "components";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";

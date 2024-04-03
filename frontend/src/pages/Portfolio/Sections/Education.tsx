@@ -1,3 +1,5 @@
+// Author: Zainuddin Saiyed
+
 import { Box, Paper, Typography } from "@mui/material";
 import { useOnMobile, useOnTablets } from "hooks";
 

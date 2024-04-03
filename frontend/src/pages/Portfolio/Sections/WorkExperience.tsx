@@ -1,3 +1,5 @@
+// Author: Zainuddin Saiyed
+
 import React from "react";
 import { Box, Paper, Link, Typography } from "@mui/material";
 import { useOnMobile, useOnTablets } from "hooks";
