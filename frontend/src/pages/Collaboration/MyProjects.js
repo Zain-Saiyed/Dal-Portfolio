@@ -7,9 +7,15 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import "../../css/MyProjects.css";
 import { Button } from "components";
 import { useAppStore } from "store";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 function MyProjects() {
+  const user_id = useParams().user_id;
+  console.log(useParams().user_id);
+  const navigate = useNavigate();
+
+  var logged_in_user_id = "";
   const [state, dispatch] = useAppStore();
 
   const [projects, setProjects] = useState([]);
@@ -21,19 +27,20 @@ function MyProjects() {
     []
   );
 
-  const fetchProjects = async () => {
-    GET(`/api/collaboration/fetch_projects?user_id=65f360189050f7fb6f800988`)
+  const fetchProjects = async (logged_in_user_id) => {
+    GET(`/api/collaboration/fetch_projects?user_id=${logged_in_user_id}`)
       .then((response) => {
-        console.log(response.data);
-        setProjects(response.data);
+      console.log(response.data.projects);
+      setProjects(response.data.projects);
+      console.log(projects);
       })
       .catch((error) => {
-        console.log(error);
+      console.log(error);
       });
   };
 
-  const fetchResearch = async () => {
-    GET("/api/collaboration/fetch_research?user_id=65f360189050f7fb6f800988")
+  const fetchResearch = async (logged_in_user_id) => {
+    GET(`/api/collaboration/fetch_research?user_id=${logged_in_user_id}`)
       .then((response) => {
         console.log(response.data);
         setResearch(response.data);
@@ -43,9 +50,10 @@ function MyProjects() {
       });
   };
 
-  useLayoutEffect(() => {
-    isEmpty(projects) && fetchProjects();
-    isEmpty(research) && fetchResearch();
+  useLayoutEffect(() => {;
+    logged_in_user_id = state?.currentUser?._id;
+    isEmpty(projects) && fetchProjects(logged_in_user_id);
+    isEmpty(research) && fetchResearch(logged_in_user_id);
   }, []);
 
   const handleProjectCheckboxChange = (id) => {
@@ -80,13 +88,15 @@ function MyProjects() {
     selectedProjectCheckboxes.length > 0 ||
     selectedResearchCheckboxes.length > 0;
 
-  const handleSendRequest = () => {
+  const handleSendRequest = (receiver_user_id, sender_user_id) => {
 
+    console.log("logged_in_user_id: ", state?.currentUser?._id);
+    console.log("user_id: ", receiver_user_id);
     if (!isEmpty(state?.currentUser)) {
      console.log("User is logged in", state?.currentUser);
 POST("/api/collaboration/send_request", {
-      receiver_user_id: "6608aa6ead4a6a2f19709a24",
-      sender_user_id: "6608aa6ead4a6a2f19709a24",
+      receiver_user_id: receiver_user_id,
+      sender_user_id: sender_user_id,
       projects: selectedProjectCheckboxes,
       researchs: selectedResearchCheckboxes,
       status: "PENDING",
@@ -100,7 +110,7 @@ POST("/api/collaboration/send_request", {
     }
     else{
      console.log("User is not logged in");
-     GET("/api/collaboration/fetch_user?user_id=660ad8968b4666dbfb9643fd").then((response) => {
+     GET(`/api/collaboration/fetch_user?user_id=${user_id}`).then((response) => {
       console.log(response.data);
       const email = response.data.email;
       console.log("email: ", email);
@@ -115,7 +125,8 @@ POST("/api/collaboration/send_request", {
     console.log("projects: ", selectedProjectCheckboxes);
     console.log("research: ", selectedResearchCheckboxes);
 
-    
+    navigate("/search-page");
+
   };
 
   return (
@@ -141,13 +152,13 @@ POST("/api/collaboration/send_request", {
                 <form>
                   <div className="project">
                     {projects.map((project) => (
-                      <div key={project.id} className="project-item p-3">
+                      <div key={project.title} className="project-item p-3">
                         <label className="d-flex">
                           <input
                             type="checkbox"
-                            value={project.id}
+                            value={project.title}
                             onChange={() =>
-                              handleProjectCheckboxChange(project._id)
+                              handleProjectCheckboxChange(project.title)
                             }
                           />
                           <div className="project-title mx-4 px-2">
@@ -168,7 +179,7 @@ POST("/api/collaboration/send_request", {
                           <div className="align-self-center px-2 mx-2">
                             Contributor's list:{" "}
                           </div>
-                          <div
+                          {/* <div
                             className="project-contributors"
                             style={{ flexWrap: "wrap" }}
                           >
@@ -177,7 +188,7 @@ POST("/api/collaboration/send_request", {
                                 {contributor}
                               </button>
                             ))}
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     ))}
@@ -205,66 +216,67 @@ POST("/api/collaboration/send_request", {
         <div className="row d-flex">
           <div className="container p-5">
             {research?.length > 0 ? (
-              <>
-                <div className="text-center">
-                  <Typography
-                    variant="h2"
-                    sx={{
-                      mb: "24px",
-                      fontSize: "38px",
-                      lineHeight: 1.1,
-                      fontWeight: 600,
-                    }}
-                  >
-                    My Research Studies
-                  </Typography>
-                </div>
-                <form>
-                  <div className="research">
-                    {research.map((project) => (
-                      <div key={project.id} className="project-item p-3">
-                        <label className="d-flex">
-                          <input
-                            type="checkbox"
-                            value={project.id}
-                            onChange={() =>
-                              handleResearchCheckboxChange(project._id)
-                            }
-                          />
-                          <div className="project-title mx-4 px-2">
-                            <Typography
-                              sx={{
-                                fontSize: "18px",
-                                lineHeight: "24px",
-                              }}
-                            >
-                              {project.title}
-                            </Typography>
-                          </div>
-                        </label>
-                        <div
-                          className="d-flex px-5 py-3"
-                          style={{ whiteSpace: "nowrap" }}
-                        >
-                          <div className="align-self-center px-2 mx-2">
-                            Contributor's List:{" "}
-                          </div>
-                          <div
-                            className="project-contributors"
-                            style={{ flexWrap: "wrap" }}
-                          >
-                            {project.contributors.map((contributor, index) => (
-                              <button className="round-button" key={index}>
-                                {contributor}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </form>
-              </>
+              // <>
+              //   <div className="text-center">
+              //     <Typography
+              //       variant="h2"
+              //       sx={{
+              //         mb: "24px",
+              //         fontSize: "38px",
+              //         lineHeight: 1.1,
+              //         fontWeight: 600,
+              //       }}
+              //     >
+              //       My Research Studies
+              //     </Typography>
+              //   </div>
+              //   <form>
+              //     <div className="research">
+              //       {research.map((project) => (
+              //         <div key={project.id} className="project-item p-3">
+              //           <label className="d-flex">
+              //             <input
+              //               type="checkbox"
+              //               value={project.id}
+              //               onChange={() =>
+              //                 handleResearchCheckboxChange(project._id)
+              //               }
+              //             />
+              //             <div className="project-title mx-4 px-2">
+              //               <Typography
+              //                 sx={{
+              //                   fontSize: "18px",
+              //                   lineHeight: "24px",
+              //                 }}
+              //               >
+              //                 {project.title}
+              //               </Typography>
+              //             </div>
+              //           </label>
+              //           <div
+              //             className="d-flex px-5 py-3"
+              //             style={{ whiteSpace: "nowrap" }}
+              //           >
+              //             <div className="align-self-center px-2 mx-2">
+              //               Contributor's List:{" "}
+              //             </div>
+              //             <div
+              //               className="project-contributors"
+              //               style={{ flexWrap: "wrap" }}
+              //             >
+              //               {project.contributors.map((contributor, index) => (
+              //                 <button className="round-button" key={index}>
+              //                   {contributor}
+              //                 </button>
+              //               ))}
+              //             </div>
+              //           </div>
+              //         </div>
+              //       ))}
+              //     </div>
+              //   </form>
+              // </>
+              <></>
             ) : (
               <div className="text-center">
                 <Typography
@@ -287,7 +299,7 @@ POST("/api/collaboration/send_request", {
         <Button
           label="Send Request"
           disabled={!isButtonEnabled}
-          onClick={() => handleSendRequest()}
+          onClick={() => handleSendRequest(user_id, state?.currentUser?._id)}
           sx={{ margin: 0 }}
         />
       </div>

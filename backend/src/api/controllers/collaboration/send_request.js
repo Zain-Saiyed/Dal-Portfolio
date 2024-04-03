@@ -37,7 +37,6 @@ export default async (req, res) => {
       researchs: researchStatuses,
       status: status,
     });
-    const savedRequest = await newRequest.save();
 
     console.log(receiver_user_id);
     const receiver_user_obj = await User.findOne({
@@ -73,6 +72,8 @@ export default async (req, res) => {
         console.log("Email sent: " + info.response);
       }
     });
+
+    const savedRequest = await newRequest.save();
 
     return res.status(200).json(savedRequest);
   } catch (error) {

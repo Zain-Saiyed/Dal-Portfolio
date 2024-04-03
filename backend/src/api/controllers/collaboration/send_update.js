@@ -5,73 +5,49 @@ import { ObjectId } from "mongodb";
 
 export default async (req, res) => {
   try {
-    const {
-      receiver_user_id,
-      sender_user_id,
-      project,
-      project_id,
-      status,
-      _id,
-    } = req.body;
+    const { project_title, sender_user_id, receiver_user_id, status, _id } = req.body;
 
-    if (
-      !receiver_user_id ||
-      !sender_user_id ||
-      !project ||
-      !status ||
-      !_id ||
-      !project_id
-    ) {
+    if (!receiver_user_id || !sender_user_id || !project_title || !status || !_id) {
       return res.status(400).json({ error: "Missing required fields" });
     }
-
-    console.log(
-      "Receiver User ID:",
-      receiver_user_id + "\n" + "Sender User ID:",
-      sender_user_id + "\n" + "Project:",
-      project + "\n" + "Project ID:",
-      project_id + "\n" + "Status:",
-      status + "\n" + "_id:",
-      _id
-    );
 
     const filter = { _id: new ObjectId(_id) };
     const projectUpdate = {
       $set: { "projects.$[elem].status": status },
     };
-    const researchUpdate = {
-      $set: { "researchs.$[elem].status": status },
-    };
+    // const researchUpdate = {
+    //   $set: { "researchs.$[elem].status": status },
+    // };
 
     const projectArrayFilters = {
-      arrayFilters: [{ "elem.project_id": { $eq: project_id } }],
+      arrayFilters: [{ "elem.project_id": { $eq: project_title } }],
     };
-    const researchArrayFilters = {
-      arrayFilters: [{ "elem.project_id": { $eq: project_id } }],
-    };
+    // const researchArrayFilters = {
+    //   arrayFilters: [{ "elem.project_id": { $eq: project_title } }],
+    // };
 
     const projectUpdateResult = await CollabRequests.updateOne(
       filter,
       projectUpdate,
       projectArrayFilters
     );
-    const researchUpdateResult = await CollabRequests.updateOne(
-      filter,
-      researchUpdate,
-      researchArrayFilters
-    );
+    // const researchUpdateResult = await CollabRequests.updateOne(
+    //   filter,
+    //   researchUpdate,
+    //   researchArrayFilters
+    // );
 
     if (
-      projectUpdateResult.modifiedCount > 0 ||
-      researchUpdateResult.modifiedCount > 0
+      projectUpdateResult.modifiedCount > 0 
+      // || researchUpdateResult.modifiedCount > 0
     ) {
-      if (projectUpdateResult.modifiedCount > 0) {
-        console.log("Project status updated successfully");
-      }
+      // if (projectUpdateResult.modifiedCount > 0) {
+      //   console.log("Project status updated successfully");
+      // }
 
-      if (researchUpdateResult.modifiedCount > 0) {
-        console.log("Research status updated successfully");
-      }
+      // if (researchUpdateResult.modifiedCount > 0) {
+      //   console.log("Research status updated successfully");
+      // }
 
       const sender_user_obj = await User.findOne({
         _id: ObjectId(sender_user_id),
@@ -98,7 +74,7 @@ export default async (req, res) => {
         subject: "You have a response to your Collaboration Request",
         text:
           "There is a response on your request for your " +
-          project +
+          project_title +
           ".\n Please check your account for more details.",
       };
 

@@ -10,6 +10,7 @@ import { useOnMobile, useOnTablets } from "hooks";
 import { GET } from "utils/axios";
 import { isEmpty } from "utils/helpers";
 import { useAppStore } from "store";
+import { MyCollabRequests } from "pages/Collaboration";
 
 type Props = {};
 
@@ -43,6 +44,10 @@ const Profile = (props: Props) => {
       label: "Settings",
       value: 1,
     },
+    {
+      label: "Collab Requests",
+      value: 2,
+    }
   ];
   return (
     <Container
@@ -85,6 +90,7 @@ const Profile = (props: Props) => {
         <Box sx={{ marginTop: onMobile ? 1 : 0, width: "100%" }}>
           {activeTab === 0 && <Portfolio />}
           {activeTab === 1 && <Settings />}
+          {activeTab === 2 && <MyCollabRequests/>}
         </Box>
       </Box>
     </Container>

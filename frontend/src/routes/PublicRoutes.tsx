@@ -40,7 +40,7 @@ const PublicRoutes = () => {
           path="/dalportfolios-discussion-thread"
           element={<DiscussionThread />}
         />
-        <Route path="/my-projects" element={<MyProjects />} />
+        <Route path="/my-projects/:user_id" element={<MyProjects />} />
         <Route path="/my-collab-requests" element={<MyCollabRequests />} />
 
         <Route
