@@ -1,3 +1,5 @@
+//Author: Boon Undrajavarapu
+
 import { GET, POST } from "utils/axios";
 import { isEmpty } from "utils/helpers";
 import { useLayoutEffect, useState, useEffect } from "react";
@@ -15,7 +17,6 @@ function Request() {
 
   const [collabRequests, setProjects] = useState([]);
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
-  // const [checkboxesStates, setCheckboxesStates] = useState([true, true, true]);
 
   const fetchCollabRequests = async () => {
     console.log(state?.currentUser?._id);
@@ -38,31 +39,6 @@ function Request() {
   }, []);
 
   useEffect(() => {}, [selectedCheckboxes]);
-
-  // const handleCheckboxChange = (id) => {
-  //   const updatedCheckboxes = [...selectedCheckboxes];
-  //   const index = updatedCheckboxes.indexOf(id);
-
-  //   if (index > -1) {
-  //     updatedCheckboxes.splice(index, 1);
-  //   } else {
-  //     updatedCheckboxes.push(id);
-  //   }
-
-  //   setSelectedCheckboxes(updatedCheckboxes);
-
-  //   setCheckboxesStates((prevArray) => {
-  //     const newCheckboxesStates = [...prevArray];
-  //     if (id === "project") {
-  //       newCheckboxesStates[0] = !newCheckboxesStates[0];
-  //     } else if (id === "research") {
-  //       newCheckboxesStates[1] = !newCheckboxesStates[1];
-  //     } else if (id === "all") {
-  //       newCheckboxesStates[2] = !newCheckboxesStates[2];
-  //     }
-  //     return newCheckboxesStates;
-  //   });
-  // };
 
   const handleAccept = (
     project_title,
@@ -124,21 +100,6 @@ function Request() {
       });
   };
 
-  // const [checkedProjects, setCheckedProjects] = useState([]);
-
-  // const handleCheckboxChange = (projectId, senderUserId, receiverUserId) => {
-  //   if (checkedProjects.includes(projectId)) {
-  //     // If project is already checked, remove it from the list
-  //     setCheckedProjects(checkedProjects.filter((id) => id !== projectId));
-  //   } else {
-  //     // If project is not checked, add it to the list
-  //     setCheckedProjects([...checkedProjects, projectId]);
-  //   }
-  //   console.log(
-  //     `Sender User ID: ${senderUserId}, Receiver User ID: ${receiverUserId}`
-  //   );
-  // };
-
   return (
     <>
       <div className="container box">
@@ -176,10 +137,6 @@ function Request() {
           <div>
             {collabRequests.map((collab_request) => (
               <>
-                {/* <h3>Project ID: {project._id}</h3>
-          <p>Receiver User ID: {project.receiver_user_id}</p>
-          <p>Sender User ID: {project.sender_user_id}</p> */}
-
                 <div className="container px-5 rcard">
                   <div className="col">
                     {collab_request.projects.map((proj) => (
@@ -190,20 +147,6 @@ function Request() {
                         <div className="card d-flex">
                           <div className="card-body d-flex align-items-center">
                             <div className="flex-grow-1">
-                              {/* <input
-                            type="checkbox"
-                            value={collab_request._id}
-                            checked={checkedProjects.includes(
-                              collab_request._id
-                            )}
-                            onChange={() =>
-                              handleCheckboxChange(
-                                collab_request._id,
-                                collab_request.sender_user_id,
-                                collab_request.receiver_user_id
-                              )
-                            }
-                          /> */}
                               <Typography
                                 sx={{
                                   fontSize: "18px",

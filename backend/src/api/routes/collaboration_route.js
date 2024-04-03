@@ -1,3 +1,5 @@
+//Author: Boon Undrajavarapu
+
 import { Router } from "express";
 import {
   fetchProjects,
@@ -7,7 +9,7 @@ import {
   sendRequest,
   fetchCollabRequestsById,
   sendUpdate,
-  fetchUserById
+  fetchUserById,
 } from "../controllers/collaboration/index.js";
 
 const router = Router();

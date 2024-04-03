@@ -1,3 +1,5 @@
+//Author: Boon Undrajavarapu
+
 import {
   CollabRequests,
   CollabProjects,
@@ -15,14 +17,17 @@ export default async (req, res) => {
 
     console.log("Collab Requests:", collab_requests);
 
-    const filteredCollabRequests = collab_requests.map(request => {
-      const filteredProjects = request.projects.filter(project => project.status === "PENDING");
+    // Filter collab requests based on project status
+    const filteredCollabRequests = collab_requests.map((request) => {
+      const filteredProjects = request.projects.filter(
+        (project) => project.status === "PENDING"
+      );
       return { ...request.toObject(), projects: filteredProjects };
     });
 
     console.log("Filtered Collab Requests:", filteredCollabRequests);
 
-
+    // Return the filtered collab requests
     return res.status(200).json(filteredCollabRequests);
   } catch (error) {
     return res.status(500).json({ error: error.message });
