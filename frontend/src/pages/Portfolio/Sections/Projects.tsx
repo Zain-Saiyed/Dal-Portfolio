@@ -99,11 +99,11 @@ const Projects = ({ id, portfolio }: Props) => {
                           marginBottom: "1rem",
                         }}
                       >
-                        <a
+                        {/* <a
                           key={index}
                           href={`/portfolio/${portfolio_id}/project/${project.project_id}`}
                           style={{ textDecoration: "none", color: "inherit" }}
-                        >
+                        > */}
                           <Typography
                             style={{
                               fontSize: "1.5rem",
@@ -122,27 +122,53 @@ const Projects = ({ id, portfolio }: Props) => {
                               }}
                             />
                           </Typography>
-                        </a>
+                        {/* </a> */}
                         {project.status === "completed" ? (
                           <Icon name="doneall" sx={{ color: "green" }} />
                         ) : (
                           <Icon name="pending" sx={{ color: "orange" }} />
                         )}
                       </Box>
-                      <Typography>
-                        <a
+                      <Typography style={{fontSize: "1rem"}}>
+                        {/* <a
                           key={index}
                           href={`/portfolio/${portfolio_id}/project/${project.project_id}`}
                           style={{ textDecoration: "none", color: "inherit" }}
-                        >
+                        > */}
                           {trimDescriptionSummary(project.description)}
                           {project.description.length > 350 && (
                             <b>
                               <i>... more</i>
                             </b>
                           )}
-                        </a>
+                        {/* </a> */}
                       </Typography>
+
+                      <Box style={{ marginTop: "1rem", fontSize: "1rem", display: "flex"}}>
+                        Duration: 
+                        <Typography style={{marginLeft: "1.5rem"}}>
+                          {new Date(project.start_date).toLocaleDateString("en-US", {
+                            month: "long",
+                            year: "numeric",
+                          })}{" "}
+                          -{" "}
+                          {new Date(project.end_date).toLocaleDateString("en-US", {
+                            month: "long",
+                            year: "numeric",
+                          })}
+                        </Typography>
+                      </Box>
+
+                      <Box style={{ marginTop: "1rem", fontSize: "1rem", display: "flex", alignItems:"middle"}}>
+                        Status:   
+                        <Typography style={{marginLeft: "1.5rem"}}>
+                          {project.status === "completed" ? (
+                            "Completed"
+                          ) : (
+                            "In-Progress"
+                          )}
+                        </Typography>
+                      </Box>
 
                       {project.technologies &&
                         project.technologies.length > 0 && (
