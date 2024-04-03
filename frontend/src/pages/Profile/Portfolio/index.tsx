@@ -9,13 +9,14 @@ import { DELETE, GET } from "utils/axios";
 import { Button, IconButton, Loader } from "components";
 import { useToast } from "hooks";
 import { useAppStore } from "store";
+import { isEmpty } from "utils/helpers";
 
 type Props = {};
 
 const Portfolio = (props: Props) => {
   const navigate = useNavigate();
   const [state, dispatch] = useAppStore();
-  const { currentUser = {} } = state || {};
+  const { currentUser = {} }: any = state || {};
   const { showError, showSuccess } = useToast();
   const [portfolios, setPortfolios] = React.useState<any>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -25,8 +26,11 @@ const Portfolio = (props: Props) => {
   }, []);
 
   const fetchPortfolioList = () => {
+    if (isEmpty(currentUser)) {
+      return;
+    }
     setLoading(true);
-    GET(`/api/profile/user/${(currentUser as any)?._id}/portfolios`)
+    GET(`/api/profile/user/${currentUser?._id}/portfolios`)
       .then((res) => {
         setPortfolios(res?.data?.portfolios);
       })
@@ -58,7 +62,9 @@ const Portfolio = (props: Props) => {
   return (
     <Container sx={{ width: "100%" }}>
       <Box display={"flex"} width={"100%"} justifyContent="right">
-        <Button onClick={() => navigate("/profile/portfolio/create")}>
+        <Button onClick={() => navigate("/profile/portfolio/create", {
+                      state: { user: currentUser },
+                    })}>
           Create Portfolio
         </Button>
       </Box>

@@ -8,7 +8,7 @@ import {
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 import Footer from "pages/Home/Footer";
-import { POST } from 'utils/axios'; 
+import { POST } from 'utils/axios';
 
 
 const useStyles = makeStyles((theme) => ({

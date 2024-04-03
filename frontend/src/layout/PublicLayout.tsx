@@ -16,55 +16,26 @@ import { POST } from "utils/axios";
 import tokenService from "utils/token-service";
 import useLogout from "hooks/useLogout";
 
-const SIDE_BAR_ITEMS: Array<LinkToPage> = [
-
-
-  {
-    title: "FAQs",
-    path: "/faq",
-    icon: "faq",
-  },
-  {
-    title: "Contact Us",
-    path: "/contact-us",
-    icon: "contactus",
-  },
-  {
-    title: "About Us",
-    path: "/about-us",
-    icon: "info",
-  },
-  {
-    title: "SignUp",
-    path: "/signup",
-    icon: "signup",
-  },
-  {
-    title: "Login",
-    path: "/login",
-    icon: "login",
-  },
- 
-  {
-    title: "Profile",
-    path: "/profile",
-    icon: "profile",
-  },
-  {
-    title: "Logout",
-    path: "/logout", 
-    icon: "logout",
-  },
-  {
-    title: "Search",
-    path: "/search-page",
-    icon: "search",
-  },
+const SIDEBAR_ITEMS_LOGGED_IN: Array<LinkToPage> = [
+  { title: "FAQs", path: "/faq", icon: "faq" },
+  { title: "Contact Us", path: "/contact-us", icon: "contactus" },
+  { title: "About Us", path: "/about-us", icon: "info" },
+  { title: "Profile", path: "/profile", icon: "profile" },
+  { title: "Search", path: "/search-page", icon: "search" },
+  { title: "Logout", path: "/logout", icon: "logout" },
 ];
 
-const NAVBAR_ITEMS: Array<LinkToPage> = SIDE_BAR_ITEMS.filter(
-  (ins: any) => !["Home", "Log In", "Sign Up"].includes(ins?.title)
-);
+const SIDEBAR_ITEMS_LOGGED_OUT: Array<LinkToPage> = [
+  { title: "FAQs", path: "/faq", icon: "faq" },
+  { title: "Contact Us", path: "/contact-us", icon: "contactus" },
+  { title: "About Us", path: "/about-us", icon: "info" },
+  { title: "Search", path: "/search-page", icon: "search" },
+  { title: "SignUp", path: "/signup", icon: "signup" },
+  { title: "Login", path: "/login", icon: "login" },
+];
+// const NAVBAR_ITEMS: Array<LinkToPage> = SIDE_BAR_ITEMS.filter(
+//   (ins: any) => !["Home", "Log In", "Sign Up"].includes(ins?.title)
+// );
 
 const PublicLayout: FC<PropsWithChildren> = () => {
   const logout = useLogout();
@@ -73,6 +44,11 @@ const PublicLayout: FC<PropsWithChildren> = () => {
   const switchMode = useSwitchMode();
   const [sideBarVisible, setSideBarVisible] = useState(false);
   const [state, dispatch] = useAppStore();
+  const sidebarItems = state.isAuthenticated ? SIDEBAR_ITEMS_LOGGED_IN : SIDEBAR_ITEMS_LOGGED_OUT;
+  const SIDE_BAR_ITEMS = sidebarItems;
+  const NAVBAR_ITEMS: Array<LinkToPage> = SIDE_BAR_ITEMS.filter(
+    (ins: any) => !["Home", "Log In", "Sign Up"].includes(ins?.title)
+  );
 
   const sidebarOpen = sideBarVisible;
   const sidebarVariant = "temporary";
@@ -123,9 +99,12 @@ const PublicLayout: FC<PropsWithChildren> = () => {
                     }}
                   />
                 </Box>
+                <Stack direction={"row"} alignItems={"center"}>
                 {!onMobile &&
-                  NAVBAR_ITEMS?.map((item: any, index: number) => (
-                    <Button
+                  NAVBAR_ITEMS?.map((item: any, index: number) => {
+                    if(item?.title !== "Logout" && item?.title !== "Login" && item?.title !== "SignUp")
+                    {
+                    return (<Button
                       variant="text"
                       to={item?.path}
                       sx={{
@@ -134,16 +113,18 @@ const PublicLayout: FC<PropsWithChildren> = () => {
                         backgroundColor: "none",
                       }}
                       onClick={async () => {
-                        if (item?.path === "/logout") {
-                          logout();
-                        } else {
-                          navigate(item?.path);
-                        }
+                        // if (item?.path === "/logout") {
+                        //   logout();
+                        // } else {
+                        //   navigate(item?.path);
+                        // }
+                        navigate(item?.path);
                       }}
                       key={`navbar-item-${index}`}
                       label={item?.title}
-                    />
-                  ))}
+                    />)}
+                    })}
+               </Stack>
               </Stack>
               <IconButton
                 icon={state.darkMode ? "day" : "night"}
