@@ -107,6 +107,7 @@ const ReplyDisplay = ({ postId, id, email, date, description, onDelete }) => {
           <CardContent>
             <Grid container alignItems="center" justifyContent="space-between">
               <Grid item>
+              {currentUser && currentUser.username === email && (
                 <IconButton
                   aria-label="delete"
                   onClick={handleDeleteReply}
@@ -114,6 +115,7 @@ const ReplyDisplay = ({ postId, id, email, date, description, onDelete }) => {
                 >
                   <DeleteIcon />
                 </IconButton>
+              )}
               </Grid>
             </Grid>
             <Typography variant="subtitle2" color="textSecondary" gutterBottom>

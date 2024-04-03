@@ -116,9 +116,11 @@ const MainPost = ({ id, email, date, title, description }) => {
                 </IconButton>
               </Grid>
               <Grid item>
-                <IconButton aria-label="delete" onClick={handleDeletePost}>
-                  <DeleteIcon />
-                </IconButton>
+                {currentUser && currentUser.username === email && (
+                  <IconButton aria-label="delete" onClick={handleDeletePost}>
+                    <DeleteIcon />
+                  </IconButton>
+                )}
               </Grid>
             </Grid>
             <Typography
