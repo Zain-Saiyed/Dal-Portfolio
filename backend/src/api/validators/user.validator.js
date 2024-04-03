@@ -1,3 +1,5 @@
+//Author: Hatim Patrawala
+
 import Joi from "joi";
 
 export function validateRegister(body) {
@@ -25,6 +27,7 @@ export function validateRegister(body) {
     photoUrl: Joi.string().default(""),
     isVerified: Joi.boolean().default(false),
     deletedAt: Joi.date(),
+    theme: Joi.string().valid("dark", "light").default("light"),
   });
   return schema.validate(body);
 }

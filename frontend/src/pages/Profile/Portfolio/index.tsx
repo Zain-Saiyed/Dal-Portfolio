@@ -62,55 +62,70 @@ const Portfolio = (props: Props) => {
   return (
     <Container sx={{ width: "100%" }}>
       <Box display={"flex"} width={"100%"} justifyContent="right">
-        <Button onClick={() => navigate("/profile/portfolio/create", {
-                      state: { user: currentUser },
-                    })}>
+        <Button
+          onClick={() =>
+            navigate("/profile/portfolio/create", {
+              state: { user: currentUser },
+            })
+          }
+        >
           Create Portfolio
         </Button>
       </Box>
-      <Stack spacing={3} marginTop={2}>
-        {portfolios?.map((item: any, index: number) => (
-          <Stack
-            key={index}
-            direction="row"
-            justifyContent="space-between"
-            sx={{
-              border: "1px solid #F1F1F1",
-              borderRadius: 3,
-              padding: 2,
-              cursor: "pointer",
-              "&:hover": {
-                bgcolor: "grey.100",
-              },
-            }}
-          >
-            <Box>
-              <Typography variant="h6" component={"h6"}>
-                {item?.configuration?.name}
-              </Typography>
-              <Typography variant="body2" color={"grey.500"}>
-                {moment(item?.createdAt)?.format("MMM DD, YYYY")}
-              </Typography>
-            </Box>
-            <Box>
-              <Stack direction="row" justifyContent="flex-end">
-                <IconButton
-                  icon="edit"
-                  onClick={() =>
-                    navigate(`/profile/portfolio/${item?._id}/edit`, {
-                      state: { portfolio: item, user: currentUser },
-                    })
-                  }
-                />
-                <IconButton
-                  icon="delete"
-                  onClick={handleDelete(item?._id)}
-                />
-              </Stack>
-            </Box>
-          </Stack>
-        ))}
-      </Stack>
+      {!isEmpty(portfolios) ? (
+        <Box sx={{ height: "100px", width: "100%", m: "auto", textAlign: "center" }}>
+          <Typography variant="h6" component={"h6"}>
+            No portfolios found
+          </Typography>
+        </Box>
+      ) : (
+        <Stack spacing={3} marginTop={2}>
+          {portfolios?.map((item: any, index: number) => (
+            <Stack
+              key={index}
+              direction="row"
+              justifyContent="space-between"
+              sx={{
+                border: "1px solid #F1F1F1",
+                borderRadius: 3,
+                padding: 2,
+                cursor: "pointer",
+                // "&:hover": {
+                //   bgcolor: "grey.100",
+                // },
+              }}
+            >
+              <Box>
+                <Typography variant="h6" component={"h6"}>
+                  {item?.configuration?.name}
+                </Typography>
+                <Typography variant="body2" color={"grey.500"}>
+                  {moment(item?.createdAt)?.format("MMM DD, YYYY")}
+                </Typography>
+              </Box>
+              <Box>
+                <Stack direction="row" justifyContent="flex-end">
+                  <IconButton
+                    icon="newtab"
+                    onClick={() =>
+                      window.open(`/portfolio/${item?._id}`, "_blank")
+                    }
+                  />
+                  <IconButton
+                    icon="edit"
+                    onClick={() =>
+                      navigate(`/profile/portfolio/${item?._id}/edit`, {
+                        state: { portfolio: item, user: currentUser },
+                      })
+                    }
+                  />
+                  <IconButton icon="delete" onClick={handleDelete(item?._id)} />
+                </Stack>
+              </Box>
+            </Stack>
+          ))}
+        </Stack>
+      )}
     </Container>
   );
 };

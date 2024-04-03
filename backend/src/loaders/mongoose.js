@@ -1,3 +1,5 @@
+//Author: Hatim Patrawala
+
 import mongoose from "mongoose";
 
 import { dbUri } from "../config/index.js";

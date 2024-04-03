@@ -1,3 +1,5 @@
+//Author: Hatim Patrawala
+
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
@@ -61,6 +63,11 @@ const userSchema = new Schema(
     deletedAt: {
       type: Date,
     },
+    theme: {
+      type: String,
+      enum: ["light", "dark"],
+      default: "light",
+    }
   },
   {
     timestamps: true,
