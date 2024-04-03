@@ -1,3 +1,5 @@
+//Author: Hatim Patrawala
+
 import pkg from "jsonwebtoken";
 const { sign } = pkg;
 import { jwtSecretKey, refreshTokenSecretKey } from "../../config/index.js";

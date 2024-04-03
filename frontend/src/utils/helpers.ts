@@ -1,3 +1,5 @@
+//Author: Hatim Patrawala
+
 /**
  * Checks if a value is empty.
  * @param value - The value to check.

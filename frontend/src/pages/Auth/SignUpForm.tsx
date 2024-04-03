@@ -212,7 +212,7 @@ const SignUpForm = () => {
                 first_name: formData.firstName,
                 last_name: formData.lastName
             },
-            type: "user" //formData.userType.toLowerCase()
+            type: "user" 
         };
     
         setLoading(true);
@@ -369,21 +369,6 @@ const SignUpForm = () => {
                             {errors.confirmPassword && <FormHelperText error>{errors.confirmPassword}</FormHelperText>}
                         </FormControl>
 
-
-                        {/* <FormControl fullWidth margin="normal" required>
-                            <InputLabel htmlFor="userType">User Type</InputLabel>
-                            <Select
-                                id="userType"
-                                name="userType"
-                                value={formData.userType}
-                                onChange={handleChange}
-                                label="User Type"
-                            >
-                                {userTypes.map((type) => (
-                                    <MenuItem key={type} value={type}>{type}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl> */}
 
 
                         <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>

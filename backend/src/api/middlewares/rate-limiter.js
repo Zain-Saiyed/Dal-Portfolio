@@ -1,3 +1,5 @@
+//Author: Hatim Patrawala
+
 import mongoose from "mongoose";
 import { RateLimiterMongo } from "rate-limiter-flexible";
 import { dbUri } from "../../config/index.js";
@@ -9,8 +11,8 @@ const mongoConn = mongoose.createConnection(dbUri, {});
 const opts = {
   storeClient: mongoConn,
   tableName: "rateLimits",
-  points: 100, // x requests
-  duration: 60, // per y second by IP
+  points: 100,
+  duration: 60,
 };
 
 export default (req, res, next) => {
