@@ -66,7 +66,6 @@ const StartDiscussion = ({ onClose, getPosts }) => {
 
   const handleSubmit = async () => {
     if (state?.isAuthenticated == true) {
-      //user is logged in
       if (!errorTitle && !errorDescription && description.trim() !== "") {
         try {
           const payload = {
@@ -80,7 +79,7 @@ const StartDiscussion = ({ onClose, getPosts }) => {
               hour: "2-digit",
               minute: "2-digit",
               second: "2-digit",
-              hour12: false, // To use 24-hour format
+              hour12: false,
             }),
           };
           const response = await POST("api/discussionforum/add-post", payload);
