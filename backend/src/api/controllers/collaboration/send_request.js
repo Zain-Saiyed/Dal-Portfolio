@@ -1,3 +1,5 @@
+//Author: Boon Undrajavarapu
+
 import { CollabRequests, User } from "../../../models/index.js";
 import nodemailer from "nodemailer";
 import { ObjectId } from "mongodb";
@@ -59,7 +61,7 @@ export default async (req, res) => {
     });
 
     var mailOptions = {
-      from: "u.boonking@gmail.com", // DalPortfolio email ID
+      from: process.env.EMAIL, // DalPortfolio email ID
       to: receiver_user_obj.email, // potential collaborator email ID
       subject: "Please respond to the Collaboration Request",
       text: "You received a collaboration request based on your profile. Please respond to the request at your conveinence.",

@@ -1,13 +1,22 @@
+//Author: Boon Undrajavarapu
+
 import { CollabRequests, User } from "../../../models/index.js";
 import nodemailer from "nodemailer";
-
 import { ObjectId } from "mongodb";
 
 export default async (req, res) => {
   try {
-    const { project_title, sender_user_id, receiver_user_id, status, _id } = req.body;
+    const { project_title, sender_user_id, receiver_user_id, status, _id } =
+      req.body;
 
-    if (!receiver_user_id || !sender_user_id || !project_title || !status || !_id) {
+    // Check if required fields are missing
+    if (
+      !receiver_user_id ||
+      !sender_user_id ||
+      !project_title ||
+      !status ||
+      !_id
+    ) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -15,43 +24,23 @@ export default async (req, res) => {
     const projectUpdate = {
       $set: { "projects.$[elem].status": status },
     };
-    // const researchUpdate = {
-    //   $set: { "researchs.$[elem].status": status },
-    // };
 
     const projectArrayFilters = {
       arrayFilters: [{ "elem.project_id": { $eq: project_title } }],
     };
-    // const researchArrayFilters = {
-    //   arrayFilters: [{ "elem.project_id": { $eq: project_title } }],
-    // };
 
+    // Update the project status in the CollabRequests collection
     const projectUpdateResult = await CollabRequests.updateOne(
       filter,
       projectUpdate,
       projectArrayFilters
     );
-    // const researchUpdateResult = await CollabRequests.updateOne(
-    //   filter,
-    //   researchUpdate,
-    //   researchArrayFilters
-    // );
 
-    if (
-      projectUpdateResult.modifiedCount > 0 
-      // || researchUpdateResult.modifiedCount > 0
-    ) {
-      // if (projectUpdateResult.modifiedCount > 0) {
-      //   console.log("Project status updated successfully");
-      // }
-
-      // if (researchUpdateResult.modifiedCount > 0) {
-      //   console.log("Research status updated successfully");
-      // }
-
+    if (projectUpdateResult.modifiedCount > 0) {
       const sender_user_obj = await User.findOne({
         _id: ObjectId(sender_user_id),
       });
+
       if (sender_user_obj) {
         console.log(sender_user_obj.email);
       } else {
@@ -59,17 +48,18 @@ export default async (req, res) => {
         return res.status(404).json({ error: "User not found" });
       }
 
+      // Create a nodemailer transporter
       var transporter = nodemailer.createTransport({
         service: "gmail",
-
         auth: {
           user: process.env.EMAIL,
           pass: process.env.EMAIL_PASSWORD,
         },
       });
 
+      // Configure email options
       var mailOptions = {
-        from: "u.boonking@gmail.com", // DalPortfolio email ID
+        from: process.env.EMAIL, // DalPortfolio email ID
         to: sender_user_obj.email, // potential collaborator email ID
         subject: "You have a response to your Collaboration Request",
         text:
@@ -78,6 +68,7 @@ export default async (req, res) => {
           ".\n Please check your account for more details.",
       };
 
+      // Send the email
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
           console.log(error);
