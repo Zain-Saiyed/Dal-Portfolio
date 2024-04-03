@@ -23,6 +23,7 @@ const SIDEBAR_ITEMS_LOGGED_IN: Array<LinkToPage> = [
   { title: "Profile", path: "/profile", icon: "profile" },
   { title: "Search", path: "/search-page", icon: "search" },
   { title: "Logout", path: "/logout", icon: "logout" },
+  { title: "Dicussions", path: "/dalportfolios-discussions", icon: "search" }
 ];
 
 const SIDEBAR_ITEMS_LOGGED_OUT: Array<LinkToPage> = [
@@ -32,6 +33,7 @@ const SIDEBAR_ITEMS_LOGGED_OUT: Array<LinkToPage> = [
   { title: "Search", path: "/search-page", icon: "search" },
   { title: "SignUp", path: "/signup", icon: "signup" },
   { title: "Login", path: "/login", icon: "login" },
+  { title: "Dicussions", path: "/dalportfolios-discussions", icon: "search" }
 ];
 // const NAVBAR_ITEMS: Array<LinkToPage> = SIDE_BAR_ITEMS.filter(
 //   (ins: any) => !["Home", "Log In", "Sign Up"].includes(ins?.title)
