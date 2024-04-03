@@ -64,12 +64,12 @@ const Contact = ({ id, portfolio }: Props) => {
                 {onMobile ? (
                   <>
                     <br />
-                    <Button variant="contained" onClick={() => navigate("/my-projects/")} startIcon={<Icon name="groups"/>} style={{marginTop: "1rem", background: "blue", color: "white"}}> 
+                    <Button variant="contained" onClick={() => navigate(`/my-projects/${portfolio.user_id}`)} startIcon={<Icon name="groups"/>} style={{marginTop: "1rem", background: "blue", color: "white"}}> 
                       Collaborate
                     </Button>
                   </>
                 ) : (
-                    <Button variant="contained" onClick={() => navigate("/my-projects/")} startIcon={<Icon name="groups"/>} style={{marginLeft: "1rem", background: "blue", color: "white"}}> 
+                    <Button variant="contained" onClick={() => navigate(`/my-projects/${portfolio.user_id}`)} startIcon={<Icon name="groups"/>} style={{marginLeft: "1rem", background: "blue", color: "white"}}> 
                       Collaborate
                     </Button>
                 )}
