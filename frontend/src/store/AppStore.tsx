@@ -11,9 +11,8 @@ import {
 } from "react";
 
 import AppReducer from "store/AppReducer";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { GET } from "utils/axios";
 import { fetchSessionAPI } from "utils/session";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export interface AppStoreState {
   darkMode: boolean;
@@ -35,7 +34,7 @@ const AppStoreProvider: FC<PropsWithChildren> = ({ children }) => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [state, dispatch] = useReducer(AppReducer, {
     ...INITIAL_APP_STATE,
-    darkMode: prefersDarkMode,
+    darkMode: false,
   });
 
   useEffect(() => {

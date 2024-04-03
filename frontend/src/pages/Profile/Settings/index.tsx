@@ -1,7 +1,5 @@
 //Author: Hatim Patrawala
 
-import React from 'react'
-
 type Props = {}
 
 const Settings = (props: Props) => {

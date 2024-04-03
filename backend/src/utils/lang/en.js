@@ -76,6 +76,7 @@ export default {
   "00094": "Portfolio created successfully.",
   "00095": "Portfolio updated successfully.",
   "00096": "Portfolio deleted successfully.",
+  "00097": "Theme updated successfully.",
   "00701": "Your post was submitted sucessfully. ",
   "00702": "Your post could not be submitted sucessfully. ",
   "00703": "All discussion posts fetched successfully",

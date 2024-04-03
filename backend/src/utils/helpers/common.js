@@ -1,8 +1,5 @@
-/**
- * Checks if a value is empty.
- * @param value - The value to check.
- * @returns True if the value is empty, false otherwise.
- */
+//Author: Hatim Patrawala
+
 const isEmpty = (value) => {
   return (
     value === null ||

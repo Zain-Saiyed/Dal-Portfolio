@@ -1,4 +1,4 @@
-// Author: Zainuddin Saiyed
+//Author: Hatim Patrawala
 
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
