@@ -24,7 +24,12 @@ const DeleteConfirmationModal = ({ open, onClose, onConfirm }) => {
           textAlign: "center",
         }}
       >
-        <Typography id="delete-confirmation-message" variant="h6" gutterBottom>
+        <Typography
+          id="delete-confirmation-message"
+          variant="h6"
+          gutterBottom
+          sx={{ color: "black" }}
+        >
           Are you sure you want to delete this post?
         </Typography>
         <Box sx={{ mt: 2 }}>
