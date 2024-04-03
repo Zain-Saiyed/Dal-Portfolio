@@ -1,4 +1,4 @@
-body {
+/*body {
     background-color: #f7faff;
   }
   
@@ -15,11 +15,11 @@ body {
     padding: 5px 20px;
     font-size: 12px;
     font-weight: 400;
-    border: 1px dotted black; /* Changed to dotted line */
+    border: 1px dotted black; 
     cursor: not-allowed;
     pointer-events: none;  
     margin: 4px;
-    border-spacing: 4px; /* Increase the spacing between dotted lines */
+    border-spacing: 4px; 
   }
   
   .project-details {
@@ -144,4 +144,5 @@ body {
   .rcard {
     z-index: -10 !important;
   }
+*/
   
