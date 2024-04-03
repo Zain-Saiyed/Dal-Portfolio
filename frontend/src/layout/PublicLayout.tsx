@@ -102,8 +102,8 @@ const PublicLayout: FC<PropsWithChildren> = () => {
                 <Stack direction={"row"} alignItems={"center"}>
                 {!onMobile &&
                   NAVBAR_ITEMS?.map((item: any, index: number) => {
-                    if(item?.title !== "Logout" && item?.title !== "Login" && item?.title !== "SignUp")
-                    {
+                    //if(item?.title !== "Logout" && item?.title !== "Login" && item?.title !== "SignUp")
+                    if(true){
                     return (<Button
                       variant="text"
                       to={item?.path}
