@@ -182,11 +182,47 @@ This section explains how the backend API endpoints are mapped to the correspond
 ### 14. Search page
 * **/search-page**: This API fulfills the functionality of search page based on different filter option in search.tsx. 
 
-### 15. Portfolio
+### 15. Portfolio feature
 * **/portfolio/:portfolio_id**: This route displays the portfolio details corresponding to the portfolio_id. This si done by fetching the required details from the Backend.
 * **/portfolio/:portfolo_id**: This api retrives the portolio details from the portfolio collection. This fulfills the functionality of displaying the portfolio details on the portfolio Sections in the frontend for a user.
 * **/portfolio/:portfolio_id/project**: This api fulfills the functionality of retrieving all the project details for a project_id present in the portfolio (identified by portfolio_id).
 
+### 16. Collaboration feature
+* **/fetch_projects**: 
+    - This endpoint is used to retrieve a list of projects.
+    - It would return information about various projects available in the system, such as their titles, descriptions, statuses, contributors, etc.
+    - Clients can use this endpoint to display a list of projects to users or to fetch specific project details.
+
+* **/fetch_research**: 
+    - Similar to **/fetch_projects**, this endpoint retrieves a list of research studies.
+    - It returns details about research studies, including titles, descriptions, statuses, contributors, etc.
+    - Clients can use this endpoint to display research studies or fetch specific research study details.
+
+* **/fetch_project/:_id**:
+    - This endpoint fetches details about a specific project identified by its ID.
+    - Clients can provide the ID of the project they're interested in, and the server responds with detailed information about that project.
+
+* **/fetch_research_study/:_id**: 
+    - Like **/fetch_project/:_id**, this endpoint fetches details about a specific research study.
+    - Clients provide the ID of the research study they want to fetch, and the server responds with the corresponding details.
+
+* **/send_request**: 
+    - This endpoint is used to send collaboration requests between users.
+    - It accepts data such as the sender's user ID, receiver's user ID, details of projects or research studies being requested, and any additional metadata.
+    - The server processes the request and performs the necessary actions, such as storing the request in a database.
+* **/fetch_collab_requests**: 
+    - This endpoint retrieves a list of collaboration requests.
+    - It would return pending requests.
+    - Clients can use this endpoint to display collaboration requests to users or to fetch specific request details.
+
+* **/send_update**: 
+    - This endpoint is used to update the status or details of a collaboration request.
+    - Clients use this endpoint to accept or reject requests, update request metadata, or perform other related actions.
+
+* **/fetch_user**: 
+    - This endpoint retrieves information about a specific user.
+    - It returns details such as the user's name, email, profile picture, social media links, etc.
+    - Clients might use this endpoint to fetch user profiles for display or to access specific user details for application logic.
 
 
 ## List of files authored by Mohammed
@@ -273,6 +309,25 @@ This section explains how the backend API endpoints are mapped to the correspond
 * [backend\src\api\routes\portfolio.js](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/blob/main/backend/src/api/routes/portfolio.js?ref_type=heads)
 * [backend\src\models\portfolio.js](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/blob/main/backend/src/models/portfolio.js?ref_type=heads)
 
+## List of files authored by Boon
+
+### Backend
+
+* backend/src/api/controllers/collaboration/fetch_projects.js
+* backend/src/api/controllers/collaboration/fetch_research.js
+* backend/src/api/controllers/collaboration/fetchCollabRequestsById.js
+* backend/src/api/controllers/collaboration/fetchProjectByid.js
+* backend/src/api/controllers/collaboration/fetchResearchByid.js
+* backend/src/api/controllers/collaboration/fetchUserById.js
+* backend/src/api/controllers/collaboration/index.js
+* backend/src/api/controllers/collaboration/send_request.js
+* backend/src/api/controllers/collaboration/send_update.js
+
+* backend/src/api/routes/collaboration_route.js
+
+* backend/src/models/collabProject.js
+* backend/src/models/collabRequests.js
+* backend/src/models/collabResearch.js
 
 ## Sources Used
  
@@ -1750,6 +1805,143 @@ const Blog = mongoose.model('Blog', blogSchema);
 - <!---How---> [8]'s code was implemented by using Mongoose, an Object Data Modeling (ODM) library compatible with MongoDB and Node.js.
 - <!---How---> Modifications were made to the code from [8] by designing a nested schema for portfolio section, by specifying enumerations, required flags, default values, and required portfolio sub-sections.
 
+#### backend/src/api/controllers/collaboration/fetch_projects.js, 
+
+*Line 10*
+
+    const projects = await Portfolio.findOne({ user_id }, "projects");
+
+#### backend/src/api/controllers/collaboration/fetch_research.js, 
+
+*Line 9*
+
+    const research_studies = await CollabResearchStudies.find({ user_id });
+
+#### backend/src/api/controllers/collaboration/fetchCollabRequestsById.js,
+
+*Line 16*
+
+    const collab_requests = await CollabRequests.find({     receiver_user_id });
+
+#### backend/src/api/controllers/collaboration/fetchProjectByid.js, 
+
+*Line 9*
+
+    const project = await CollabProjects.find({ _id: ObjectId(id) }); // Fetch document by _id
+
+#### backend/src/api/controllers/collaboration/fetchResearchByid.js, 
+
+*Line 9*
+
+    const project = await CollabResearchStudies.find({ _id: ObjectId(id) }); // Fetch document by _id
+
+#### backend/src/api/controllers/collaboration/fetchUserById.js, 
+
+*Line 17*
+
+    const user = await User.findOne({ _id: user_id });
+
+#### backend/src/api/controllers/collaboration/send_request.js, 
+
+*Lines 44 - 46*
+
+    const receiver_user_obj = await User.findOne({
+      _id: ObjectId(receiver_user_id),
+    });
+
+#### backend/src/api/controllers/collaboration/send_update.js
+
+*Lines 33-37*
+
+    const projectUpdateResult = await CollabRequests.updateOne(
+      filter,
+      projectUpdate,
+      projectArrayFilters
+    );
+
+All the above snippets are about retrieving or writing or updating data in MongoDB using Mongoose. These are adapted from [freecodecamp](https://www.freecodecamp.org/news/mongodb-mongoose-node-tutorial/) post about How to Use MongoDB + Mongoose with Node.js. 
+
+```
+    const doc = await CompletedSchema.findOne(info)
+    doc.slug = 'something-else'
+    await doc.save()
+```
+
+```
+    const res = await CompletedSchema.updateOne(<condition>, <query>).lean()
+```
+
+The reason I have to take reference from [freecodecamp](https://www.freecodecamp.org/news/mongodb-mongoose-node-tutorial/) article is that it demonstrates how to find, find only one, update a document in MongoDB using Mongoose.
+
+I referenced the [freecodecamp](https://www.freecodecamp.org/news/mongodb-mongoose-node-tutorial/) article as a resource to gain clarity on the syntax required for certain operations, such as find and findOne, in Mongoose. This was necessary due to my unfamiliarity with the syntax at the time of implementation.
+
+
+#### backend/src/api/controllers/collaboration/send_request.js
+
+*Lines 54 - 76*
+
+```
+var transporter = nodemailer.createTransport({
+      service: "gmail",
+
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    var mailOptions = {
+      from: process.env.EMAIL, // DalPortfolio email ID
+      to: receiver_user_obj.email, // potential collaborator email ID
+      subject: "Please respond to the Collaboration Request",
+      text: "You received a collaboration request based on your profile. Please respond to the request at your conveinence.",
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+```
+
+The above code snippet is about sending a mail using nodemailer. This is adapted from [w3schools](https://www.w3schools.com/nodejs/nodejs_email.asp).
+
+```
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'youremail@gmail.com',
+    pass: 'yourpassword'
+  }
+});
+
+var mailOptions = {
+  from: 'youremail@gmail.com',
+  to: 'myfriend@yahoo.com',
+  subject: 'Sending Email using Node.js',
+  text: 'That was easy!'
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+
+```
+
+- My code uses environment variables **process.env.EMAIL** and **process.env.EMAIL_PASSWORD** to store the DalPortfolio's official email and password, respectively.
+    - These environment variables are used for securely storing sensitive information without hardcoding them into the source code.
+
+- The email content in my code is dynamic and personalized. It includes placeholders like **receiver_user_obj.email** to dynamically populate the recipient's email address.
+
+- Additionally, the email subject and text message are customized to indicate a collaboration request based on the recipient's profile.
 
 ### Material-UI Components Customization
  
