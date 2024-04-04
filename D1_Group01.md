@@ -179,6 +179,10 @@ This section explains how the backend API endpoints are mapped to the correspond
 ### 13. Get All Posts
 * **/getallposts**: This api fulfills the functionality of displaying posts in  DiscussionForumPage.js frontend component. The values fetched here are transferred as a state to DiscussionThreadPage.js when a particular post is opened to view all replies posted on it.
 
+### 14. Search page
+* **/search-page**: This API fulfills the functionality of search page based on different filter option in search.tsx. 
+
+
 ## List of files authored by Mohammed
 ### Frontend
 * frontend/src/pages/Auth/SignUpForm.tsx
@@ -233,6 +237,15 @@ This section explains how the backend API endpoints are mapped to the correspond
 * backend\src\api\routes\discussionforum.js
 * backend\src\models\discussionforum\mainpost.js
  
+## List of files authored by Jinay Shah
+### Frontend
+* frontend\src\pages\home\search.tsx
+
+### Backend
+* backend\src\api\controllers\portfolio_search\index.js
+* backend\src\api\controllers\portfolio_search\search\search.js
+* backend\src\api\routes\portfolio_search.js
+
 ## Sources Used
  
 #### `backend/src/api/controllers/user/auth/register.js`
@@ -1005,6 +1018,304 @@ Model.findById()
 Model.findByIdAndDelete()
 Model.findByIdAndUpdate()
 ```
+### search.js (backend\src\api\controllers\portfolio_search\search\search.js)
+
+*Lines 5-43*
+
+```
+export default async (req, res) => {
+    try {
+        console.log(req.body);
+        const searchString = req.body.search;
+        console.log(searchString);
+        console.log("inside try");
+        const regex = new RegExp(searchString, 'i');
+        const query = { $or: [
+          {'bio.first_name': { $regex: regex } },
+          {'bio.last_name': { $regex: regex } },
+          {'bio.email': { $regex: regex } },
+          {'bio.about': { $regex: regex } },
+          {'bio.city' : {$regex:regex}},
+          {'bio.country' : {$regex:regex}},
+          {'bio.about' : {$regex:regex}},
+          {'education.degree': { $regex: regex } },
+          {'education.field_of_study': { $regex: regex } },
+          {'education.university': { $regex: regex } },
+          {'experience.company_name': { $regex: regex } },
+          {'experience.role': { $regex: regex } },
+          {'projects.title': { $regex: regex } },
+          {'projects.description': { $regex: regex } },
+          {'skills.name': { $regex: regex } },
+          {'certifications.title': { $regex: regex } },
+        ] };
+
+        const result = await Portfolio.find(query);
+        
+        res.status(200).json({
+            resultMessage: { en: "Fetched documents successfully", fr: "Documents récupérés avec succès" },
+            resultCode: "00703",
+            listOfDocuments: result
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json(errorHelper("00704", req, "Error fetching documents"));
+    }
+};
+```
+
+The code above was created by adapting the code from [MongoDB](https://www.mongodb.com/docs/v4.2/reference/operator/query/regex/) &
+The code above was created by adapting the code from [StackOverflow]( https://stackoverflow.com/questions/48404592/async-post-function-in-nodejs ) as follows:
+
+```
+{ <field>: { $regex: /pattern/, $options: '<options>' } }
+{ <field>: { $regex: 'pattern', $options: '<options>' } }
+{ <field>: { $regex: /pattern/<options> } }
+
+```
+```
+app.post('/test', function () {
+    let user = 'User';
+    let query = 'SELECT [Password] as password FROM [Table] where [User] = ' + SqlString.escape(user);
+
+    let password = (async function () {
+        try {
+            let pool = await sql.connect(dbConfig);
+            let result = await pool.request()
+                .query(querys);
+            console.dir(result.recordset[0].password) //Value here is OK
+            return result.recordset[0].password
+        } catch (err) {
+            // ... error checks
+        }
+    })()
+    console.log(password); //here I am getting "Promise { pending }"
+});
+```
+
+- The code was implemented by me for searching document based on search string using **Regex**. I was going through internet to find the solution for this problem and I reffered MongoDB site for fetching document based on regex. So I took reference of [MongoDB](https://www.mongodb.com/docs/v4.2/reference/operator/query/regex/)
+
+- The code was implemented by me for creating the POST API  for  my **SEARCH PAGE**  feature in Assignment 3 in CSCI-5709. I was going through the internet for how to create POST in Node.js framework. Then, I found this site where REST Api is created in Node.js. So I took reference of [StackOverflow]( https://stackoverflow.com/questions/48404592/async-post-function-in-nodejs )
+
+- The given [StackOverflow]( https://stackoverflow.com/questions/48404592/async-post-function-in-nodejs )'s  code was used as a reference to learn how to create REST API's and send/receive data with server.
+
+
+### search.tsx (frontend\src\pages\Home\search.tsx)
+
+*Lines (174-239)*
+
+```
+<Grid container spacing={3} justifyContent="center">
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Search"
+                variant="outlined"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel>Department</InputLabel>
+                <Select
+                  value={filters.department}
+                  onChange={(e) => setFilters({ ...filters, department: e.target.value })}
+                  label="Department"
+                >
+                  <MenuItem value=""><em>None</em></MenuItem>
+                  <MenuItem value="Computer Science">Computer Science</MenuItem>
+                  <MenuItem value="Health Sciences">Health Sciences</MenuItem>
+                  <MenuItem value="Law">Law</MenuItem>
+                  <MenuItem value="Business & Economics">Business & Economics</MenuItem>
+                  <MenuItem value="Natural Science">Natural Sciences</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel>Experience</InputLabel>
+                <Select
+                  value={filters.experience}
+                  onChange={(e) => setFilters({ ...filters, experience: e.target.value })}
+                  label="Experience"
+                >
+                  <MenuItem value=""><em>None</em></MenuItem>
+                  <MenuItem value="lessThanSixMonths">Less than 6 months</MenuItem>
+                  <MenuItem value="lessThanOneYear">Less than 1 year</MenuItem>
+                  <MenuItem value="lessThanTwoYears">Less than 2 years</MenuItem>
+                  <MenuItem value="twoToFiveYears">2 to 5 years</MenuItem>
+                  <MenuItem value="moreThanFiveYears">More than 5 years</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel>Academic Level</InputLabel>
+                <Select
+                  value={filters.academicLevel}
+                  onChange={(e) => setFilters({ ...filters, academicLevel: e.target.value })}
+                  label="Academic Level"
+                >
+                  <MenuItem value=""><em>None</em></MenuItem>
+                  <MenuItem value="undergraduate">Undergraduate</MenuItem>
+                  <MenuItem value="graduate">Graduate</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+```
+
+The code above was created by adapting the code from [StackOverflow](https://stackoverflow.com/questions/73431384/creating-a-filter-for-a-drop-down-menu-in-react)
+
+```
+class ItemList extends React.Component {
+  constructor(props) {
+    super(props)
+this.changeItem = this.changeItem.bind(this)
+this.state = {
+value: 'all' // this would be the initial value
+}
+    changeItem(event) {
+this.setState({value: event.target.value} // where the value will be changed 
+}
+  }
+
+  render() {
+    return (
+      <>
+      <select onChange={this.changeItem} value:{event.target.value}>
+        <option value='all'>all</option>
+        <option value='cats'>fruits</option>
+        <option value='dogs'>vegetables</option>
+      </select>
+        <div className="item-list">
+          {this.props.items.map((item) =>
+          <SingleItem key={item.id}
+          item={item} />
+          )}
+        </div>
+      </>
+    );
+  }
+}
+```
+
+- The code was created by me for creating drop down filter for **SEARCH PAGE**  feature in Assignment 3 in CSCI-5709. I was learning how to create such dropdown with different option and I came across this code which implements filter with option. So I took reference of [StackOverflow](https://stackoverflow.com/questions/73431384/creating-a-filter-for-a-drop-down-menu-in-react).
+
+- The given [StackOverflow](https://stackoverflow.com/questions/73431384/creating-a-filter-for-a-drop-down-menu-in-react)'s  code was used as a reference to learn how to create drop down filter.
+
+- The above code was created by me after understanding the concept from [StackOverflow](https://stackoverflow.com/questions/73431384/creating-a-filter-for-a-drop-down-menu-in-react).
+
+
+*Lines (253-309)*
+
+```
+{searchPerformed && filteredResults.length > 0 ? (
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4 }}>
+              <Typography variant="h4" gutterBottom sx={{ color: '#ffd600', fontWeight: 'bold', marginBottom: '30px' }}>
+                Search Results
+              </Typography>
+              {filteredResults.map((document, index) => (
+                <Card key={index} sx={{ width: '100%', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', '&:hover': { boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)' }, marginBottom: '20px' }}>
+                  <CardContent>
+                    <Typography variant="h5" gutterBottom sx={{ color: '#ffd600', fontWeight: 'bold', textAlign: 'left' }}>
+                    <strong>Profile:</strong> {document.configuration?.name || 'No Title'}
+                    </Typography>
+                    <Typography variant="body1" sx={{ marginBottom: '10px', fontWeight: 'medium', textAlign: 'left' }}>
+                    <strong>Name:</strong> {document.bio?.first_name || 'No Summary'}
+                    </Typography>
+                    <Typography variant="body1" sx={{ marginBottom: '10px', fontWeight: 'medium', textAlign: 'left' }}>
+                    <strong>Email:</strong> {document.bio?.email || 'No Summary'}
+                    </Typography>
+                    <Typography variant="body1" sx={{ marginBottom: '10px', fontWeight: 'medium', textAlign: 'left' }}>
+                    <strong>Education:</strong> {document.education?.[0]?.field_of_study || 'No Summary'}
+                    </Typography>
+                    <Typography variant="body1" sx={{ marginBottom: '10px', fontWeight: 'medium', textAlign: 'left' }}>
+                    <strong>Degree:</strong> {document.education?.[0]?.degree || 'No Summary'}
+                    </Typography>
+                    <Typography variant="body1" sx={{ marginBottom: '10px', fontWeight: 'medium', textAlign: 'left' }}>
+                    <strong>Past Experience:</strong> {document.experience?.[0]?.role || 'No Summary'}
+                    </Typography>
+                    <Typography variant="body1" sx={{ marginBottom: '10px', fontWeight: 'medium', textAlign: 'left' }}>
+                    <strong>Skills:</strong> 
+                    {document.skills.map((skill: { name: string }, id: number) => (
+                    <span key={id}>{skill.name}{id !== document.skills.length - 1 ? ', ' : ''}</span>
+                    ))}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small" onClick={() => handlePortfolioClick(document._id)}>Visit Portfolio</Button>
+                  </CardActions>
+                  <CardActions>
+                    <Button size="small" onClick={() => handleCollaborateClick(document.user_id)}>Collaborate</Button>
+                  </CardActions>
+                </Card>
+              ))}
+            </Box>
+          ) : (
+            searchPerformed && <Typography sx={{ textAlign: 'center', color: 'red', marginTop: 2 }}>No results found.</Typography>
+          )}
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+            <Button variant="contained" color="secondary" onClick={handleBackToHomeClick}>
+              Back to Home Page
+            </Button>
+          </Box>
+        </Paper>
+      </Container>
+    </Box>
+  );
+  
+};
+
+```
+The code above was created by adapting the code from [React](https://mui.com/material-ui/react-card/)
+
+```
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+
+export default function MediaCard() {
+  return (
+    <Card sx={{ maxWidth: 345 }}>
+      <CardMedia
+        sx={{ height: 140 }}
+        image="/static/images/cards/contemplative-reptile.jpg"
+        title="green iguana"
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          Lizard
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Lizards are a widespread group of squamate reptiles, with over 6,000
+          species, ranging across all continents except Antarctica
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small">Share</Button>
+        <Button size="small">Learn More</Button>
+      </CardActions>
+    </Card>
+  );
+}
+```
+- The code was created by me for creating card **SEARCH PAGE**  feature in Assignment 3 in CSCI-5709. I was learning how to create such card  with button and I came across this code which implements card with button. So I took reference of [React](https://mui.com/material-ui/react-card/).
+
+- The given [React](https://mui.com/material-ui/react-card/)'s  code was used as a reference to learn how to create card in react.
+
+- The above code was created by me after understanding the concept from [React](https://mui.com/material-ui/react-card/).
 
 
 
