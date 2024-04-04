@@ -13,7 +13,7 @@ const TopBar: FC<Props> = ({ content, ...restOfProps }) => {
       component="div"
       sx={{
         background: state.darkMode ? "#242424" : "#fff",
-        // borderBottom: "1px solid #fcd405",
+        borderBottom: "1px solid #fcd405",
         boxShadow: "none",
       }}
       {...restOfProps}
