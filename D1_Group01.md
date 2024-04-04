@@ -224,6 +224,14 @@ This section explains how the backend API endpoints are mapped to the correspond
     - It returns details such as the user's name, email, profile picture, social media links, etc.
     - Clients might use this endpoint to fetch user profiles for display or to access specific user details for application logic.
 
+### 17. User Profile Page
+- **/profile/user/:id**: This api fulfills the functionality of getting user details in Profile.tsx frontend component.
+- **/profile/user/:id/update**: This api fulfills the functionality of updating the user details using the UserEditModal.tsx component.
+- **/profile/user/:id/portfolios**: This api fulfills the functionality of listing all the portfolios for the user in Portfolio.tsx frontend component.
+- **/profile/portfolio/:user_id/create**: This api fulfills the functionality of creating new portfolios in PortfolioForm.tsx frontend component.
+- **/profile/portfolio/:portfolio_id/delete**: This api fulfills the functionality of deleting existing portfolios in PortfolioForm.tsx frontend component.
+- **/profile/portfolio/:portfolio_id/edit**: This api fulfills the functionality of editing existing portfolios in PortfolioForm.tsx frontend component.
+
 
 ## List of files authored by Mohammed
 ### Frontend
@@ -328,6 +336,50 @@ This section explains how the backend API endpoints are mapped to the correspond
 * backend/src/models/collabProject.js
 * backend/src/models/collabRequests.js
 * backend/src/models/collabResearch.js
+
+## List of files authored by Hatim Patrawala
+
+### Frontend
+
+- frontend/src/pages/NotFound.tsx
+- frontend/src/pages/Home/Footer.tsx
+- frontend/src/pages/Home/Welcome/Hero.tsx
+- frontend/src/pages/Profile/Header.tsx
+- frontend/src/pages/Profile/index.tsx
+- frontend/src/pages/Profile/UserEditModal.tsx
+- frontend/src/pages/Profile/Portfolio/index.tsx
+- frontend/src/pages/Profile/Portfolio/Form/index.tsx
+- frontend/src/pages/Profile/Portfolio/Form/Sections/BioSection.tsx
+- frontend/src/pages/Profile/Portfolio/Form/Sections/CertificationSection.tsx
+- frontend/src/pages/Profile/Portfolio/Form/Sections/ConfigurationSection.tsx
+- frontend/src/pages/Profile/Portfolio/Form/Sections/EducationSection.tsx
+- frontend/src/pages/Profile/Portfolio/Form/Sections/ExperienceSection.tsx
+- frontend/src/pages/Profile/Portfolio/Form/Sections/ProjectSection.tsx
+- frontend/src/pages/Profile/Portfolio/Form/Sections/ResumeSection.tsx
+- frontend/src/pages/Profile/Portfolio/Form/Sections/SkillSection.tsx
+- frontend/src/pages/Profile/Settings/index.tsx
+- frontend/src/store/AppStore.tsx
+- frontend/src/utils/helpers.ts
+
+### Backend
+
+- backend/src/api/controllers/profile/user-details.js
+- backend/src/api/controllers/profile/portfolio/create-portfolio.js
+- backend/src/api/controllers/profile/portfolio/delete-portfolio.js
+- backend/src/api/controllers/profile/portfolio/edit-portfolio.js
+- backend/src/api/controllers/profile/portfolio/get-portfolio.js
+- backend/src/api/middlewares/rate-limiter.js
+- backend/src/api/routes/profile.js
+- backend/src/api/validators/portfolio.validator.js
+- backend/src/api/validators/user.validator.js
+- backend/src/loaders/express.js
+- backend/src/loaders/mongoose.js
+- backend/src/models/log.js
+- backend/src/models/portfolio.js
+- backend/src/models/user.js
+- backend/src/utils/logger.js
+- backend/src/utils/helpers/common.js
+- backend/src/utils/helpers/jwt-token.js
 
 ## Sources Used
  
@@ -2031,6 +2083,350 @@ Images used in the "About Us" page were generated using [GPT4](https://openai.co
 - `test1.jpg` to `test8.jpg` in [AboutUS.tsx](https://git.cs.dal.ca/patrawala/csci-5709-grp-01/-/blob/main/frontend/src/pages/Home/AboutUs.tsx?ref_type=heads) are fictional representations created to enhance the user interface design.
  
 The project structure and initial setup were inspired by the public repository [https://github.com/karpolan/react-typescript-mui-with-auth-starter](https://github.com/karpolan/react-typescript-mui-with-auth-starter), but were heavily modified to meet the specific features and functionalities of the Dal Portfolio project, including custom flows, page layouts, and TypeScript integration.
+
+### frontend/src/utils/helpers.ts
+
+_Lines 1-14_
+
+```javascript
+/**
+ * Checks if a value is empty.
+ * @param value - The value to check.
+ * @returns True if the value is empty, false otherwise.
+ */
+const isEmpty = (value: any) => {
+  return (
+    value === null ||
+    value === undefined ||
+    value === "" ||
+    (Array.isArray(value) && value.length === 0) ||
+    (typeof value === "object" && Object.keys(value).length === 0)
+  );
+};
+```
+
+The code above was created by adapting the code in [StackOverflow](https://stackoverflow.com/a/66186886) as shown below:
+
+```javascript
+/**
+ * Checks if a JavaScript value is empty
+ * @example
+ *    isEmpty(null); // true
+ *    isEmpty(undefined); // true
+ *    isEmpty(''); // true
+ *    isEmpty([]); // true
+ *    isEmpty({}); // true
+ * @param {any} value - item to test
+ * @returns {boolean} true if empty, otherwise false
+ */
+function isEmpty(value) {
+  return (
+    value === null || // check for null
+    value === undefined || // check for undefined
+    value === "" || // check for empty string
+    (Array.isArray(value) && value.length === 0) || // check for empty array
+    (typeof value === "object" && Object.keys(value).length === 0) // check for empty object
+  );
+}
+```
+
+- This code in [Stack Overflow](https://stackoverflow.com/a/66186886) was implemented by defining a utility function that checks for various conditions of what is considered "empty" in JavaScript, including null, undefined, empty strings, empty arrays, and objects with no properties.
+- The code from [Stack Overflow](https://stackoverflow.com/a/66186886) was used because it provides a comprehensive and efficient way to check for empty values across different data types, which is a common requirement in form validation and other input processing in the application.
+- The original code from [Stack Overflow](https://stackoverflow.com/a/66186886) was used with minor modifications. The function was directly adopted without changes, demonstrating its robustness and versatility for use in various parts of the application for input validation and checking.
+
+### frontend/src/utils/helpers.ts
+
+_Lines 16-28_
+
+```javascript
+/**
+ * Checks if the given value is a valid email address.
+ *
+ * @param email - The value to be checked.
+ * @returns A boolean indicating whether the value is a valid email address.
+ */
+const isEmail = (email: any) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+```
+
+The code above was created by adapting the code in [StackOverflow](https://stackoverflow.com/a/46181) as shown below:
+
+```javascript
+const validateEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+```
+
+- This code in [Stack Overflow](https://stackoverflow.com/a/46181) was implemented by using a regular expression to match the input value against a pattern that represents the structure of a valid email address. It converts the email to lowercase before testing to ensure case-insensitive validation.
+- The code from [Stack Overflow](https://stackoverflow.com/a/46181) was chosen for its accuracy and efficiency in validating email addresses, ensuring that users provide valid email contact information.
+- The code was utilized as provided in the [Stack Overflow](https://stackoverflow.com/a/46181) answer without the need for modifications, as it met the project requirements for email validation accurately.
+
+### frontend/src/pages/Profile/UserEditModal.tsx
+
+_Lines 101-254_
+
+```javascript
+<Formik
+  initialValues={formValues}
+  validate={handleValidation}
+  enableReinitialize
+  onSubmit={(values) => {
+    handleSave(values);
+  }}
+>
+  {({
+    values,
+    setValues,
+    errors,
+    getFieldProps,
+    handleSubmit,
+    validateForm,
+  }) => (
+    <Dialog open={isOpen} onClose={handleClose} fullWidth={true} scroll="paper">
+      <DialogContent>
+        <Stack direction={"row"} justifyContent={"space-between"}>
+          <Typography component={"h1"} variant="h6">
+            Edit Profile
+          </Typography>
+          <Avatar
+            sx={{
+              width: "70px",
+              height: "70px",
+            }}
+          />
+        </Stack>
+        <Box
+          sx={{
+            width: "100%",
+            marginTop: 3,
+          }}
+        >
+          <Grid
+            container
+            columns={{ xs: 1, sm: 2, md: 2, xl: 2 }}
+            columnSpacing={{ xs: 1, sm: 2, md: 2, xl: 2 }}
+            rowSpacing={{ xs: 3, sm: 2, md: 3, xl: 3 }}
+          >
+            {[
+              {
+                label: "First Name",
+                id: "user-first-name",
+                name: "first_name",
+                type: "text",
+                required: true,
+                value: values?.first_name,
+                component: InputField,
+              },
+              {
+                label: "Last Name",
+                id: "user-last-name",
+                name: "last_name",
+                type: "text",
+                required: true,
+                value: values?.last_name,
+                component: InputField,
+              },
+              {
+                label: "Username",
+                id: "user-username",
+                name: "username",
+                type: "text",
+                required: true,
+                value: values?.username,
+                component: InputField,
+              },
+              {
+                label: "Email",
+                id: "user-email",
+                name: "email",
+                type: "email",
+                required: true,
+                value: values?.email,
+                component: InputField,
+              },
+              {
+                id: `user-gender`,
+                name: `gender`,
+                label: "Gender",
+                type: "text",
+                options: [
+                  { value: "male", label: "Male" },
+                  { value: "female", label: "Female" },
+                  { value: "other", label: "Other" },
+                ],
+                required: true,
+                value: values?.gender,
+                component: SelectField,
+              },
+              {
+                id: `user-date-of-birth`,
+                name: `dob`,
+                label: "Date of Birth",
+                required: true,
+                value: values?.dob,
+                component: DatePicker,
+                sx: { width: "100%" },
+              },
+            ].map((input: any, index: number) => {
+              const { component: Component, ...rest } = input;
+              return (
+                <Grid item xs={1} md={1} key={`input-item-${index}`}>
+                  <Component
+                    {...rest}
+                    errorText={errors?.[rest?.name]}
+                    isError={!!errors?.[rest?.name]}
+                    fullWidth
+                    {...getFieldProps(rest?.name)}
+                    {...(rest?.name?.includes("dob") && {
+                      slotProps: {
+                        textField: {
+                          helperText: errors?.[rest?.name],
+                          required: rest?.required,
+                          error: !!errors?.[rest?.name],
+                        },
+                      },
+                      value: dayjs(rest.value),
+                      onChange: (value: any, context: any) =>
+                        setValues({
+                          ...values,
+                          [rest?.name]: value,
+                        }),
+                    })}
+                  />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Box>
+      </DialogContent>
+      <DialogActions sx={{ padding: 3 }}>
+        <Button color="error" onClick={handleClose}>
+          Cancel
+        </Button>
+        <Button
+          onClick={async () => {
+            const _errors = await validateForm();
+            isEmpty(_errors) && handleSave(values);
+          }}
+        >
+          Save
+        </Button>
+      </DialogActions>
+    </Dialog>
+  )}
+</Formik>
+```
+
+This component was developed by integrating Formik for form handling, specifically for managing the state, validation, and submission of user profile editing. Formik is chosen for its simplicity and capability in handling form states, validations, and submissions in React applications.
+
+Source Code for Formik:
+The integration of Formik into the UserEditModal component was inspired by the Formik documentation and various community examples. Specifically, the basic setup and usage pattern align with the standard approach recommended in the Formik Documentation(https://formik.org/).
+
+Basic Formik Usage Example (Inspiration):
+
+```javascript
+import React from "react";
+import { Formik, Form, Field } from "formik";
+
+const MyForm = () => (
+  <Formik
+    initialValues={{ email: "" }}
+    onSubmit={(values, actions) => {
+      // Form submission logic
+    }}
+  >
+    <Form>
+      <Field type="email" name="email" />
+      <button type="submit">Submit</button>
+    </Form>
+  </Formik>
+);
+```
+
+- The basic pattern of using `Formik` to wrap a form, providing initialValues, a validate function, and an onSubmit handler, was adapted to the complex form structure in UserEditModal. The use of Formik simplifies the form handling by managing form states and validations internally.
+- Formik was chosen for its comprehensive solution for form handling in React, including state management, validation, and submission, which significantly reduces the boilerplate code and complexity involved in form handling in React applications.
+- The adaptation involved customizing the initialValues to populate from user data, implementing a custom validation function handleValidation for various fields, and handling the form submission with handleSave function that integrates with the application's backend API via POST request. Additionally, custom input components such as InputField, SelectField, and DatePicker were integrated with Formik's getFieldProps to maintain the form state and handle validations seamlessly.
+
+### backend/src/api/validators/portfolio.validator.js
+
+_Lines 1-82_
+
+```javascript
+import Joi from "joi";
+
+export const validateCreatePortfolio = (body) => {
+  const schema = Joi.object({
+    configuration: Joi.object({
+      name: Joi.string().min(3).required(),
+      color: Joi.string().required(),
+    }),
+    bio: Joi.object({
+      // Bio fields...
+    }),
+    education: Joi.array()
+      .items
+      // Education validation schema...
+      (),
+    experience: Joi.array()
+      .items
+      // Experience validation schema...
+      (),
+    projects: Joi.array()
+      .items
+      // Projects validation schema...
+      (),
+    skills: Joi.array()
+      .items
+      // Skills validation schema...
+      (),
+    certifications: Joi.array()
+      .items
+      // Certifications validation schema...
+      (),
+    resume: Joi.string().default("").allow(null, ""),
+    is_default: Joi.boolean().default(false),
+  });
+  return schema.validate(body);
+};
+```
+
+This comprehensive validation schema is implemented using Joi, a powerful schema description language and data validator for JavaScript. It validates the structure and data of the portfolio creation request body to ensure that the incoming data adheres to the expected format and content rules.
+
+Source Code for Joi:
+The implementation of Joi in the validateCreatePortfolio function follows the patterns and practices recommended in the Joi Documentation and other authoritative sources within the developer community.
+
+Basic Joi Validation Example (Inspiration):
+
+```javascript
+const Joi = require("joi");
+
+const schema = Joi.object({
+  username: Joi.string().alphanum().min(3).max(30).required(),
+  password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
+  birth_year: Joi.number().integer().min(1900).max(2013),
+  email: Joi.string().email({
+    minDomainSegments: 2,
+    tlds: { allow: ["com", "net"] },
+  }),
+});
+
+const value = { username: "abc", birth_year: 1994 };
+
+const result = schema.validate(value);
+```
+
+- The example above demonstrates basic Joi usage for defining a validation schema with various data type constraints. Similarly, validateCreatePortfolio utilizes Joi to create a nested and complex schema that validates each part of the portfolio data, including objects, arrays, strings, numbers, and date types, each with specific requirements such as minimum length, required status, and allowed values.
+- Joi was selected for its robustness, flexibility, and ease of defining complex validation rules that can enforce data integrity and structure within the application. It helps prevent invalid or malicious data from being processed by the backend, ensuring that only correctly formatted requests are accepted.
+- The validation rules in validateCreatePortfolio were tailored to match the specific data structure and requirements of the portfolio feature. This includes complex objects with nested arrays and sub-objects, each field having custom validation rules such as minimum lengths, optional fields with defaults, and specific format requirements for dates and URLs. The use of .default("") and .allow(null, "") for optional fields ensures that missing values are handled gracefully, maintaining data consistency while allowing flexibility in the portfolio data provided by users.
 
 ## Acknowledgments
  
