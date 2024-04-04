@@ -18,6 +18,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { fetchSessionAPI } from 'utils/session';
 import { useAppStore } from 'store';
 import { useToast } from "hooks";
+import { CircularProgress } from '@mui/material';
+
 
 const useStyles = makeStyles((theme) => ({
     mainBox: {
@@ -69,6 +71,8 @@ const LoginForm = () => {
     const navigate = useNavigate();
     const [state, dispatch] = useAppStore();
     const { showSuccess } = useToast();
+    const [loading, setLoading] = useState(false);
+
 
     const [formData, setFormData] = useState({
         email: '',
@@ -111,6 +115,7 @@ const LoginForm = () => {
             return;
         } 
 
+        setLoading(true);
      
         try {
             const response = await POST('/api/user/login', {
@@ -121,6 +126,7 @@ const LoginForm = () => {
                 sessionStorage.setItem('accessToken', accessToken);
                 Cookies.set('refreshToken', refreshToken, { expires: 7 });
                 fetchSessionAPI(dispatch)
+                setLoading(false);
                 showSuccess(message);
                 
               });
@@ -131,6 +137,7 @@ const LoginForm = () => {
 
             navigate('/');  
         } catch (error: any) {
+            setLoading(false);
             const errorMessage = error.response?.data?.message || 'Login failed!';
             setErrors({ auth: errorMessage });
         }
@@ -197,6 +204,7 @@ const LoginForm = () => {
                         >
                             Sign In
                         </Button>
+                        {loading && <CircularProgress />}
                         <Box textAlign="center">
                             <Link to="/forgot-password">Forgot Password?</Link>
                         </Box>
