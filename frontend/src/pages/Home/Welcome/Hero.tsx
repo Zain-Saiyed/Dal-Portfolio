@@ -4,10 +4,14 @@ import { Box, Typography } from "@mui/material";
 import { Button } from "components";
 import { useOnMobile, useOnTablets } from "hooks";
 import HeroInfographicLight from "assets/images/hero_infographic_light.png";
+import { useAppStore } from "store";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
 const Hero = (props: Props) => {
+  const [state, dispatch] = useAppStore();
+  const navigate = useNavigate();
   const onMobile = useOnMobile();
   const onTablets = useOnTablets();
   return (
@@ -95,7 +99,15 @@ const Hero = (props: Props) => {
                 Showcase your academic journey, collaborate, and discover
                 opportunities in one place.
               </Typography>
-              <Button label="Create Portfolio" sx={{ margin: 0 }} />
+              <Button
+                label="Create Portfolio"
+                sx={{ margin: 0 }}
+                onClick={() =>
+                  !!state?.isAuthenticated
+                    ? navigate(`/profile`)
+                    : navigate(`/login`)
+                }
+              />
             </Box>
           </Box>
           <Box
