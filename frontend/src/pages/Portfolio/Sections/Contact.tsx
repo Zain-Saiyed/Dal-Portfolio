@@ -5,6 +5,8 @@ import { Box, Button, Typography } from "@mui/material";
 import { useOnMobile, useOnTablets } from "hooks";
 import { Icon } from "components";
 import { useNavigate } from "react-router-dom";
+import { useAppStore } from "store";
+import { isEmpty } from "utils/helpers";
 
 
 type Props = {
@@ -16,6 +18,18 @@ const Contact = ({ id, portfolio }: Props) => {
   const onMobile = useOnMobile();
   const onTablets = useOnTablets();
   const navigate = useNavigate();
+
+  const [state] = useAppStore();
+  const currentUser = state?.currentUser;
+
+  const handleNavigation = (userId: string, email: string) => {
+    if (!isEmpty(currentUser)) {
+        navigate(`/my-projects/${userId}`);
+    } else {
+        const subject = encodeURIComponent("Opportunity: Interview Inquiry");
+        window.location.href = `mailto:${email}?subject=${subject}`;
+    }
+  };
 
     return (
       <section id={id} style={{ minHeight: "50vh", padding: "3rem" }}>
@@ -64,12 +78,12 @@ const Contact = ({ id, portfolio }: Props) => {
                 {onMobile ? (
                   <>
                     <br />
-                    <Button variant="contained" onClick={() => navigate(`/my-projects/${portfolio.user_id}`)} startIcon={<Icon name="groups"/>} style={{marginTop: "1rem", background: "blue", color: "white"}}> 
+                    <Button variant="contained" onClick={() => handleNavigation(portfolio.user_id, portfolio.bio.email)} startIcon={<Icon name="groups"/>} style={{marginTop: "1rem", background: "blue", color: "white"}}> 
                       Collaborate
                     </Button>
                   </>
                 ) : (
-                    <Button variant="contained" onClick={() => navigate(`/my-projects/${portfolio.user_id}`)} startIcon={<Icon name="groups"/>} style={{marginLeft: "1rem", background: "blue", color: "white"}}> 
+                    <Button variant="contained" onClick={() => handleNavigation(portfolio.user_id, portfolio.bio.email)} startIcon={<Icon name="groups"/>} style={{marginLeft: "1rem", background: "blue", color: "white"}}> 
                       Collaborate
                     </Button>
                 )}
