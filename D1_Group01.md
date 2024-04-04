@@ -164,6 +164,21 @@ This section explains how the backend API endpoints are mapped to the correspond
 - **Frontend Functionality:** `useLogout` hook (`useLogout.ts`)
   - This process securely logs out the user by clearing the session and tokens in both frontend storage and the backend system.
 
+### 9. Add Post
+* **/addpost**: This api fulfills the functionality of adding a new post in the StartThreadForm.js frontend component.
+
+### 10. Add Reply
+* **/addreply**: This api fulfills the functionality of submitting a reply in DiscussionPost.js frontend component.
+
+### 11. Delete Post
+* **/deletepost**: This api fulfills the functionality of deleting a post in MainPost.js frontend component.
+
+### 12. Delete Reply
+* **/deletereply**: This api fulfills the functionality of deleting a reply in  ReplyDisplay.js frontend component.
+
+### 13. Get All Posts
+* **/getallposts**: This api fulfills the functionality of displaying posts in  DiscussionForumPage.js frontend component. The values fetched here are transferred as a state to DiscussionThreadPage.js when a particular post is opened to view all replies posted on it.
+
 ## List of files authored by Mohammed
 ### Frontend
 * frontend/src/pages/Auth/SignUpForm.tsx
@@ -194,6 +209,29 @@ This section explains how the backend API endpoints are mapped to the correspond
 * backend/src/api/middlewares/auth.js
 * backend/src/api/routes/user.js
 
+## List of files authored by Sushank Saini
+### Frontend
+* frontend\src\components\DiscussionForum\banner.js
+* frontend\src\components\DiscussionForum\DeleteConfirmation.js
+* frontend\src\components\DiscussionForum\DiscussionPost.js
+* frontend\src\components\DiscussionForum\DiscussionPrompt.js
+* frontend\src\components\DiscussionForum\MainPost.js
+* frontend\src\components\DiscussionForum\ReplyDisplay.js
+* frontend\src\components\DiscussionForum\StartThreadForm.js
+* frontend\src\pages\DiscussionForum\DiscussionForumPage.js
+* frontend\src\pages\DiscussionForum\DiscussionThreadPage.js
+* frontend\src\components\DiscussionForum\authorizationFailureDialog.js
+* frontend\src\components\DiscussionForum\loginFailureDialog.js
+
+### Backend
+* backend\src\api\controllers\discussionforum\addpost.js
+* backend\src\api\controllers\discussionforum\addreply.js
+* backend\src\api\controllers\discussionforum\deletepost.js
+* backend\src\api\controllers\discussionforum\deletereply.js
+* backend\src\api\controllers\discussionforum\getallposts.js
+* backend\src\api\controllers\discussionforum\index.js
+* backend\src\api\routes\discussionforum.js
+* backend\src\models\discussionforum\mainpost.js
  
 ## Sources Used
  
@@ -478,6 +516,495 @@ instance.interceptors.response.use(
 
 Across the project, the integration of third-party libraries was carefully adjusted to align with the app's security, usability, and aesthetic requirements. Each employed library, like Material-UI for the frontend and `nodemailer` for email functionalities, was not merely used out-of-the-box but was extensively customized to fulfill the specific needs of the DalPortfolio platform. This includes the user interface design, secure email processing in backend operations, and ensuring robust session management through secure token handling in Axios requests, showcasing a comprehensive and thoughtful integration of these tools to build a secure and cohesive application.
 
+
+### frontend\src\components\DiscussionForum\banner.js
+
+*Lines 8- 29*
+
+```
+const Banner = () => {
+  return (
+    <Grid justifyContent="center">
+      <Grid item xs={12} sm={10} md={8} lg={6}>
+        <Paper style={{ background: '#FFC300', padding: '30px', textAlign: 'center', maxWidth: '100%', margin: 0 }}>
+        <Grid justifyContent="center">
+        <Grid item xs={12} sm={10} md={8} lg={6}>
+          <Typography variant="h4" style={{ color: 'black', fontWeight: 'bold', fontFamily: 'Public Sans', display: 'inline' }}>
+            DalPortfolio  
+          </Typography>
+          </Grid>
+          <Grid item xs={12} sm={10} md={8} lg={6}>
+          <Typography variant="h5" style={{ color: 'black', fontFamily: 'Public Sans', display: 'inline'  }}>
+            Discussions
+          </Typography>
+          </Grid>
+          </Grid>
+        </Paper>
+      </Grid>
+    </Grid>
+  );
+};
+
+```
+
+The code above was created by adapting the code in [[1]](https://mui.com/material-ui/react-paper/), [[2]](https://mui.com/system/typography/) and [[3]](https://mui.com/material-ui/react-grid/) as shown below, respectively : 
+
+```
+[1]
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+
+export default function SimplePaper() {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        '& > :not(style)': {
+          m: 1,
+          width: 128,
+          height: 128,
+        },
+      }}
+    >
+      <Paper elevation={0} />
+      <Paper />
+      <Paper elevation={3} />
+    </Box>
+  );
+}
+```
+```
+[2]
+import * as React from 'react';
+import Box from '@mui/material/Box';
+
+export default function Variant() {
+  return (
+    <div>
+      <Box sx={{ typography: 'subtitle2' }}>subtitle2</Box>
+      <Box sx={{ typography: 'body1' }}>body1</Box>
+      <Box sx={{ typography: 'body2' }}>body2</Box>
+    </div>
+  );
+}
+
+import * as React from 'react';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
+export default function TextAlignment() {
+  return (
+    <Typography component="div">
+      <Box sx={{ textAlign: 'justify', m: 1 }}>
+        Ambitioni dedisse scripsisse iudicaretur. Cras mattis iudicium purus sit amet
+        fermentum. Donec sed odio operae, eu vulputate felis rhoncus.
+      </Box>
+      <Box sx={{ textAlign: 'left', m: 1 }}>Left aligned text.</Box>
+      <Box sx={{ textAlign: 'center', m: 1 }}>Center aligned text.</Box>
+      <Box sx={{ textAlign: 'right', m: 1 }}>Right aligned text.</Box>
+    </Typography>
+  );
+}
+```
+```
+[3]
+<Grid container spacing={2}>
+  <Grid item xs={8}>
+    <Item>xs=8</Item>
+  </Grid>
+  <Grid item xs={4}>
+    <Item>xs=4</Item>
+  </Grid>
+  <Grid item xs={4}>
+    <Item>xs=4</Item>
+  </Grid>
+  <Grid item xs={8}>
+    <Item>xs=8</Item>
+  </Grid>
+</Grid>
+
+```
+- <!---Why---> [1]'s Code was used because I wanted a container that would have elevated surface.
+- <!---How---> The code in [1] was implemented by using the Paper component of Material UI.
+- <!---How---> [1]'s Code was modified  to have specific styling properties such as background color and text alignment. 
+
+- <!---Why---> [2]'s Code was used because I wanted to customize the text within the Paper container.
+- <!---How---> The code in [2] was implemented by using Typography from Material UI.
+- <!---How---> [2]'s Code was modified by having a different display property i.e inline, font family and font weights. 
+
+- <!---Why---> [3]'s Code was used because I wanted to make my application component responsive and using MUI Grids is one of the many options to do so.
+- <!---How---> The code in [3] was implemented by using MUI Grid component. 
+- <!---How---> [3]'s Code was modified by adding more parameters for different types of screens like small, medium and large.
+
+### frontend\src\components\DiscussionForum\DiscussionPrompt.js
+
+*Lines 17 - 35*
+```
+return (
+      <>
+      {!isStartDiscussionOpen && (
+        <Paper style={{ background: '#DDDDDD', padding: '16px', textAlign: 'center', minHeight: '212px', top: 200 }}>
+          <Typography variant="h5" style={{ marginTop: '20px', color: 'black', fontWeight: 500 }}>
+            Do you have a question or an idea to share?
+          </Typography>
+          <Button
+            variant="contained"
+            style={{ marginTop: '20px', color: 'white', backgroundColor: 'black' }}
+            onClick={handleStartDiscussionClick}
+          >
+            Start a Discussion
+          </Button>
+        </Paper>
+      )}
+      {isStartDiscussionOpen && <StartDiscussion onClose={() => setStartDiscussionOpen(false)} />}
+    </>
+);
+```
+Just like for banner.js page, the code above was created by adapting the code in [[1]](https://mui.com/material-ui/react-paper/), [[2]](https://mui.com/system/typography/) and [[3]](https://mui.com/material-ui/react-grid/).
+
+- <!---Why---> [1]'s Code was used because I wanted an container that would have elevated surface.
+- <!---How---> The code in [1] was implemented by using the Paper component of Material UI.
+- <!---How---> [1]'s Code was modified  to have specific styling properties such as background color and text alignment. 
+
+- <!---Why---> [2]'s Code was used because I wanted to customize the text within the Paper container.
+- <!---How---> The code in [2] was implemented by using Typography from Material UI.
+- <!---How---> [2]'s Code was modified by having a different display property i.e inline, font family and fontweights. 
+
+- <!---Why---> [3]'s Code was used because I wanted to make my application component responsive and using MUI Grids is one of the many options to do so.
+- <!---How---> The code in [3] was implemented by using MUI Grid component. 
+- <!---How---> [3]'s Code was modified by adding more parameters for different types of screens like small, medium and large.
+
+### frontend\src\components\DiscussionForum\StartThreadForm.js
+
+*Lines 50 - 58*
+```
+    date: new Date().toLocaleString('en-US', { 
+            year: 'numeric', 
+            month: '2-digit', 
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false // To use 24-hour format
+          }),
+```
+The code above was created by adapting the code in [[4]](https://stackoverflow.com/questions/22347521/change-time-format-to-24-hours-in-javascript) as shown below: 
+
+```
+new Date().toLocaleString('ru-RU', {
+    timeZone: 'Europe/Moscow',
+    hourCycle: 'h23',
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+});
+```
+- <!---Why---> [4]'s Code was used because I wanted to have Date in the desired format along with the timestamp for when a new post was submitted.
+- <!---How---> The code in [4] was implemented by using in-built JavaScript library funcions i.e. Date() and .toLocaleString(). 
+- <!---How---> [4]'s Code was modified by assigning different variables or properties to the options of the functions.
+
+*Lines 92 - 117*
+```
+ <TextField
+          label={`Title (${title.length}/${maxTitleCharacters})`}
+          fullWidth
+          value={title}
+          onChange={handleTitleChange}
+          multiline
+          maxRows={3}
+          placeholder='Maximum 200 characters'
+          error={errorTitle}
+          helperText={errorTitle ? `Title cannot be more than ${maxTitleCharacters} characters` : ''}
+          margin="normal"
+        />
+        <TextField
+          label={`Description (${description.length}/${maxDescriptionCharacters})`}
+          fullWidth
+          required
+          multiline
+          rows={4}
+          maxRows={7}
+          placeholder='Maximum 6000 characters'
+          value={description}
+          onChange={handleDescriptionChange}
+          error={errorDescription}
+          helperText={errorDescription ? `Description cannot be more than ${maxDescriptionCharacters} characters` : ''}
+          margin="normal"
+        />
+```
+The code above was created by adapting the code in [[5]](https://mui.com/material-ui/react-text-field/) as shown below:
+
+```
+<TextField
+          id="outlined-multiline-flexible"
+          label="Multiline"
+          multiline
+          maxRows={4}
+        />
+<TextField
+          id="outlined-textarea"
+          label="Multiline Placeholder"
+          placeholder="Placeholder"
+          multiline
+        />
+```
+- <!---Why---> [5]'s Code was used because I wanted to have two text fields to take input for the discussion thread from the user.
+- <!---How---> The code in [5] was implemented by using MUI TextField component. 
+- <!---How---> [5]'s Code was modified by adding a customized helperText which shows an error message to the user if the number of characters are more than the maximum limit.
+
+### frontend\src\pages\DiscussionForum\DiscussionForumPage.js
+*Lines 11 - 28*
+```
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+
+        const response = await GET('api/discussionforum/get-all-posts');
+        if (response.data && response.data.listOfPosts && Array.isArray(response.data.listOfPosts)) {
+          setPosts(response.data.listOfPosts);
+        } 
+        else {
+          console.error('Invalid data format:', response.data);
+        }
+      } 
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  },[]);
+```
+The code above was created by adapting the code in [[6]](https://www.w3schools.com/react/react_useeffect.asp).
+
+- <!---Why---> [6]'s Code was used because I wanted to implement side effect when all the discussion posts are fetched.
+- <!---How---> The code in [6] was implemented by using the useEffect() hook of React.js 
+- <!---How---> [6]'s Code was modified by adding get api call and having try-catch block to handle errors.
+
+### frontend\src\components\DiscussionForum\DeleteConfirmation.js
+*Lines 07 - 39*
+```
+<Modal
+      open={open}
+      onClose={onClose}
+      aria-labelledby="delete-confirmation-modal"
+      aria-describedby="delete-confirmation-message"
+    >
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          bgcolor: 'white',
+          border: '2px solid #000',
+          boxShadow: 24,
+          p: 4,
+          minWidth: 300,
+          textAlign: 'center',
+        }}
+      >
+        <Typography id="delete-confirmation-message" variant="h6" gutterBottom>
+          Are you sure you want to delete this post?
+        </Typography>
+        <Box sx={{ mt: 2 }}>
+          <Button onClick={onConfirm} variant="contained" sx={{ mr: 2,color: 'white', backgroundColor: 'black' }}>
+            Yes
+          </Button>
+          <Button onClick={onClose} variant="outlined" sx={{ mr: 2,color: 'black',borderColor: 'black' }}>
+            No
+          </Button>
+        </Box>
+      </Box>
+    </Modal>
+```
+The code above was created by adapting the code in [[7]](link) as shown below: 
+```
+<Button onClick={handleOpen}>Open modal</Button>
+<Modal
+  open={open}
+  onClose={handleClose}
+  aria-labelledby="modal-modal-title"
+  aria-describedby="modal-modal-description"
+>
+  <Box sx={style}>
+    <Typography id="modal-modal-title" variant="h6" component="h2">
+      Text in a modal
+    </Typography>
+    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+      Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+    </Typography>
+  </Box>
+</Modal>
+```
+- <!---Why---> [7]'s Code was used because I wanted to implement a dialog box that would pop up to ask for the confirmation if the user wanted to delete something.
+- <!---How---> The code in [7]'s was implemented by using MUI's Modal component that provides a solid foundation for creating dialogs, popovers etc.
+- <!---How---> [7]'s Code was modified as modal is not getting triggered by a Buttpn but based on the condition that whether the Delete icon is clicked or not. Secondly, the modal has been customized to add text and buttons. Moreover, various styling properties such as bgcolor, border, boxShadow, p, minWidth, and textAlign are applied to the Box component to control its appearance and layout.
+
+### frontend\src\components\DiscussionForum\StartThreadForm.js, frontend\src\components\DiscussionForum\DiscussionPost.js, frontend\src\components\DiscussionForum\ReplyDisplay.js and frontend\src\components\DiscussionForum\MainPost.js, frontend\src\components\DiscussionForum\authorizationFailureDialog.js,frontend\src\components\DiscussionForum\loginFailureDialog.js
+
+*Lines 129-137* for StartThreadForm.js
+
+```
+ <Dialog open={showSuccessModal} onClose={() => setShowSuccessModal(false)}>
+                   <DialogTitle>Success</DialogTitle>
+                     <DialogContent>
+                      <Typography>Posted Sucessfully!</Typography>
+                     </DialogContent>
+                <DialogActions>
+                   <Button style={{ color: 'black'}} onClick={handleCloseSuccessModal}>Close</Button>
+                </DialogActions>
+          </Dialog>
+
+```
+*Lines 124-132* for DiscussionPost.js
+
+```
+   <Dialog open={showSuccessModal} onClose={() => setShowSuccessModal(false)}>
+                   <DialogTitle>Success</DialogTitle>
+                     <DialogContent>
+                      <Typography>Reply Posted Sucessfully!</Typography>
+                     </DialogContent>
+                <DialogActions>
+                   <Button style={{ color: 'black'}} onClick={handleCloseSuccessModal}>Close</Button>
+                </DialogActions>
+                </Dialog>
+
+```
+*Lines 79-87* for ReplyDisplay.js
+
+```
+ <Dialog open={showSuccessModal} onClose={() => setShowSuccessModal(false)}>
+        <DialogTitle>Success</DialogTitle>
+        <DialogContent>
+          <Typography>Reply deleted successfully!</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button style={{ color: 'black' }} onClick={handleCloseSuccessModal}>Close</Button>
+        </DialogActions>
+      </Dialog>
+
+```
+*Lines 89-96* for MainPost.js
+
+```
+<Dialog open={showSuccessModal} onClose={() => setShowSuccessModal(false)}>
+        <DialogTitle>Success</DialogTitle>
+        <DialogContent>
+          <Typography>Post deleted successfully!</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button style={{ color: 'black' }} onClick={handleCloseSuccessModal}>Close</Button>
+        </DialogActions>
+      </Dialog>
+
+```
+*Lines 04-16* for authorizationFailureDialog.js
+```
+const AuthorizationFailureDialog = ({ open, onClose, handleCloseAuthorizationFailureModal }) => {
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Authorization Failure</DialogTitle>
+      <DialogContent>
+        <Typography>You are not authorized to delete this.</Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button style={{ color: 'black' }} onClick={handleCloseAuthorizationFailureModal}>Close</Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+```
+*Lines 04-16* for loginFailureDialog.js
+```
+const LoginFailureDialog = ({ open, onClose, handleCloseLoginFailureModal }) => {
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Login Failure</DialogTitle>
+      <DialogContent>
+        <Typography>You are not logged in. Please login and try again.</Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button style={{ color: 'black' }} onClick={handleCloseLoginFailureModal}>Close</Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+```
+The code above was created by adapting the code in [[8]](https://mui.com/material-ui/react-dialog/).
+
+- <!---Why---> [8] Code was used because I wanted to show success and failure messages to the user as pop up.
+- <!---How---> The code in [8] was implemented by using MUI's Dialog component which is a type of modal window that appears in front of app content to provide critical information or ask for a decision.
+- <!---How---> [8]'s Code was adapted to include the optional related components such as Dialog actions to have a Button in the dialog.
+
+### backend\src\models\discussionforum\mainpost.js
+
+*Lines 02- 22*
+
+```
+import mongoose from "mongoose";
+
+const Schema = mongoose.Schema;
+
+const replySchema= new Schema ({  //schema represents a document in a collection
+    userName: String,
+    description: String,
+    date: String
+});
+
+const mainPostSchema=new Schema ({   //schema represents a document in a collection
+    userName: String,
+    title: String,
+    description : String,
+    date: String,
+    replies:[replySchema]},
+    {
+        timestamps: true //for createdAt and updatedAt fields
+    });
+
+const DiscussionPost= mongoose.model("DiscussionPost", mainPostSchema); //model will be a collection in the db.
+
+```
+The code above was created by adapting the code in [[9]](https://mongoosejs.com/docs/guide.html) as shown below: 
+
+```
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
+
+const blogSchema = new Schema({
+  title: String, // String is shorthand for {type: String}
+  author: String,
+  body: String,
+  comments: [{ body: String, date: Date }],
+  date: { type: Date, default: Date.now },
+  hidden: Boolean,
+  meta: {
+    votes: Number,
+    favs: Number
+  }
+})
+const Blog = mongoose.model('Blog', blogSchema);
+
+```
+- <!---Why---> [9]'s Code was used because I wanted to create a schema for my DiscussionForum collection so that there is uniformity among others who utilize that collections.
+- <!---How---> The code in [9] was implemented by using Mongoose which is a Object Data Modeling (ODM) library for MongoDB and Node.js
+- <!---How---> [NAME](link)'s Code was modified by created a nested schema for list of replies and keeping the timestamp to true so that each document will have the fields createdAt and updatedAt.
+
+### backend\src\api\controllers\discussionforum\addpost.js, backend\src\api\controllers\discussionforum\addreply.js, backend\src\api\controllers\discussionforum\deletepost.js,backend\src\api\controllers\discussionforum\deletereply.js,backend\src\api\controllers\discussionforum\getallposts.js
+
+The above files use the static helper functions for CRUD operations provided by the Mongoose model[[10]](https://mongoosejs.com/docs/queries.html) and the Mongoose document save() method [[11]](https://mongoosejs.com/docs/documents.html#updating-using-save). The methods used are highlighted below:
+
+```
+Model.find()
+Model.save()
+Model.findById()
+Model.findByIdAndDelete()
+Model.findByIdAndUpdate()
+```
 
 
 
