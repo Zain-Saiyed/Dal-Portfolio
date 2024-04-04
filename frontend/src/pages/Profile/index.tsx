@@ -41,12 +41,8 @@ const Profile = (props: Props) => {
       value: 0,
     },
     {
-      label: "Settings",
-      value: 1,
-    },
-    {
       label: "Collab Requests",
-      value: 2,
+      value: 1,
     }
   ];
   return (
@@ -89,8 +85,7 @@ const Profile = (props: Props) => {
         </Tabs>
         <Box sx={{ marginTop: onMobile ? 1 : 0, width: "100%" }}>
           {activeTab === 0 && <Portfolio />}
-          {activeTab === 1 && <Settings />}
-          {activeTab === 2 && <MyCollabRequests/>}
+          {activeTab === 1 && <MyCollabRequests/>}
         </Box>
       </Box>
     </Container>

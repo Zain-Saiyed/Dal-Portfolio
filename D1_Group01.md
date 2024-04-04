@@ -2,7 +2,7 @@
 Dal Portfolio is a comprehensive University Portfolio Management System designed to streamline the presentation of academic and professional achievements. It provides an intuitive interface for students, faculty, and researchers to curate and showcase their portfolios seamlessly. From project details and academic accomplishments to skills and certifications, Dal Portfolio serves as a centralized hub for users to showcase their professional journey at a single platform.
  
 - _Date Created_: 28 FEB 2024
-- _Last Modification Date_: 28 FEB 2024
+- _Last Modification Date_: 03 APR 2024
 - _Git URL_: https://git.cs.dal.ca/patrawala/csci-5709-grp-01
 - _Deployment URL_: https://csci-5709-group-1-dal-portfolio.netlify.app/
  
